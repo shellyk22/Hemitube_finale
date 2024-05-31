@@ -5,7 +5,37 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".LogInPage">
+    tools:context=".pages.LogInPage">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+
+        android:padding="20dp"
+        app:layout_constraintBottom_toTopOf="@+id/linearLayout"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:padding="5dp"
+            app:srcCompat="@drawable/ic_logo"
+            tools:layout_editor_absoluteX="13dp"
+            tools:layout_editor_absoluteY="13dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:padding="2dp"
+            android:text="@string/youtube"
+            android:textSize="30dp"
+            android:textStyle="bold" />
+    </LinearLayout>
 
 
 <LinearLayout
@@ -18,7 +48,7 @@
     app:layout_constraintTop_toTopOf="parent">
 
     <EditText
-        android:id="@+id/editTextText"
+        android:id="@+id/editTextLogInUsername"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="10dp"
@@ -27,7 +57,7 @@
         android:inputType="textPersonName" />
 
     <EditText
-        android:id="@+id/editTextTextPassword"
+        android:id="@+id/editTextLogInPassword"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="10dp"
@@ -41,36 +71,15 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:text="@string/login_btnLogin" />
-</LinearLayout>
 
-<LinearLayout
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:orientation="horizontal"
-
-    android:padding="20dp"
-    app:layout_constraintBottom_toTopOf="@+id/linearLayout"
-    app:layout_constraintEnd_toEndOf="parent"
-    app:layout_constraintStart_toStartOf="parent"
-    app:layout_constraintTop_toTopOf="parent">
-
-    <ImageView
-        android:id="@+id/imageView"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:padding="5dp"
-        app:srcCompat="@drawable/ic_logo"
-        tools:layout_editor_absoluteX="13dp"
-        tools:layout_editor_absoluteY="13dp" />
-
-    <TextView
+    <Button
+        android:id="@+id/btnJoin"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_vertical"
-        android:padding="2dp"
-        android:text="@string/youtube"
-        android:textSize="30dp"
-        android:textStyle="bold" />
+        android:layout_gravity="center"
+        android:text="@string/btnJoin" />
+
+
 </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

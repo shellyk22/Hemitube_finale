@@ -1,4 +1,4 @@
-package com.example.youtubeproject;
+package com.example.youtubeproject.pages;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -7,18 +7,20 @@ import android.widget.Button;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.youtubeproject.R;
+
 import java.util.List;
 
-public class MainActivity2 extends AppCompatActivity {
+public class YouPage extends AppCompatActivity {
 
     List<String> list;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main2);
+        setContentView(R.layout.activity_you_page);
 
-        Button btnLogIn = findViewById(R.id.btnLogIn);
-        btnLogIn.setOnClickListener(v -> {
+        Button btnSignIn = findViewById(R.id.btnSignIn);
+        btnSignIn.setOnClickListener(v -> {
             Intent i = new Intent(this, LogInPage.class);
             startActivity(i);
         });
