@@ -1,3 +1,7 @@
+import './LeftMenu.css'
+import { Link } from 'react-router-dom';
+import React from 'react';
+
 function LeftMenu(){
     return(
         <div className="col-3 bg-light vh-100">
@@ -23,7 +27,23 @@ function LeftMenu(){
               <span className="badge bg-primary rounded-pill">1</span>
             </li>
           </ul>
+          <div>
+          <Link to="/signin">
+                    <button type="button" className="btn btn-outline-danger list-group-item d-flex align-items-center">
+                        Sign In
+                    </button>
+                </Link>
         </div>
+        <div>
+        <Link to="/signup">
+                    <button type="button" className="btn btn-outline-danger list-group-item d-flex align-items-center">
+                        Sign Up
+                    </button>
+                </Link>
+        </div>
+        </div>
+
+        
     );
 }
 export default LeftMenu;
