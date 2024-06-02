@@ -1,25 +1,34 @@
 package com.example.youtubeproject.entities;
 
-import android.widget.ImageView;
+import java.util.ArrayList;
 
 public class SessionManager {
     private static final SessionManager ourInstance = new SessionManager();
 
     private boolean isLogedIn = false;
 
-    private String username;
+    private ArrayList<User> usersList = new ArrayList<>();
 
-    private String password;
+    private User loggedUser;
 
-    private String nickname;
-
-    private ImageView image;
 
     public static SessionManager getInstance() {
         return ourInstance;
     }
 
-    private SessionManager() {
+
+    public SessionManager() {
+
+    }
+
+
+    public User getLoggedUser() {
+        return loggedUser;
+    }
+
+
+    public void setLoggedUser(User loggedUser) {
+        this.loggedUser = loggedUser;
     }
 
 
@@ -31,35 +40,21 @@ public class SessionManager {
         isLogedIn = logedIn;
     }
 
-    public String getUsername() {
-        return username;
+    public ArrayList<User> getUsersList() {
+        return usersList;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void addUser(User user) {
+        this.usersList.add(user);
     }
 
-    public ImageView getImage() {
-        return image;
-    }
 
-    public void setImage(ImageView image) {
-        this.image = image;
-    }
-
-    public String getNickname() {
-        return nickname;
-    }
-
-    public void setNickname(String nickname) {
-        this.nickname = nickname;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
+    public User isUserExists(String username){
+        for (int i = 0; i < this.usersList.size(); i++){
+            if(username.equals(this.usersList.get(i).getUsername())){
+                return usersList.get(i);
+            }
+        }
+        return null;
     }
 }

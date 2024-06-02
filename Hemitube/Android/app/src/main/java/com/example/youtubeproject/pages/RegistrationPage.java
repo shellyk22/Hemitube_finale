@@ -12,6 +12,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.youtubeproject.R;
 import com.example.youtubeproject.entities.SessionManager;
+import com.example.youtubeproject.entities.User;
 
 public class RegistrationPage extends AppCompatActivity {
 
@@ -42,9 +43,15 @@ public class RegistrationPage extends AppCompatActivity {
             if (validateInput()) {
                 // Proceed with registration
                 Toast.makeText(this, "Registration Successful", Toast.LENGTH_SHORT).show();
-                SessionManager.getInstance().setUsername(editTextUsername.getText().toString());
-                SessionManager.getInstance().setPassword(editTextPassword.getText().toString());
-                SessionManager.getInstance().setNickname(editTextNickname.getText().toString());
+                User user = new User();
+                user.setUsername(editTextUsername.getText().toString());
+                user.setPassword(editTextPassword.getText().toString());
+                user.setNickname(editTextNickname.getText().toString());
+
+                // Adding the user to the session
+                SessionManager.getInstance().addUser(user);
+                SessionManager.getInstance().setLoggedUser(user);
+                SessionManager.getInstance().setLogedIn(true);
 
                 Intent i = new Intent(this, LogInPage.class);
                 startActivity(i);

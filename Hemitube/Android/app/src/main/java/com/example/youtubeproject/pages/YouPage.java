@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -41,14 +42,16 @@ public class YouPage extends AppCompatActivity {
 
         logOutButton.setOnClickListener(v -> {
             SessionManager.getInstance().setLogedIn(false);
+            SessionManager.getInstance().setLoggedUser(null);
             Intent i = new Intent(this, YouPage.class);
+            Toast.makeText(this, "Logged out successfully", Toast.LENGTH_SHORT).show();
             startActivity(i);
         });
 
 
         if(SessionManager.getInstance().isLogedIn()){
             textViewWelcome = findViewById(R.id.textViewWelcomeUser);
-            String username = SessionManager.getInstance().getUsername();
+            String username = SessionManager.getInstance().getLoggedUser().getUsername();
             textViewWelcome.setText("Welcome, " + username + "!");
             logOutButton.setVisibility(View.VISIBLE);
             btnSignIn.setVisibility(View.GONE);
