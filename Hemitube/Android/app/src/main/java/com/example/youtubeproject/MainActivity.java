@@ -6,9 +6,15 @@ import android.util.Log;
 import android.widget.ImageButton;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.youtubeproject.entities.SessionManager;
+import com.example.youtubeproject.adapters.VideosListAdapter;
+import com.example.youtubeproject.entities.Video;
 import com.example.youtubeproject.pages.YouPage;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -21,12 +27,18 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
 
-        if(SessionManager.getInstance().isLogedIn()){
-
-        }
-        else {
-
-        }
+        RecyclerView lstVideos = findViewById(R.id.lstVideos);
+        final VideosListAdapter adapter = new VideosListAdapter(this);
+        lstVideos.setAdapter(adapter);
+        lstVideos.setLayoutManager(new LinearLayoutManager(this));
+        List<Video> videos = new ArrayList<>();
+        videos.add(new Video("Finding the most Dangerous Secret","Alice", "Cool Vid","74k", "3 days", R.drawable.img6));
+        videos.add(new Video("Finding the most Dangerous Secret2", "Foo", "Cool Vid2","999", "1 month", R.drawable.img5));
+        videos.add(new Video("Finding the most Dangerous Secret3", "Bar", "Cool Vid3","1M", "10 months", R.drawable.img4));
+        videos.add(new Video("Finding the most Dangerous Secret","Alice", "Cool Vid","74k", "3 days", R.drawable.img3));
+        videos.add(new Video("Finding the most Dangerous Secret2", "Foo", "Cool Vid2","999", "1 month", R.drawable.img2));
+        videos.add(new Video("Finding the most Dangerous Secret3", "Bar", "Cool Vid3","1M", "10 months", R.drawable.img6));
+        adapter.setVideos(videos);
 
         ImageButton btnYou = findViewById(R.id.btnYou);
         btnYou.setOnClickListener(v -> {
