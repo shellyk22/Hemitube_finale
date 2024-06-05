@@ -84,5 +84,4 @@ public class LogInPage extends AppCompatActivity {
         }
     }
 
-
 }

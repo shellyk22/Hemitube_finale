@@ -23,7 +23,11 @@ public class YouPage extends AppCompatActivity {
 
 
     private TextView textViewWelcome;
+
+    private TextView textViewMyVideos;
     private Button logOutButton;
+
+    private Button btnSignIn;
 
 
     @Override
@@ -31,9 +35,12 @@ public class YouPage extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_you_page);
 
+        textViewMyVideos = findViewById(R.id.userVideos);
+
         logOutButton = findViewById(R.id.btnLogOut);
 
-        Button btnSignIn = findViewById(R.id.btnSignIn);
+        btnSignIn = findViewById(R.id.btnSignIn);
+
         btnSignIn.setOnClickListener(v -> {
             Intent i = new Intent(this, LogInPage.class);
             startActivity(i);
@@ -55,10 +62,12 @@ public class YouPage extends AppCompatActivity {
             textViewWelcome.setText("Welcome, " + username + "!");
             logOutButton.setVisibility(View.VISIBLE);
             btnSignIn.setVisibility(View.GONE);
+            textViewMyVideos.setVisibility(View.VISIBLE);
         }
         else {
             logOutButton.setVisibility(View.GONE);
             btnSignIn.setVisibility(View.VISIBLE);
+            textViewMyVideos.setVisibility(View.GONE);
         }
 
 

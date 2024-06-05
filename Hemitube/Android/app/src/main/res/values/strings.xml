@@ -20,5 +20,6 @@
     <string name="nickname">Nickname</string>
     <string name="select_photo">Select Photo</string>
     <string name="profile_picture">Profile Picture</string>
-    <string name="welocme">Welocme</string>
+    <string name="welocme">Welocme please Sign In</string>
+    <string name="my_videos">My Videos:</string>
 </resources>
