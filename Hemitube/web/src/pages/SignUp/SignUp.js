@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link , useNavigate } from 'react-router-dom';
 import './signup.css'; 
+import usersTable from '../../components/Users.json';
 
 function SignUp() {
   const [username, setUsername] = useState('');
@@ -42,10 +43,29 @@ function SignUp() {
   const PasswordVerificationVisibility = () => {
     setShowVerificationPassword(!showVerificationPassword);
   };
-  
 
-  const isSignUpDisabled = (!isPasswordValid || !doPasswordsMatch
-    || username.length < 1 || nickname.length < 1);
+  const handleSignUp = () => {
+    
+    if(!isPasswordValid || !doPasswordsMatch
+      || username.length < 1 || nickname.length < 1)
+      {return;}
+
+    if (usersTable[username]) {
+      console.log("BAHHHHHH");
+      alert('Choose a different username, the one you chose is unavailable')
+      return null; //TODO: add notification about existing username
+    }
+
+    usersTable[username] = {
+      "username" : username,
+      "password" : password,
+      "nickname" : nickname,
+      "profilepic" : profilePhoto
+    }
+    return true;
+  }
+  const navigate = useNavigate();
+
 
   return (
     <div>
@@ -121,11 +141,17 @@ function SignUp() {
         <div className="invalid-password-message">The password must contain at least 8 characters including a number, 
         a lowercase letter and an uppercase letter .</div>
       )}
-      <Link to="/SignIn" onClick={isSignUpDisabled ? (e) => e.preventDefault() : null}>
+      <Link to="/SignIn" onClick={(event) => {
+        event.preventDefault(); // Prevent the default link behavior
+        if (handleSignUp()) {
+          navigate('/SignIn'); //sign-up is successful
+        } else {
+          console.log('Sign-up failed. Staying on current page.');
+        }
+      }}>
   <button
     type="button"
-    className="btn btn-outline-danger"
-    disabled={isSignUpDisabled}>
+    className="btn btn-outline-danger">
     Sign Up
   </button>
 </Link>
