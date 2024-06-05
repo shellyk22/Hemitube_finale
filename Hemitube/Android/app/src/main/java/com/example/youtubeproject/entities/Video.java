@@ -9,7 +9,7 @@ import androidx.room.PrimaryKey;
 public class Video {
 
     @PrimaryKey(autoGenerate = true)
-    private int id;
+    private String id;
 
     private String title;
 
@@ -24,22 +24,26 @@ public class Video {
     private int likes;
 
     private int pic;
+    private int resourceId;
 
 
-    public Video(String title, String uploader, String content, String views, String timePassedFromUpload,  int pic){
+    public Video(String id, String title, String uploader, String content, String views,
+                 String timePassedFromUpload,  int pic, int resourceId){
+        this.id = id;
         this.title = title;
         this.uploader = uploader;
         this.content = content;
         this.views = views;
         this.timePassedFromUpload = timePassedFromUpload;
         this.pic = pic;
+        this.resourceId = resourceId;
     }
 
-    public int getId(){
+    public String getId(){
         return id;
     }
 
-    public void setId(int id){
+    public void setId(String id){
         this.id = id;
     }
 
@@ -97,5 +101,13 @@ public class Video {
 
     public void setTitle(String title) {
         this.title = title;
+    }
+
+    public int getResourceId() {
+        return resourceId;
+    }
+
+    public void setResourceId(int resourceId) {
+        this.resourceId = resourceId;
     }
 }

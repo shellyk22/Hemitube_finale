@@ -3,20 +3,28 @@ package com.example.youtubeproject;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.ImageButton;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
+import androidx.appcompat.widget.SwitchCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.youtubeproject.adapters.VideosListAdapter;
+import com.example.youtubeproject.entities.SessionManager;
 import com.example.youtubeproject.entities.Video;
 import com.example.youtubeproject.pages.YouPage;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
+
+
+
+    SwitchCompat switchMode;
+    boolean isNightMode;
 
 
 
@@ -26,18 +34,34 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        switchMode = findViewById(R.id.switchMode);
+
+        isNightMode = SessionManager.getInstance().isNightModeOn();
+
+        if(isNightMode){
+            switchMode.setChecked(true);
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+        }
+        switchMode.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(isNightMode){
+                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+                    SessionManager.getInstance().setNightModeOn(false);
+                }
+                else {
+                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+                    SessionManager.getInstance().setNightModeOn(true);
+                }
+            }
+        });
 
         RecyclerView lstVideos = findViewById(R.id.lstVideos);
         final VideosListAdapter adapter = new VideosListAdapter(this);
         lstVideos.setAdapter(adapter);
         lstVideos.setLayoutManager(new LinearLayoutManager(this));
-        List<Video> videos = new ArrayList<>();
-        videos.add(new Video("Finding the most Dangerous Secret","Alice", "Cool Vid","74k", "3 days", R.drawable.img6));
-        videos.add(new Video("Finding the most Dangerous Secret2", "Foo", "Cool Vid2","999", "1 month", R.drawable.img5));
-        videos.add(new Video("Finding the most Dangerous Secret3", "Bar", "Cool Vid3","1M", "10 months", R.drawable.img4));
-        videos.add(new Video("Finding the most Dangerous Secret","Alice", "Cool Vid","74k", "3 days", R.drawable.img3));
-        videos.add(new Video("Finding the most Dangerous Secret2", "Foo", "Cool Vid2","999", "1 month", R.drawable.img2));
-        videos.add(new Video("Finding the most Dangerous Secret3", "Bar", "Cool Vid3","1M", "10 months", R.drawable.img6));
+        SessionManager.getInstance().resetVideos();
+        List<Video> videos = SessionManager.getInstance().getVideos();
         adapter.setVideos(videos);
 
         ImageButton btnYou = findViewById(R.id.btnYou);

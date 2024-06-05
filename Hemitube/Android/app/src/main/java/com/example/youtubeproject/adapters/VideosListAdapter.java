@@ -70,7 +70,7 @@ public class VideosListAdapter extends RecyclerView.Adapter<VideosListAdapter.Vi
                     Context context = v.getContext();
                     Intent intent = new Intent(context, VideoViewPage.class);
                     // Pass additional data if needed
-                    intent.putExtra("VIDEO_ID", current.getId());
+                    intent.putExtra("video_id", current.getId());
                     context.startActivity(intent);
                 }
             });

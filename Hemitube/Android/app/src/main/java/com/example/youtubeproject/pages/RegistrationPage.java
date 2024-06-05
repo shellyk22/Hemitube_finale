@@ -121,4 +121,5 @@ public class RegistrationPage extends AppCompatActivity {
 
         return true;
     }
+
 }
