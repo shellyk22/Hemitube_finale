@@ -27,6 +27,7 @@ public class Video {
     private int resourceId;
 
 
+
     public Video(String id, String title, String uploader, String content, String views,
                  String timePassedFromUpload,  int pic, int resourceId){
         this.id = id;

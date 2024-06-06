@@ -2,7 +2,6 @@ package com.example.youtubeproject.pages;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
@@ -10,21 +9,27 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.example.youtubeproject.MainActivity;
 import com.example.youtubeproject.R;
+import com.example.youtubeproject.adapters.VideosListAdapter;
 import com.example.youtubeproject.entities.SessionManager;
+import com.example.youtubeproject.entities.Video;
 
 import java.util.List;
 
 public class YouPage extends AppCompatActivity {
 
-    List<String> list;
-
-
     private TextView textViewWelcome;
 
     private TextView textViewMyVideos;
+
+    private SwipeRefreshLayout swipeRefreshLayout;
+
+    private Button uploadButton;
     private Button logOutButton;
 
     private Button btnSignIn;
@@ -37,9 +42,20 @@ public class YouPage extends AppCompatActivity {
 
         textViewMyVideos = findViewById(R.id.userVideos);
 
+        uploadButton = findViewById(R.id.btnAddVideo);
+
+
         logOutButton = findViewById(R.id.btnLogOut);
 
         btnSignIn = findViewById(R.id.btnSignIn);
+
+
+
+        uploadButton.setOnClickListener(v -> {
+            Intent i = new Intent(this, UploadVideoPage.class);
+            startActivity(i);
+        });
+
 
         btnSignIn.setOnClickListener(v -> {
             Intent i = new Intent(this, LogInPage.class);
@@ -56,6 +72,11 @@ public class YouPage extends AppCompatActivity {
         });
 
 
+        RecyclerView lstVideos = findViewById(R.id.lstMyVideos);
+        final VideosListAdapter adapter = new VideosListAdapter(this);
+        lstVideos.setAdapter(adapter);
+        lstVideos.setLayoutManager(new LinearLayoutManager(this));
+
         if(SessionManager.getInstance().isLogedIn()){
             textViewWelcome = findViewById(R.id.textViewWelcomeUser);
             String username = SessionManager.getInstance().getLoggedUser().getUsername();
@@ -63,14 +84,16 @@ public class YouPage extends AppCompatActivity {
             logOutButton.setVisibility(View.VISIBLE);
             btnSignIn.setVisibility(View.GONE);
             textViewMyVideos.setVisibility(View.VISIBLE);
+            uploadButton.setVisibility(View.VISIBLE);
+            List<Video> videos = SessionManager.getInstance().getLoggedUser().getMyVideos();
+            adapter.setVideos(videos);
         }
         else {
             logOutButton.setVisibility(View.GONE);
             btnSignIn.setVisibility(View.VISIBLE);
             textViewMyVideos.setVisibility(View.GONE);
+            uploadButton.setVisibility(View.GONE);
         }
-
-
 
         ImageButton btnHome = findViewById(R.id.btnHome);
         btnHome.setOnClickListener(v -> {
@@ -80,44 +103,6 @@ public class YouPage extends AppCompatActivity {
 
 
 
-    }
-
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-        Log.i("MainActivity2", "onStart");
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        Log.i("MainActivity2", "onResume");
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        Log.i("MainActivity2", "onPause");
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-        Log.i("MainActivity2", "onStop");
-    }
-
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        Log.i("MainActivity2", "onDestroy");
-    }
-
-    @Override
-    protected void onRestart() {
-        super.onRestart();
-        Log.i("MainActivity2", "onRestart");
     }
 
 

@@ -22,4 +22,9 @@
     <string name="profile_picture">Profile Picture</string>
     <string name="welocme">Welocme please Sign In</string>
     <string name="my_videos">My Videos:</string>
+    <string name="only_signed_users_can_upload_videos">Only signed users can upload videos!</string>
+    <string name="upload">Upload</string>
+    <string name="title">Title</string>
+    <string name="content">Content</string>
+    <string name="back">Back</string>
 </resources>

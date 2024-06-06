@@ -41,9 +41,9 @@ public class VideoViewPage extends AppCompatActivity {
          TextView timePassed = findViewById(R.id.videoPassedTime);
 
          title.setText(video.getTitle());
-         uploader.setText(video.getUploader());
-         views.setText(video.getViews());
-         timePassed.setText(video.getTimePassedFromUpload());
+         uploader.setText(video.getUploader() + " . ");
+         views.setText(video.getViews() + " views . ");
+         timePassed.setText(video.getTimePassedFromUpload() + " ago");
 
 
 

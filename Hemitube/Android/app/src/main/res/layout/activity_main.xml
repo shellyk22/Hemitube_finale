@@ -42,14 +42,22 @@
                 android:textStyle="bold" />
         </LinearLayout>
 
+        <!-- Adding SearchView -->
+        <androidx.appcompat.widget.SearchView
+            android:id="@+id/searchView"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:queryHint="Search"
+            android:layout_gravity="center_vertical"
+            android:padding="5dp" />
+
         <androidx.appcompat.widget.SwitchCompat
+            android:id="@+id/switchMode"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/switchMode"
-            android:layout_marginLeft="200dp"
+            android:layout_marginLeft="10dp"
             android:thumb="@drawable/thumb" />
-
-
 
     </LinearLayout>
 
