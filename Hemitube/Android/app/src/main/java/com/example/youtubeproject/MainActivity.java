@@ -8,6 +8,7 @@ import android.widget.ImageButton;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
+import androidx.appcompat.widget.SearchView;
 import androidx.appcompat.widget.SwitchCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -17,14 +18,18 @@ import com.example.youtubeproject.entities.SessionManager;
 import com.example.youtubeproject.entities.Video;
 import com.example.youtubeproject.pages.YouPage;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
 
 
-    SwitchCompat switchMode;
-    boolean isNightMode;
+    private SwitchCompat switchMode;
+    private boolean isNightMode;
+    private SearchView searchView;
+    private List<Video> filteredVideos;
+    private List<Video> videos;
 
 
 
@@ -35,8 +40,11 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         switchMode = findViewById(R.id.switchMode);
+        searchView = findViewById(R.id.searchView);
 
         isNightMode = SessionManager.getInstance().isNightModeOn();
+
+
 
         if(isNightMode){
             switchMode.setChecked(true);
@@ -61,8 +69,9 @@ public class MainActivity extends AppCompatActivity {
         lstVideos.setAdapter(adapter);
         lstVideos.setLayoutManager(new LinearLayoutManager(this));
         SessionManager.getInstance().resetVideos();
-        List<Video> videos = SessionManager.getInstance().getVideos();
-        adapter.setVideos(videos);
+        videos = SessionManager.getInstance().getVideos();
+        filteredVideos = new ArrayList<>(videos);
+        adapter.setVideos(filteredVideos);
 
         ImageButton btnYou = findViewById(R.id.btnYou);
         btnYou.setOnClickListener(v -> {
@@ -78,6 +87,35 @@ public class MainActivity extends AppCompatActivity {
         });
 
 
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false; // We handle the filtering as the text changes
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                filterVideos(newText, adapter);
+                return true;
+            }
+        });
+
+    }
+
+
+    private void filterVideos(String query, VideosListAdapter adapter) {
+        filteredVideos.clear();
+        if (query.isEmpty()) {
+            filteredVideos.addAll(videos);
+        } else {
+            String lowerCaseQuery = query.toLowerCase();
+            for (Video video : videos) {
+                if (video.getTitle().toLowerCase().contains(lowerCaseQuery)) {
+                    filteredVideos.add(video);
+                }
+            }
+        }
+        adapter.setVideos(filteredVideos);
     }
 
     @Override
