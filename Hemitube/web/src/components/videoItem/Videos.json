@@ -1,0 +1,87 @@
+{
+
+    "0" : {
+      "id": "0",
+      "title": "cute dogs vid",
+      "description": "Description of video 0",
+      "author": "vvvvvv",
+      "views" : "100", 
+      "time" : "1 Month",
+      "file_path" : "vidTest.mp4",
+      "thumbnail" : "img1.jpeg",
+      "duration" : "0:12"
+    } ,
+
+    "1" : {
+      "id": "1",
+      "title": "aaaaaaa",
+      "description": "Description of video 1",
+      "author": "tttttttt",
+      "views" : "100", 
+      "time" : "1 Month",
+      "file_path" : "vidTest.mp4",
+      "thumbnail" : "img1.jpeg",
+      "duration" : "0:12"
+    },
+
+    "2" : {
+      "id": "2",
+      "title": "second",
+      "description": "Description of video 2",
+      "author": "vvvvvv",
+      "views" : "100", 
+      "time" : "1 Month",
+      "file_path" : "vidTest.mp4",
+      "thumbnail" : "img2.jpeg",
+      "duration" : "0:12"
+    },
+
+    "3" : {
+      "id": "3",
+      "title": "ddddddd",
+      "description": "Description of video 3",
+      "author": "cccccccc",
+      "views" : "100", 
+      "time" : "1 Month",
+      "file_path" : "vidTest.mp4",
+      "thumbnail" : "img3.jpeg",
+      "duration" : "0:12"
+    }
+    ,
+
+    "4" : {
+      "id": "4",
+      "title": "gggggggg",
+      "description": "Description of video 4",
+      "author": "vvvvvv",
+      "views" : "100000", 
+      "time" : "1 year",
+      "file_path" : "vidTest.mp4",
+      "thumbnail" : "img4.jpeg",
+      "duration" : "0:12"
+    },
+
+    "5" : {
+      "id": "5",
+      "title": "gggggggg",
+      "description": "Description of video 5",
+      "author": "oooooooo",
+      "views" : "100", 
+      "time" : "1 Month",
+      "file_path" : "vidTest.mp4",
+      "thumbnail" : "img5.jpeg",
+      "duration" : "0:12"
+    },
+
+    "6" : {
+      "id": "6",
+      "title": "gggggg",
+      "description": "Description of video 2",
+      "author": "vvvvvv",
+      "views" : "10000", 
+      "time" : "2 Months",
+      "file_path" : "vidTest.mp4",
+      "thumbnail" : "img2.jpeg",
+      "duration" : "0:12"
+    }
+}

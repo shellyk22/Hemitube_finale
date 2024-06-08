@@ -7,12 +7,12 @@ import img6 from './img6.jpg'
 
 
 
-const videos=[{title:'aaaaa', author: 'vvvvvv', views : 100, time : "1 Month", img : img1},
-{title:'aaaaa', author: 'vvvvvv', views : 100, time : "1 Month", img : img2},
-{title:'dddd', author: 'ccccc', views : 500, time : "1 Month", img : img3},
-{title:'gggggg', author: 'hhhhh', views : 999, time : "1 Month", img : img4},
-{title:'gggggg', author: 'hhhhh', views : 1000000, time : "1 Month", img : img5},
-{title:'gggggg', author: 'hhhhh', views : 100, time : "1 Month", img : img6}
-];
+//const videos=[{title:'aaaaa', author: 'vvvvvv', views : 100, time : "1 Month", img : img1},
+//{title:'aaaaa', author: 'vvvvvv', views : 100, time : "1 Month", img : img2},
+//{title:'dddd', author: 'ccccc', views : 500, time : "1 Month", img : img3},
+//{title:'gggggg', author: 'hhhhh', views : 999, time : "1 Month", img : img4},
+//{title:'gggggg', author: 'hhhhh', views : 1000000, time : "1 Month", img : img5},
+//{title:'gggggg', author: 'hhhhh', views : 100, time : "1 Month", img : img6}
+//];
 
-export default videos;
+//export default videos;

@@ -3,9 +3,10 @@ import { Link } from 'react-router-dom';
 import React, { useEffect, useState } from 'react';
 import usersTable from '../Users.json'
 
+
 function LeftMenu({setCurrentUser, currentUser}) {
 
-
+  
   return (
     <div className="col-3 bg-light vh-100">
       <ul className="list-group">
@@ -31,19 +32,21 @@ function LeftMenu({setCurrentUser, currentUser}) {
           <span className="badge bg-primary rounded-pill">1</span>
         </li>
       </ul>
-      <div>
+      <div>{((currentUser === null)) &&(
         <Link to="/signin">
           <button type="button" className="btn btn-outline-danger list-group-item d-flex align-items-center">
             Sign In
           </button>
         </Link>
+      )}
       </div>
-      <div>
+      <div>{((currentUser === null)) &&(
         <Link to="/signup">
           <button type="button" className="btn btn-outline-danger list-group-item d-flex align-items-center">
             Sign Up
           </button>
         </Link>
+        )}
       </div>
       <div>
       <button 
