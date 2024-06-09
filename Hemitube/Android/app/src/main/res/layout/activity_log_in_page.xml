@@ -19,9 +19,9 @@
 
         <ImageView
             android:id="@+id/imageView"
-            android:layout_width="wrap_content"
+            android:layout_width="40dp"
             android:layout_height="match_parent"
-            android:padding="5dp"
+            android:padding="1dp"
             app:srcCompat="@drawable/ic_logo"
             tools:layout_editor_absoluteX="13dp"
             tools:layout_editor_absoluteY="13dp" />
@@ -31,7 +31,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:padding="2dp"
-            android:text="@string/youtube"
+            android:text="@string/hemitube"
             android:textSize="30dp"
             android:textStyle="bold" />
     </LinearLayout>

@@ -1,8 +1,13 @@
 package com.example.youtubeproject.entities;
 
 
+import android.net.Uri;
+
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 
@@ -15,61 +20,42 @@ public class Video {
 
     private String uploader;
 
-    private  String content;
-
     private String views;
 
     private String timePassedFromUpload;
 
-    private int likes;
-
     private int pic;
-    private int resourceId;
+    private Uri resourceUri;
 
+    private List<Comment> comments;
 
 
     public Video(String id, String title, String uploader, String content, String views,
-                 String timePassedFromUpload,  int pic, int resourceId){
+                 String timePassedFromUpload, int pic, Uri resourceUri) {
         this.id = id;
         this.title = title;
         this.uploader = uploader;
-        this.content = content;
         this.views = views;
         this.timePassedFromUpload = timePassedFromUpload;
         this.pic = pic;
-        this.resourceId = resourceId;
+        this.resourceUri = resourceUri;
+        this.comments = new ArrayList<>();
     }
 
-    public String getId(){
+    public String getId() {
         return id;
     }
 
-    public void setId(String id){
+    public void setId(String id) {
         this.id = id;
     }
 
-    public String getUploader(){
+    public String getUploader() {
         return uploader;
     }
 
-    public void setUploader(String uploader){
+    public void setUploader(String uploader) {
         this.uploader = uploader;
-    }
-
-    public String getContent(){
-        return content;
-    }
-
-    public void setContent(String content){
-        this.content = content;
-    }
-
-    public int getLikes() {
-        return likes;
-    }
-
-    public void setLikes(int likes) {
-        this.likes = likes;
     }
 
     public int getPic() {
@@ -104,11 +90,23 @@ public class Video {
         this.title = title;
     }
 
-    public int getResourceId() {
-        return resourceId;
+    public Uri getResourceUri() {
+        return this.resourceUri;
     }
 
-    public void setResourceId(int resourceId) {
-        this.resourceId = resourceId;
+    public void setResourceUri(Uri resourceUri) {
+        this.resourceUri = resourceUri;
+    }
+
+    public void setComments(List<Comment> comments) {
+        this.comments = comments;
+    }
+
+    public List<Comment> getComments() {
+        return comments;
+    }
+
+    public void addComment(Comment comment) {
+        this.comments.add(comment);
     }
 }

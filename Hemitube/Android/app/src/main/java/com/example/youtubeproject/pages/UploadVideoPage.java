@@ -35,6 +35,7 @@ public class UploadVideoPage extends AppCompatActivity {
     private VideoView videoViewVideo;
     private Uri videoUri;
     private Uri imageUri;
+    private final SessionManager sessionManager = SessionManager.getInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,11 +76,10 @@ public class UploadVideoPage extends AppCompatActivity {
             }
         });
 
-        uploadButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                uploadVideo();
-            }
+        uploadButton.setOnClickListener(v -> {
+            uploadVideo();
+            Intent i = new Intent(this, YouPage.class);
+            startActivity(i);
         });
     }
 
@@ -124,14 +124,13 @@ public class UploadVideoPage extends AppCompatActivity {
             return;
         }
 
-        String id = String.valueOf((SessionManager.getInstance().getVideos().size()) + 1);
-        User user = SessionManager.getInstance().getLoggedUser();
-        int resourceId = 0; // Replace with actual logic to get resource ID
-        int pic = 0;// logic to convert pic to int
-        Video video = new Video(id, editTextTitle.toString(), user.getUsername(), editTextContent.toString(), "0", "1 hour", pic, resourceId);
+        String id = String.valueOf((sessionManager.getVideos().size()) + 1);
+        User user = sessionManager.getLoggedUser();
 
-        user.addVideo(video);
-        SessionManager.getInstance().addVideo(video);
+        int pic = R.drawable.img5;// FIXME: logic to convert pic to int
+        Video video = new Video(id, editTextTitle.getText().toString(), user.getUsername(), editTextContent.getText().toString(), "0", "1 sec", pic, videoUri);
+
+        sessionManager.addVideo(video);
 
     }
 

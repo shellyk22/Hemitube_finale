@@ -2,6 +2,7 @@ package com.example.youtubeproject.entities;
 
 import android.widget.ImageView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class User {
@@ -14,8 +15,8 @@ public class User {
     private String nickname;
 
     private ImageView image;
+    private final SessionManager sessionManager = SessionManager.getInstance();
 
-    private List<Video> myVideos;
 
     public static User getInstance() {
         return ourInstance;
@@ -58,14 +59,14 @@ public class User {
     }
 
     public List<Video> getMyVideos() {
-        return myVideos;
+        List<Video> videos = sessionManager.getVideos();
+        List<Video> newList = new ArrayList<>();
+        for(int i = 0; i < videos.size(); i++){
+            if(videos.get(i).getUploader().equals(this.getUsername())){
+                newList.add(videos.get(i));
+            }
+        }
+        return newList;
     }
 
-    public void setMyVideos(List<Video> myVideos) {
-        this.myVideos = myVideos;
-    }
-
-    public void addVideo(Video video){
-        myVideos.add(video);
-    }
 }

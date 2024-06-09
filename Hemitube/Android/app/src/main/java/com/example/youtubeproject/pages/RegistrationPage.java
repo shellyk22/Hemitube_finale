@@ -26,6 +26,8 @@ public class RegistrationPage extends AppCompatActivity {
     private static final int PICK_IMAGE_REQUEST = 1;
     private ImageView imageViewProfilePicture;
 
+    private final SessionManager sessionManager = SessionManager.getInstance();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -55,9 +57,9 @@ public class RegistrationPage extends AppCompatActivity {
                 user.setImage(imageViewProfilePicture);
 
                 // Adding the user to the session
-                SessionManager.getInstance().addUser(user);
-                SessionManager.getInstance().setLoggedUser(user);
-                SessionManager.getInstance().setLogedIn(true);
+                sessionManager.addUser(user);
+                sessionManager.setLoggedUser(user);
+                sessionManager.setLogedIn(true);
 
                 Intent i = new Intent(this, LogInPage.class);
                 startActivity(i);

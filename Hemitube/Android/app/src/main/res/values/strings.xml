@@ -4,7 +4,7 @@
     <string name="login_etUsername">Username</string>
     <string name="login_etPassword">Password</string>
     <string name="login_btnLogin">Login</string>
-    <string name="youtube">YouTube</string>
+    <string name="hemitube">HemiTube</string>
     <string name="btnHome">Home</string>
     <string name="btnShorts">Shorts</string>
     <string name="btnSubscriptions">Subscriptions</string>
@@ -27,4 +27,7 @@
     <string name="title">Title</string>
     <string name="content">Content</string>
     <string name="back">Back</string>
+    <string name="edit">edit</string>
+    <string name="delete">delete</string>
+    <string name="save">save</string>
 </resources>

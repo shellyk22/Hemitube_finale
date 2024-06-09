@@ -17,6 +17,7 @@ public class LogInPage extends AppCompatActivity {
 
 
     private EditText editTextUsername, editTextPassword;
+    private final SessionManager sessionManager = SessionManager.getInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,9 +34,9 @@ public class LogInPage extends AppCompatActivity {
 
         btnLogIn.setOnClickListener(v -> {
             if (validateInput()) {
-                SessionManager.getInstance().setLogedIn(true);
-                User user = SessionManager.getInstance().isUserExists(editTextUsername.getText().toString());
-                SessionManager.getInstance().setLoggedUser(user);
+                sessionManager.setLogedIn(true);
+                User user = sessionManager.isUserExists(editTextUsername.getText().toString());
+                sessionManager.setLoggedUser(user);
                 Intent i = new Intent(this, MainActivity.class);
                 startActivity(i);
             }
@@ -69,7 +70,7 @@ public class LogInPage extends AppCompatActivity {
         String password = editTextPassword.getText().toString().trim();
 
 
-        User user = SessionManager.getInstance().isUserExists(username);
+        User user = sessionManager.isUserExists(username);
 
         if (user != null) {
             if (!password.equals(user.getPassword())) {

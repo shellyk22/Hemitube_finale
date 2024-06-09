@@ -11,7 +11,6 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.example.youtubeproject.MainActivity;
 import com.example.youtubeproject.R;
@@ -27,12 +26,11 @@ public class YouPage extends AppCompatActivity {
 
     private TextView textViewMyVideos;
 
-    private SwipeRefreshLayout swipeRefreshLayout;
-
     private Button uploadButton;
     private Button logOutButton;
 
     private Button btnSignIn;
+    private final SessionManager sessionManager = SessionManager.getInstance();
 
 
     @Override
@@ -64,8 +62,8 @@ public class YouPage extends AppCompatActivity {
 
 
         logOutButton.setOnClickListener(v -> {
-            SessionManager.getInstance().setLogedIn(false);
-            SessionManager.getInstance().setLoggedUser(null);
+            sessionManager.setLogedIn(false);
+            sessionManager.setLoggedUser(null);
             Intent i = new Intent(this, YouPage.class);
             Toast.makeText(this, "Logged out successfully", Toast.LENGTH_SHORT).show();
             startActivity(i);
@@ -77,9 +75,10 @@ public class YouPage extends AppCompatActivity {
         lstVideos.setAdapter(adapter);
         lstVideos.setLayoutManager(new LinearLayoutManager(this));
 
-        if(SessionManager.getInstance().isLogedIn()){
+
+        if(sessionManager.isLogedIn()){
             textViewWelcome = findViewById(R.id.textViewWelcomeUser);
-            String username = SessionManager.getInstance().getLoggedUser().getUsername();
+            String username = sessionManager.getLoggedUser().getUsername();
             textViewWelcome.setText("Welcome, " + username + "!");
             logOutButton.setVisibility(View.VISIBLE);
             btnSignIn.setVisibility(View.GONE);
