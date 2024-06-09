@@ -3,15 +3,15 @@ import { Link } from 'react-router-dom';
 import VideoItem from '../videoItem/VideoItem';
 import videoTable from '../videoItem/Videos.json';
 
-function VideoListResults({videoList}) {
-  if(!videoList){
+function VideoListResults({filteredVideoList}) {
+  if(!filteredVideoList){
     return <label>No Videos!!</label>
 
   }
 
   const videoLinks = [];
-  for (let i = 0; i < videoList.length; i++) {
-    const video = videoList[i];
+  for (let i = 0; i < filteredVideoList.length; i++) {
+    const video = filteredVideoList[i];
     videoLinks.push(
       <Link to={`/video/${video.id}`} key={i} style={{ textDecoration: 'none', color: 'inherit' }}>
         <VideoItem

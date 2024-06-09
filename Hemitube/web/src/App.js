@@ -19,7 +19,7 @@ function App() {
   const [videoList, setVideoList] = useState(Object.values(videoTable));
   const [filteredVideoList, setFilteredVideoList] = useState(Object.values(videoTable));
   const [currentUser, setCurrentUser] = useState("");
-  const [usersVideos, setUsersVideos] = useState([]);
+  const [usersVideos, setUsersVideos] = useState([]); 
   
   useEffect(()=> {
     setFilteredVideoList(videoList);
@@ -33,7 +33,18 @@ function App() {
     setFilteredVideoList(filteredVideos);
   };
   
-
+///////comment section
+const updateComments = (videoId, comments) => {
+  const updatedVideoList = videoList.map(video =>
+    video.id === videoId ? { ...video, commentsArr: comments } : video
+  );
+  setVideoList(updatedVideoList);
+};
+////////////delete video 
+const deleteVideo = (videoId) => {
+  const updatedVideoList = videoList.filter(video => video.id !== videoId);
+  setVideoList(updatedVideoList);
+};
   //dark mode modifications
   const [isDarkMode, setIsDarkMode] = useState(false);
 
@@ -50,10 +61,11 @@ function App() {
     <Router>
       
         <Routes>
-          <Route path="/" element={<HomePage doSearch={doSearch} videoList={filteredVideoList} currentUser={currentUser}
+          <Route path="/" element={<HomePage doSearch={doSearch} filteredVideoList={filteredVideoList} currentUser={currentUser}
            setCurrentUser={setCurrentUser}/>} />
-          <Route path="/video/:id" element={<VideoView doSearch={doSearch} videoList={filteredVideoList} 
-          currentUser={currentUser} setCurrentUser={setCurrentUser}/>} />
+          <Route path="/video/:id" element={<VideoView doSearch={doSearch} filteredVideoList={filteredVideoList} 
+          currentUser={currentUser} setCurrentUser={setCurrentUser} videoList={videoList}
+           updateComments={updateComments} deleteVideo={deleteVideo}/>} />
           <Route path="/signup" element={<SignUp />} />
           <Route path="/signin" element={<SignIn setCurrentUser={setCurrentUser} />} />
           <Route path="/addVideo" element={<AddVideo setCurrentUser={setCurrentUser} usersVideos={usersVideos}

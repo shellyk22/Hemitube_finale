@@ -11,7 +11,8 @@
       "file_path" : "vidTest.mp4",
       "thumbnail" : "img4.jpg",
       "data" : "/videos/vidTest.mp4",
-      "thimbnail_data" : "img1.jpeg"
+      "thimbnail_data" : "img1.jpeg",
+      "commentsArr" : [ {"id" : "0", "text": "hello1" , "author": "currentUser"}]
     } ,
 
     "1" : {
@@ -24,7 +25,8 @@
       "file_path" : "vidTest.mp4",
       "thumbnail" : "img1.jpeg",
       "data" : "/videos/vidTest.mp4",
-      "thimbnail_data" : "img1.jpeg"
+      "thimbnail_data" : "img1.jpeg",
+      "commentsArr" : []
     },
 
     "2" : {
@@ -37,7 +39,8 @@
       "file_path" : "vidTest.mp4",
       "thumbnail" : "img2.jpg",
       "data" : "/videos/vidTest.mp4",
-      "thimbnail_data" : "img1.jpeg"
+      "thimbnail_data" : "img1.jpeg",
+      "commentsArr" : []
     },
 
     "3" : {
@@ -50,7 +53,8 @@
       "file_path" : "vidTest.mp4",
       "thumbnail" : "img3.jpg",
       "data" : "/videos/vidTest.mp4",
-      "thimbnail_data" : "img1.jpeg"
+      "thimbnail_data" : "img1.jpeg",
+      "commentsArr" : []
     }
     ,
 
@@ -64,7 +68,8 @@
       "file_path" : "vidTest.mp4",
       "thumbnail" : "img4.jpg",
       "data" : "/videos/vidTest.mp4",
-      "thimbnail_data" : "img1.jpeg"
+      "thimbnail_data" : "img1.jpeg",
+      "commentsArr" : []
     },
 
     "5" : {
@@ -77,7 +82,8 @@
       "file_path" : "vidTest.mp4",
       "thumbnail" : "img5.jpg",
       "data" : "/videos/vidTest.mp4",
-      "thimbnail_data" : "img1.jpeg"
+      "thimbnail_data" : "img1.jpeg",
+      "commentsArr" : []
     },
 
     "6" : {
@@ -90,6 +96,7 @@
       "file_path" : "vidTest.mp4",
       "thumbnail" : "img6.jpg",
       "data" : "/videos/vidTest.mp4",
-      "thimbnail_data" : "img1.jpeg"
+      "thimbnail_data" : "img1.jpeg",
+      "commentsArr" : []
     }
 }

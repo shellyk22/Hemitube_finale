@@ -3,10 +3,17 @@ import { Navigate, useNavigate, useParams, Link } from 'react-router-dom';
 import Search from '../../components/search/Search';
 import NotFound from '../NotFound/NotFound';
 import VideoListResults from '../../components/videoListResults/VideoListResults';
+import CommentSection from '../../components/CommentSection/CommentSection';
 
-function VideoView({doSearch, videoList, currentUser }) {
+function VideoView({doSearch, videoList, currentUser,  filteredVideoList, updateComments, deleteVideo}) {
   const { id } = useParams();
   const video = videoList[id];
+  const navigate = useNavigate();
+
+  const handleDeleteVideo = () => {
+    deleteVideo(id);
+    navigate('/');
+  };
   
   if(!video) {
     return <NotFound/ >
@@ -18,7 +25,7 @@ function VideoView({doSearch, videoList, currentUser }) {
               <div className="row">
               <div className="col main-content">
         <Search doSearch={doSearch} />
-        <VideoListResults videoList={videoList} />
+        <VideoListResults filteredVideoList={filteredVideoList} />
       </div>
         
       <h2>{video.title}</h2>
@@ -27,6 +34,14 @@ function VideoView({doSearch, videoList, currentUser }) {
       <p>Author: {video.author}</p>
       <p>Views: {video.views}</p>
       <p>Uploaded: {video.time} ago</p>
+      {currentUser && (
+        <button onClick={handleDeleteVideo}>Delete Video</button>
+      )}
+      <CommentSection
+        videoList={videoList}
+        currentUser={currentUser}
+        updateComments={updateComments}
+      />
 
       <div>
         <button> add comment</button>

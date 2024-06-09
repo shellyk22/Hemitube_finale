@@ -29,7 +29,7 @@ function AddVideo({ currentUser, setUsersVideos, usersVideos, videoList, setVide
 
     }
 
-    
+
     const handleThumbnailUpload = (event) => {
         const selectedThumbnailFile = event.target.files[0];
         if (selectedThumbnailFile) {
@@ -60,7 +60,8 @@ function AddVideo({ currentUser, setUsersVideos, usersVideos, videoList, setVide
             "file_path" : selectedVidFile,
             "thumbnail" : selectedPicFile,
             "data" : selectedVideo,
-            "thimbnail_data" : selectedThumbnail
+            "thimbnail_data" : selectedThumbnail,
+            "comments" : []
         }
         console.log("new vid!!!!!:", newVideo)
         

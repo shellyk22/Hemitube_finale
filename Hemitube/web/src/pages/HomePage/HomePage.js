@@ -3,8 +3,8 @@ import LeftMenu from '../../components/leftMenu/LeftMenu';
 import Search from '../../components/search/Search';
 import VideoListResults from '../../components/videoListResults/VideoListResults';
 
-function HomePage({ doSearch, videoList, setCurrentUser, currentUser }) {
-  if(!videoList) {
+function HomePage({ doSearch, videoList, setCurrentUser, currentUser, filteredVideoList }) {
+  if(!filteredVideoList) {
     return <div>no videos</div>
   }
   console.log("CCCCC"+currentUser)
@@ -13,7 +13,7 @@ function HomePage({ doSearch, videoList, setCurrentUser, currentUser }) {
       <LeftMenu currentUser={currentUser} setCurrentUser={setCurrentUser}/>
       <div className="col main-content">
         <Search doSearch={doSearch} />
-        <VideoListResults videoList={videoList} />
+        <VideoListResults filteredVideoList={filteredVideoList} />
       </div>
     </div>
   );

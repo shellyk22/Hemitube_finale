@@ -32,7 +32,7 @@ function LeftMenu({setCurrentUser, currentUser}) {
           <span className="badge bg-primary rounded-pill">1</span>
         </li>
       </ul>
-      <div>{((currentUser === null)) &&(
+      <div>{((!currentUser)) &&(
         <Link to="/signin">
           <button type="button" className="btn btn-outline-danger list-group-item d-flex align-items-center">
             Sign In
@@ -40,7 +40,7 @@ function LeftMenu({setCurrentUser, currentUser}) {
         </Link>
       )}
       </div>
-      <div>{((currentUser === null)) &&(
+      <div>{((!currentUser)) &&(
         <Link to="/signup">
           <button type="button" className="btn btn-outline-danger list-group-item d-flex align-items-center">
             Sign Up
@@ -65,7 +65,7 @@ function LeftMenu({setCurrentUser, currentUser}) {
           </button>
       </div>
       <div className="user-list mt-4 list-group-item d-flex align-items-center">
-        <h4>Registered User - {usersTable[currentUser] ? usersTable[currentUser].nickname : "Guest"}</h4>
+        <h4>Hello, {usersTable[currentUser] ? usersTable[currentUser].nickname : "Guest"}</h4>
         <ul className="list-group">
         </ul>
       </div>
