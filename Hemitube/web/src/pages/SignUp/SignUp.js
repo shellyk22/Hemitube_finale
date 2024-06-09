@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState , useRef } from 'react';
 import { Link , useNavigate } from 'react-router-dom';
 import './signup.css'; 
 import usersTable from '../../components/Users.json';
@@ -8,7 +8,7 @@ function SignUp() {
   const [password, setPassword] = useState('');
   const [verifyPassword, setVerifyPassword] = useState('');
   const [nickname, setNickname] = useState('');
-  const [profilePhoto, setProfilePhoto] = useState('');
+  const [profilePhoto, setProfilePhoto] = useState(usersTable.s.pic_data);
   const [isPasswordValid, setIsPasswordValid] = useState(false);
   const [doPasswordsMatch, setDoPasswordsMatch] = useState(true);
   const [showPassword, setShowPassword] = useState(false);
@@ -44,11 +44,27 @@ function SignUp() {
     setShowVerificationPassword(!showVerificationPassword);
   };
 
+
+  ///////////profilr pic upload etc
+  const ThumbnailInputRef = useRef(null); // Ref for file input
+  //const [selectedThumbnail, setSelectedThumbnail] = useState(null);
+  const handleThumbnailUpload = (event) => {
+    const selectedThumbnailFile = event.target.files[0];
+    if (selectedThumbnailFile) {
+        const reader = new FileReader();
+        reader.onload = (e) => {
+          setProfilePhoto(e.target.result);
+        };
+        reader.readAsDataURL(selectedThumbnailFile);
+    }
+};
+
   const handleSignUp = () => {
     
     if(!isPasswordValid || !doPasswordsMatch
-      || username.length < 1 || nickname.length < 1)
-      {return;}
+      || username.length < 1 || nickname.length < 1) {
+      console.log("oh no");
+      return;}
 
     if (usersTable[username]) {
       console.log("BAHHHHHH");
@@ -56,11 +72,19 @@ function SignUp() {
       return null; //TODO: add notification about existing username
     }
 
+    //setProfilePhoto(usersTable.s.pic_data);
+    //let selectedPicFile = usersTable.s.pic_data; // Default pic
+
+    // if (!ThumbnailInputRef.current.files && ThumbnailInputRef.current.files.length < 0) {
+    //   setProfilePhoto(usersTable.s.pic_data);
+    // }
+    
     usersTable[username] = {
       "username" : username,
       "password" : password,
       "nickname" : nickname,
-      "profilepic" : profilePhoto
+      "profilepic" : profilePhoto,
+      "pic_data" : profilePhoto
     }
     return true;
   }
@@ -128,15 +152,14 @@ function SignUp() {
         />
       </div>
       <div>
-        <input
-          type="text"
-          className="form-control"
-          placeholder="Choose Profile Photo- fix"
-          aria-label="Profile Photo"
-          value={profilePhoto}
-          onChange={(e) => setProfilePhoto(e.target.value)}
-        />
-      </div>
+            {"profile pic:"}
+                <input
+                    type="file"
+                    onChange={handleThumbnailUpload}
+                    accept="image/*"
+                    ref={ThumbnailInputRef}
+                />
+            </div>
       {(!isPasswordValid) && (
         <div className="invalid-password-message">The password must contain at least 8 characters including a number, 
         a lowercase letter and an uppercase letter .</div>

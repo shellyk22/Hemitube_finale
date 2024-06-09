@@ -48,6 +48,14 @@ function LeftMenu({setCurrentUser, currentUser}) {
         </Link>
         )}
       </div>
+      
+      <div>
+      <Link to="/addVideo">
+          <button type="button" className="btn btn-outline-danger list-group-item d-flex align-items-center">
+            Add Video
+          </button>
+        </Link>
+      </div>
       <div>
       <button 
       type="button" 
@@ -61,7 +69,21 @@ function LeftMenu({setCurrentUser, currentUser}) {
         <ul className="list-group">
         </ul>
       </div>
+
+      
+      {currentUser && usersTable[currentUser] && usersTable[currentUser].pic_data && (
+        <div>
+          <img
+            src={usersTable[currentUser].pic_data}
+            alt="profile_pic"
+            width="200"
+          />
+        </div>
+      )}
+    
     </div>
+
+
   );
 }
 

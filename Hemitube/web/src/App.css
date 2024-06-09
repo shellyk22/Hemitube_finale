@@ -1,4 +1,29 @@
 .App {
   text-align: center;
 }
+/* dark mode */
+
+/* src/App.css */
+
+:root {
+  --background-color: #ffffff;
+  --text-color: #000000;
+}
+
+body.dark-mode {
+  --background-color: #333333;
+  --text-color: #ffffff;
+}
+
+body {
+  background-color: var(--background-color);
+  color: var(--text-color);
+  transition: background-color 0.3s, color 0.3s;
+}
+
+/* Ensure other styles are not overridden */
+.container-fluid {
+  transition: background-color 0.3s, color 0.3s;
+}
+
 

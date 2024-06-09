@@ -1,9 +1,9 @@
 {
-    "shelly" : {
-        "username" : "shelly",
-        "password" : "Shelly1234",
+    "s" : {
+        "username" : "s",
+        "password" : "s",
         "nickname" : "shelly",
         "profilepic" : "#",
-        "videos" : []
+        "pic_data" : "img1.jpeg"
     }
 }

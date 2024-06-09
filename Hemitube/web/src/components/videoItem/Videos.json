@@ -1,51 +1,56 @@
+
 {
 
     "0" : {
       "id": "0",
       "title": "cute dogs vid",
-      "description": "Description of video 0",
-      "author": "vvvvvv",
-      "views" : "100", 
-      "time" : "1 Month",
+      "description": "vid 0",
+      "author": "theCoolPoodle",
+      "views" : "100k", 
+      "time" : "5 Months",
       "file_path" : "vidTest.mp4",
-      "thumbnail" : "img1.jpeg",
-      "duration" : "0:12"
+      "thumbnail" : "img4.jpg",
+      "data" : "/videos/vidTest.mp4",
+      "thimbnail_data" : "img1.jpeg"
     } ,
 
     "1" : {
       "id": "1",
-      "title": "aaaaaaa",
-      "description": "Description of video 1",
-      "author": "tttttttt",
-      "views" : "100", 
+      "title": "Crazy foo in the desert of bar",
+      "description": "vid 1",
+      "author": "hemi",
+      "views" : "800M", 
       "time" : "1 Month",
       "file_path" : "vidTest.mp4",
       "thumbnail" : "img1.jpeg",
-      "duration" : "0:12"
+      "data" : "/videos/vidTest.mp4",
+      "thimbnail_data" : "img1.jpeg"
     },
 
     "2" : {
       "id": "2",
-      "title": "second",
-      "description": "Description of video 2",
-      "author": "vvvvvv",
-      "views" : "100", 
-      "time" : "1 Month",
+      "title": "foobar wars part 1",
+      "description": "vid 2",
+      "author": "hemi",
+      "views" : "40M", 
+      "time" : "2 Weeks",
       "file_path" : "vidTest.mp4",
-      "thumbnail" : "img2.jpeg",
-      "duration" : "0:12"
+      "thumbnail" : "img2.jpg",
+      "data" : "/videos/vidTest.mp4",
+      "thimbnail_data" : "img1.jpeg"
     },
 
     "3" : {
       "id": "3",
-      "title": "ddddddd",
+      "title": "foobar wars part 2",
       "description": "Description of video 3",
-      "author": "cccccccc",
-      "views" : "100", 
-      "time" : "1 Month",
+      "author": "hemi",
+      "views" : "27M", 
+      "time" : "1 Week",
       "file_path" : "vidTest.mp4",
-      "thumbnail" : "img3.jpeg",
-      "duration" : "0:12"
+      "thumbnail" : "img3.jpg",
+      "data" : "/videos/vidTest.mp4",
+      "thimbnail_data" : "img1.jpeg"
     }
     ,
 
@@ -53,12 +58,13 @@
       "id": "4",
       "title": "gggggggg",
       "description": "Description of video 4",
-      "author": "vvvvvv",
-      "views" : "100000", 
-      "time" : "1 year",
+      "author": "aaaaaa",
+      "views" : "270K", 
+      "time" : "1 Year",
       "file_path" : "vidTest.mp4",
-      "thumbnail" : "img4.jpeg",
-      "duration" : "0:12"
+      "thumbnail" : "img4.jpg",
+      "data" : "/videos/vidTest.mp4",
+      "thimbnail_data" : "img1.jpeg"
     },
 
     "5" : {
@@ -66,11 +72,12 @@
       "title": "gggggggg",
       "description": "Description of video 5",
       "author": "oooooooo",
-      "views" : "100", 
-      "time" : "1 Month",
+      "views" : "870K", 
+      "time" : "3 Months",
       "file_path" : "vidTest.mp4",
-      "thumbnail" : "img5.jpeg",
-      "duration" : "0:12"
+      "thumbnail" : "img5.jpg",
+      "data" : "/videos/vidTest.mp4",
+      "thimbnail_data" : "img1.jpeg"
     },
 
     "6" : {
@@ -78,10 +85,11 @@
       "title": "gggggg",
       "description": "Description of video 2",
       "author": "vvvvvv",
-      "views" : "10000", 
+      "views" : "4.3M", 
       "time" : "2 Months",
       "file_path" : "vidTest.mp4",
-      "thumbnail" : "img2.jpeg",
-      "duration" : "0:12"
+      "thumbnail" : "img6.jpg",
+      "data" : "/videos/vidTest.mp4",
+      "thimbnail_data" : "img1.jpeg"
     }
 }

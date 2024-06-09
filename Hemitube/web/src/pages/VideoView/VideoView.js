@@ -1,29 +1,32 @@
 import React from 'react';
-import { useParams } from 'react-router-dom';
-import LeftMenu from '../../components/leftMenu/LeftMenu';
+import { Navigate, useNavigate, useParams, Link } from 'react-router-dom';
 import Search from '../../components/search/Search';
+import NotFound from '../NotFound/NotFound';
 import VideoListResults from '../../components/videoListResults/VideoListResults';
-import videoTable from '../../components/videoItem/Videos.json'
 
-function VideoView({doSearch, videoList, setCurrentUser, currentUser }) {
+function VideoView({doSearch, videoList, currentUser }) {
   const { id } = useParams();
-  const initialVideoList = Object.values(videoTable);
-  const video = initialVideoList[id];
+  const video = videoList[id];
+  
+  if(!video) {
+    return <NotFound/ >
+  }
 
   return (
     
     <div className="video-view">
               <div className="row">
+              <div className="col main-content">
         <Search doSearch={doSearch} />
-        <div className="col main-content"></div>
-        <VideoListResults videos={videoList} />
+        <VideoListResults videoList={videoList} />
+      </div>
+        
       <h2>{video.title}</h2>
-      <video controls src={video.file_path} />
-      <p>{video.description}</p>
+      <video controls width="400" height="300" src={video.data} />
+      <p>descrioption: {video.description}</p>
       <p>Author: {video.author}</p>
       <p>Views: {video.views}</p>
       <p>Uploaded: {video.time} ago</p>
-      <p>Duration: {video.duration}</p>
 
       <div>
         <button> add comment</button>
@@ -31,6 +34,11 @@ function VideoView({doSearch, videoList, setCurrentUser, currentUser }) {
         <button> like</button>
         <button> subscribe</button>
       </div>
+      <Link to="/">
+          <button type="button" className="btn btn-outline-danger list-group-item d-flex align-items-center">
+            back to home page
+          </button>
+        </Link>
 
 
       
