@@ -2,6 +2,7 @@ import React, { useState , useRef } from 'react';
 import { Link , useNavigate } from 'react-router-dom';
 import './signup.css'; 
 import usersTable from '../../components/Users.json';
+import logo from '../../components/hemitubeLogoForC.jpeg'; 
 
 function SignUp() {
   const [username, setUsername] = useState('');
@@ -92,9 +93,16 @@ function SignUp() {
 
 
   return (
-    <div>
+    <section className="text-center text-lg-start">
+      <div1 className="container py-4 align-items-center">
+        <div1 className="card cascading-right bg-body-tertiary shadow-5" style={{ backdropFilter: 'blur(30px)' }}>
+          <div1 className="card-body p-5 shadow-5 text-center">
+            <div1 className="logo-container mb-4">
+              <img src={logo} alt="HemiTube Logo" className="logo" />
+              </div1>
+    <div1>
       <h1>Welcome to HemiTube</h1>
-      <div className="input-group mb-3">
+      <div1 className="input-group mb-3">
         <input
           type="text"
           className={`form-control ${username ? 'valid' : 'invalid'}`}
@@ -103,8 +111,8 @@ function SignUp() {
           value={username}
           onChange={(e) => setUsername(e.target.value)}
         />
-      </div>
-      <div className={`input-group mb-3 ${isPasswordValid ? 'valid' : 'invalid'}`}>
+      </div1>
+      <div1 className={`input-group mb-3 ${isPasswordValid ? 'valid' : 'invalid'}`}>
         <input
           type={showPassword ? 'text' : 'password'}
           className="form-control"
@@ -120,8 +128,13 @@ function SignUp() {
         >
           {showPassword ? <i className="bi bi-eye-slash"></i> : <i className="bi bi-eye"></i>}
         </button>
-      </div>
-      <div className={`input-group mb-3 ${doPasswordsMatch ? '' : 'invalid'}`}>
+        {(!isPasswordValid) && (
+        <div1 className="invalid-password-message">The password must contain at least 8 characters including a number, 
+        a lowercase letter and an uppercase letter .</div1>
+      )}
+
+      </div1>
+      <div1 className={`input-group mb-3 ${doPasswordsMatch ? '' : 'invalid'}`}>
       <input
         type={showVerificationPassword ? 'text' : 'password'}
         className="form-control"
@@ -138,10 +151,10 @@ function SignUp() {
           {showVerificationPassword ? <i className="bi bi-eye-slash"></i> : <i className="bi bi-eye"></i>}
         </button>
         {password !== verifyPassword && verifyPassword.length >= 0 && (
-          <div className="validation-message">Passwords do not match.</div>
+          <div1 className="validation-message">Passwords do not match.</div1>
         )}
-      </div>
-      <div>
+      </div1>
+      <div1>
         <input
           type="text"
           className="form-control"
@@ -150,8 +163,8 @@ function SignUp() {
           value={nickname}
           onChange={(e) => setNickname(e.target.value)}
         />
-      </div>
-      <div>
+      </div1>
+      <div1>
             {"profile pic:"}
                 <input
                     type="file"
@@ -159,11 +172,8 @@ function SignUp() {
                     accept="image/*"
                     ref={ThumbnailInputRef}
                 />
-            </div>
-      {(!isPasswordValid) && (
-        <div className="invalid-password-message">The password must contain at least 8 characters including a number, 
-        a lowercase letter and an uppercase letter .</div>
-      )}
+            </div1>
+      
       <Link to="/SignIn" onClick={(event) => {
         event.preventDefault(); // Prevent the default link behavior
         if (handleSignUp()) {
@@ -178,7 +188,16 @@ function SignUp() {
     Sign Up
   </button>
 </Link>
-    </div>
+        <Link to="/">
+          <button type="button" className="btn btn-outline-danger list-group-item d-flex align-items-center">
+            Back to Home Page
+          </button>
+        </Link>
+    </div1>
+    </div1>
+        </div1>
+      </div1>
+    </section>
   );
 }
 

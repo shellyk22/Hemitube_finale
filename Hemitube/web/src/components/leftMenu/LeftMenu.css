@@ -1,0 +1,21 @@
+/* Left menu */
+.left-menu {
+    width: 100%;
+  }
+  
+  .left-menu .list-group-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .left-menu .user-list h4 {
+    margin-top: 20px;
+  }
+  
+  .left-menu .user-pic img {
+    width: 100px; /* Adjust as needed */
+    height: auto;
+    margin-top: 10px;
+  }
+  

@@ -1,14 +1,11 @@
 import './LeftMenu.css';
 import { Link } from 'react-router-dom';
-import React, { useEffect, useState } from 'react';
-import usersTable from '../Users.json'
+import React from 'react';
+import usersTable from '../Users.json';
 
-
-function LeftMenu({setCurrentUser, currentUser}) {
-
-  
+function LeftMenu({ setCurrentUser, currentUser }) {
   return (
-    <div className="col-3 bg-light vh-100">
+    <div className="left-menu">
       <ul className="list-group">
         <h1>HemiTube</h1>
         <li className="list-group-item d-flex align-items-center">
@@ -32,58 +29,48 @@ function LeftMenu({setCurrentUser, currentUser}) {
           <span className="badge bg-primary rounded-pill">1</span>
         </li>
       </ul>
-      <div>{((!currentUser)) &&(
+      <div>{!currentUser && (
         <Link to="/signin">
           <button type="button" className="btn btn-outline-danger list-group-item d-flex align-items-center">
             Sign In
           </button>
         </Link>
-      )}
-      </div>
-      <div>{((!currentUser)) &&(
+      )}</div>
+      <div>{!currentUser && (
         <Link to="/signup">
           <button type="button" className="btn btn-outline-danger list-group-item d-flex align-items-center">
             Sign Up
           </button>
         </Link>
-        )}
-      </div>
-      
-      <div>
-      <Link to="/addVideo">
+      )}</div>
+      <div>{currentUser && (
+        <Link to="/addVideo">
           <button type="button" className="btn btn-outline-danger list-group-item d-flex align-items-center">
             Add Video
           </button>
         </Link>
-      </div>
-      <div>
-      <button 
-      type="button" 
-      className="btn btn-outline-danger list-group-item d-flex align-items-center"
-      onClick = {()=>{setCurrentUser(null)}}>
+      )}</div>
+      <div>{currentUser && (
+        <button 
+          type="button" 
+          className="btn btn-outline-danger list-group-item d-flex align-items-center"
+          onClick={() => setCurrentUser(null)}>
             Sign Out
-          </button>
-      </div>
+        </button>
+      )}</div>
       <div className="user-list mt-4 list-group-item d-flex align-items-center">
         <h4>Hello, {usersTable[currentUser] ? usersTable[currentUser].nickname : "Guest"}</h4>
-        <ul className="list-group">
-        </ul>
       </div>
-
-      
       {currentUser && usersTable[currentUser] && usersTable[currentUser].pic_data && (
-        <div>
+        <div className="user-pic">
           <img
             src={usersTable[currentUser].pic_data}
             alt="profile_pic"
-            width="200"
+            className="img-fluid rounded-circle"
           />
         </div>
       )}
-    
     </div>
-
-
   );
 }
 

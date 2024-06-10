@@ -1,0 +1,92 @@
+/* #results_and_seach {
+    width: 30px;
+    height: 100%;
+  float: left;
+}
+#manu-bar {
+    width: 50px;
+    height: 100%;
+  float: right;
+}
+
+.top-right-image {
+    position: absolute;
+    top: 100;
+    float: right;
+    width: 10%;
+    height: 10%;
+} */
+
+/* HomePage.css */
+
+.homepage-container2 {
+  display: flex;
+  width: 100%;
+  height: 100vh; /* Full viewport height */
+}
+
+.left-section2 {
+  width: 30%;
+  padding: 20px;
+  background-color: #f0f0f0; /* Optional: change background color */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Optional: add shadow */
+  overflow-y: auto; /* Allows scrolling if content is too long */
+}
+
+.right-section2 {
+  width: 70%;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.search-container2 {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+/* Sidebar */
+.sidebar2 {
+  background-color: #f8f9fa;
+  padding: 15px;
+  border-right: 1px solid #ddd;
+  height: 100vh;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 20%;
+}
+
+/* Main content */
+.main-content2 {
+  margin-left: 20%; /* Adjust based on the sidebar width */
+  padding: 15px;
+  width: 80%; /* Adjust based on the sidebar width */
+}
+
+/* Adjustments for smaller screens */
+@media (max-width: 768px) {
+  .sidebar2 {
+    position: relative;
+    width: 100%;
+    height: auto;
+  }
+  .main-content2 {
+    margin-left: 0;
+    width: 100%;
+  }
+}
+
+/* Search bar and logo */
+.search-bar2 {
+  display: flex;
+  align-items: center;
+}
+
+.top-right-image2 {
+  margin-left: 10px; /* Adjust spacing as needed */
+}
