@@ -24,20 +24,20 @@ public class Video {
 
     private String timePassedFromUpload;
 
-    private int pic;
+    private Uri picUri;
     private Uri resourceUri;
 
     private List<Comment> comments;
 
 
     public Video(String id, String title, String uploader, String content, String views,
-                 String timePassedFromUpload, int pic, Uri resourceUri) {
+                 String timePassedFromUpload, Uri picUri, Uri resourceUri) {
         this.id = id;
         this.title = title;
         this.uploader = uploader;
         this.views = views;
         this.timePassedFromUpload = timePassedFromUpload;
-        this.pic = pic;
+        this.picUri = picUri;
         this.resourceUri = resourceUri;
         this.comments = new ArrayList<>();
     }
@@ -58,12 +58,12 @@ public class Video {
         this.uploader = uploader;
     }
 
-    public int getPic() {
-        return pic;
+    public Uri getPicUri() {
+        return picUri;
     }
 
-    public void setPic(int pic) {
-        this.pic = pic;
+    public void setPicUri(Uri picUri) {
+        this.picUri = picUri;
     }
 
     public String getViews() {

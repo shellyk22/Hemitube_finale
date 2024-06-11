@@ -30,4 +30,5 @@
     <string name="edit">edit</string>
     <string name="delete">delete</string>
     <string name="save">save</string>
+    <string name="edit_the_video_name">Edit the Video Name</string>
 </resources>

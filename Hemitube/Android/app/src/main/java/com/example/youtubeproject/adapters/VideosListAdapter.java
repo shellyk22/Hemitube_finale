@@ -62,7 +62,7 @@ public class VideosListAdapter extends RecyclerView.Adapter<VideosListAdapter.Vi
             holder.uploader.setText(current.getUploader() + " . ");
             holder.views.setText(current.getViews() + " views. ");
             holder.timePassed.setText(current.getTimePassedFromUpload() + " ago");
-            holder.videoPic.setImageResource(current.getPic());
+            holder.videoPic.setImageURI(current.getPicUri());
             holder.videoPic.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

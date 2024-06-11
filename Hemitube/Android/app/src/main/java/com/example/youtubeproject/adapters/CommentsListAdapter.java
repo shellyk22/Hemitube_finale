@@ -1,7 +1,6 @@
 package com.example.youtubeproject.adapters;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -73,11 +72,27 @@ public class CommentsListAdapter extends RecyclerView.Adapter<CommentsListAdapte
             holder.content.setText(current.getContent());
 
             holder.btnDelete.setOnClickListener(v -> {
-                Log.i("i", "hello");
                 if (sessionManager.getLoggedUser().getUsername().equals(current.getUploader())) {
-                    Log.i("i", "hello2");
                     sessionManager.deleteComment(current, video);
-                    Log.i("i", "hello3");
+                    this.notifyDataSetChanged();
+                }
+            });
+
+            if(sessionManager.isLogedIn()){
+                if(sessionManager.getLoggedUser().getUsername().equals(current.getUploader())){
+                    holder.btnDelete.setVisibility(View.VISIBLE);
+                }
+                else
+                    holder.btnDelete.setVisibility(View.GONE);
+            }else {
+                holder.btnDelete.setVisibility(View.GONE);
+            }
+
+            holder.btnEdit.setOnClickListener(v -> {
+                if (sessionManager.getLoggedUser().getUsername().equals(current.getUploader())) {
+                    ///////////////////////////////////////////////////////////////////////////
+                    //////////////////////////////////////////////////////////////////////////
+                    /////////////////////////////////////////////////////////////////////////
                 }
             });
 

@@ -1,5 +1,6 @@
 package com.example.youtubeproject.pages;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -102,6 +103,12 @@ public class YouPage extends AppCompatActivity {
 
 
 
+    }
+
+    @SuppressLint("MissingSuperCall")
+    @Override
+    public void onBackPressed() {
+        return;
     }
 
 

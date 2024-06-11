@@ -1,5 +1,6 @@
 package com.example.youtubeproject;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -30,14 +31,10 @@ public class MainActivity extends AppCompatActivity {
 
     private final SessionManager sessionManager = SessionManager.getInstance();
 
-    public static String PACKAGE_NAME;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        PACKAGE_NAME = getApplicationContext().getPackageName();
 
         switchMode = findViewById(R.id.switchMode);
         searchView = findViewById(R.id.searchView);
@@ -95,6 +92,13 @@ public class MainActivity extends AppCompatActivity {
                 return true;
             }
         });
+
+    }
+
+    @SuppressLint("MissingSuperCall")
+    @Override
+    public void onBackPressed() {
+        return;
     }
 
 
@@ -105,13 +109,14 @@ public class MainActivity extends AppCompatActivity {
         } else {
             String lowerCaseQuery = query.toLowerCase();
             for (Video video : videos) {
-                if (video.getTitle().toLowerCase().contains(lowerCaseQuery)) {
+                if (video.getTitle().toLowerCase().contains(lowerCaseQuery) || video.getUploader().toLowerCase().contains(lowerCaseQuery)) {
                     filteredVideos.add(video);
                 }
             }
         }
         adapter.setVideos(filteredVideos);
     }
+
 
     @Override
     protected void onStart() {

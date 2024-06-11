@@ -1,5 +1,6 @@
 package com.example.youtubeproject.pages;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
@@ -60,6 +61,13 @@ public class LogInPage extends AppCompatActivity {
             startActivity(i);
         });
 
+    }
+
+
+    @SuppressLint("MissingSuperCall")
+    @Override
+    public void onBackPressed() {
+        return;
     }
 
 

@@ -1,11 +1,11 @@
 package com.example.youtubeproject.pages;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
-import android.provider.MediaStore;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -20,8 +20,6 @@ import com.example.youtubeproject.R;
 import com.example.youtubeproject.entities.SessionManager;
 import com.example.youtubeproject.entities.User;
 import com.example.youtubeproject.entities.Video;
-
-import java.io.IOException;
 
 public class UploadVideoPage extends AppCompatActivity {
 
@@ -83,6 +81,13 @@ public class UploadVideoPage extends AppCompatActivity {
         });
     }
 
+
+    @SuppressLint("MissingSuperCall")
+    @Override
+    public void onBackPressed() {
+        return;
+    }
+
     private void openImageChooser() {
         Intent intent = new Intent();
         intent.setType("image/*");
@@ -104,12 +109,7 @@ public class UploadVideoPage extends AppCompatActivity {
         if (resultCode == Activity.RESULT_OK && data != null && data.getData() != null) {
             if (requestCode == PICK_IMAGE_REQUEST) {
                 imageUri = data.getData();
-                try {
-                    Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), imageUri);
-                    imageViewThumbnail.setImageBitmap(bitmap);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+                imageViewThumbnail.setImageURI(imageUri);
             } else if (requestCode == PICK_VIDEO_REQUEST) {
                 videoUri = data.getData();
                 videoViewVideo.setVideoURI(videoUri);
@@ -123,13 +123,13 @@ public class UploadVideoPage extends AppCompatActivity {
             Toast.makeText(this, "Please select an image and a video", Toast.LENGTH_SHORT).show();
             return;
         }
-
-        String id = String.valueOf((sessionManager.getVideos().size()) + 1);
+        Log.i("i", String.valueOf(sessionManager.getVideos().size()));
+        String id = String.valueOf(sessionManager.getVideos().size() + 1);
+        Log.i("i", "hello2");
         User user = sessionManager.getLoggedUser();
-
-        int pic = R.drawable.img5;// FIXME: logic to convert pic to int
-        Video video = new Video(id, editTextTitle.getText().toString(), user.getUsername(), editTextContent.getText().toString(), "0", "1 sec", pic, videoUri);
-
+        Log.i("i", imageUri.toString());
+        Video video = new Video(id, editTextTitle.getText().toString(), user.getUsername(), editTextContent.getText().toString(), "0", "1 sec", imageUri, videoUri);
+        Log.i("i", imageUri.toString());
         sessionManager.addVideo(video);
 
     }

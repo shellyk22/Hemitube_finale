@@ -1,6 +1,6 @@
 package com.example.youtubeproject.entities;
 
-import android.widget.ImageView;
+import android.net.Uri;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,7 +14,7 @@ public class User {
 
     private String nickname;
 
-    private ImageView image;
+    private Uri imageUri;
     private final SessionManager sessionManager = SessionManager.getInstance();
 
 
@@ -34,12 +34,12 @@ public class User {
         this.username = username;
     }
 
-    public ImageView getImage() {
-        return image;
+    public Uri getImageUri() {
+        return imageUri;
     }
 
-    public void setImage(ImageView image) {
-        this.image = image;
+    public void setImageUri(Uri imageUri) {
+        this.imageUri = imageUri;
     }
 
     public String getNickname() {

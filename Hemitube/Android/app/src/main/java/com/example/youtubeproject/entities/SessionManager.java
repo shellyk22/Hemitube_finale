@@ -35,7 +35,6 @@ public class SessionManager {
         return ourInstance;
     }
 
-
     public User getLoggedUser() {
         return loggedUser;
     }
@@ -70,6 +69,7 @@ public class SessionManager {
         isNightModeOn = nightModeOn;
     }
 
+
     public User isUserExists(String username) {
         for (int i = 0; i < this.usersList.size(); i++) {
             if (username.equals(this.usersList.get(i).getUsername())) {
@@ -92,18 +92,28 @@ public class SessionManager {
         return Uri.parse("android.resource://com.example.youtubeproject" + "/" + rawVideo);
     }
 
+    private Uri getResourceImageUri(int rawImage) {
+        return Uri.parse("android.resource://com.example.youtubeproject" + "/" + rawImage);
+//        Log.i("i", this.context.getResources().toString());
+
+    }
+
     private void resetVideos() {
         videos = new ArrayList<>();
-        videos.add(new Video("1", "Finding the most Dangerous Secret", "Alice", "Cool Vid", "74k", "3 days", R.drawable.img6, getResourceVideoUri(R.raw.sample_vid)));
-        videos.add(new Video("2", "Searching for the most Expensive diamond", "Foo", "Cool Vid2", "999", "1 month", R.drawable.img5, getResourceVideoUri(R.raw.sample_vid2)));
-        videos.add(new Video("3", "24 hours in one room with 100 people", "Bar", "Cool Vid3", "1M", "10 months", R.drawable.img4, getResourceVideoUri(R.raw.sample_vid3)));
-        videos.add(new Video("4", "Finding the most Dangerous Secret", "Alice", "Cool Vid", "74k", "3 days", R.drawable.img3, getResourceVideoUri(R.raw.sample_vid2)));
-        videos.add(new Video("5", "Flying to the world cup final", "Foo", "Cool Vid2", "999", "1 month", R.drawable.img2, getResourceVideoUri(R.raw.sample_vid)));
-        videos.add(new Video("6", "100 days challenge", "Bar", "Cool Vid3", "1M", "10 months", R.drawable.img6, getResourceVideoUri(R.raw.sample_vid3)));
-        videos.add(new Video("7", "Finding the most Dangerous Secret", "Alice", "Cool Vid", "74k", "3 days", R.drawable.img6, getResourceVideoUri(R.raw.sample_vid2)));
-        videos.add(new Video("8", "Finding the most Dangerous Secret2", "Foo", "Cool Vid2", "999", "1 month", R.drawable.img5, getResourceVideoUri(R.raw.sample_vid)));
-        videos.add(new Video("9", "Finding the most Dangerous Secret3", "Bar", "Cool Vid3", "1M", "10 months", R.drawable.img2, getResourceVideoUri(R.raw.sample_vid2)));
-        videos.add(new Video("10", "Finding the most Dangerous Secret3", "Bar", "Cool Vid3", "1M", "10 months", R.drawable.img4, getResourceVideoUri(R.raw.sample_vid3)));
+        videos.add(new Video("1", "Finding the most Dangerous Secret", "Alice", "Cool Vid", "74k", "3 days", getResourceImageUri(R.drawable.img6), getResourceVideoUri(R.raw.sample_vid)));
+        videos.add(new Video("2", "Searching for the most Expensive diamond", "Foo", "Cool Vid2", "999", "1 month", getResourceImageUri(R.drawable.img5), getResourceVideoUri(R.raw.sample_vid2)));
+        videos.add(new Video("3", "24 hours in one room with 100 people", "Bar", "Cool Vid3", "1M", "10 months", getResourceImageUri(R.drawable.img4), getResourceVideoUri(R.raw.sample_vid3)));
+        videos.add(new Video("4", "Finding the most Dangerous Secret", "Alice", "Cool Vid", "74k", "3 days", getResourceImageUri(R.drawable.img3), getResourceVideoUri(R.raw.sample_vid2)));
+        videos.add(new Video("5", "Flying to the world cup final", "Foo", "Cool Vid2", "999", "1 month", getResourceImageUri(R.drawable.img2), getResourceVideoUri(R.raw.sample_vid)));
+        videos.add(new Video("6", "100 days challenge", "Bar", "Cool Vid3", "1M", "10 months", getResourceImageUri(R.drawable.img6), getResourceVideoUri(R.raw.sample_vid3)));
+        videos.add(new Video("7", "Finding the most Dangerous Secret", "Alice", "Cool Vid", "74k", "3 days", getResourceImageUri(R.drawable.img6), getResourceVideoUri(R.raw.sample_vid2)));
+        videos.add(new Video("8", "Finding the most Dangerous Secret2", "Foo", "Cool Vid2", "999", "1 month", getResourceImageUri(R.drawable.img5), getResourceVideoUri(R.raw.sample_vid)));
+        videos.add(new Video("9", "Finding the most Dangerous Secret3", "Bar", "Cool Vid3", "1M", "10 months", getResourceImageUri(R.drawable.img2), getResourceVideoUri(R.raw.sample_vid2)));
+        videos.add(new Video("10", "Finding the most Dangerous Secret3", "Bar", "Cool Vid3", "1M", "10 months", getResourceImageUri(R.drawable.img4), getResourceVideoUri(R.raw.sample_vid3)));
+    }
+
+    public void setVideos(List<Video> videos) {
+        this.videos = videos;
     }
 
 
@@ -117,32 +127,15 @@ public class SessionManager {
     }
 
     public void deleteComment(Comment comment, Video video) {
-        List<Comment> comments = getCommentsForVideo(video);
-        List<Comment> newListOfComment = new ArrayList<>();
-        for(int i = 0; i < comments.size(); i++){
-            if(!(comments.get(i).getId().equals(comment.getId()))){
-                newListOfComment.add(comments.get(i));
-            }
+        List<Comment> comments = video.getComments();
+        comments.remove(comment);
+        video.setComments(comments);
+
+    }
+
+    public void replaceVideo(Video oldVideo, Video video){
+            videos.remove(oldVideo);
+            videos.add(video);
         }
-        this.setCommentsToVid(newListOfComment, video);
-    }
-
-
-    public List<Comment> getCommentsForVideo(Video video) {
-        for (int i = 0; i < videos.size(); i++) {
-            if (videos.get(i).getId().equals(video.getId())) {
-                return videos.get(i).getComments();
-            }
-        }
-        return null;
-    }
-
-    private void setCommentsToVid(List<Comment> comments, Video video){
-        Video copy = this.videos.get(Integer.parseInt(video.getId()));
-        copy.setComments(comments);
-        this.videos.set(Integer.parseInt(video.getId()), copy);
-
-    }
-
 
 }
