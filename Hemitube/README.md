@@ -5,6 +5,7 @@ Shelly Koretsky 326705829
 
 # about the name: we chose to call our app Hemitube and created a logo (of Hemi holding the youtube sign) which you can see all around our anroid app and web
 
+![hemitubeLogoForC](https://github.com/ArielGolanski/YouTubeProject/assets/170665000/adcfb1ff-60ea-4af6-94f6-d8f1cccf4ef5)
 
 
 
