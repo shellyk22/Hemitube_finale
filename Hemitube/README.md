@@ -1,6 +1,6 @@
 # YouTubeProject
 
-Ariel Golanski 211873963
+Ariel Golanski 211873963<br/>
 Shelly Koretsky 326705829
 
 # about the name: we chose to call our app Hemitube and created a logo (of Hemi holding the youtube sign) which you can see all around our anroid app and web
