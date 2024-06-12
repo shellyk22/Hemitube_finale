@@ -91,6 +91,7 @@ public class RegistrationPage extends AppCompatActivity {
         String nickname = editTextNickname.getText().toString().trim();
 
 
+
         if (TextUtils.isEmpty(username) || username.length() < 4 || username.contains(" ")) {
             editTextUsername.setError("Username must be at least 4 characters long and contain no spaces");
             return false;
@@ -110,6 +111,11 @@ public class RegistrationPage extends AppCompatActivity {
 
         if (TextUtils.isEmpty(nickname)) {
             editTextPasswordRepeat.setError("You Must enter Nickname!");
+            return false;
+        }
+
+        if (imageUri == null) {
+            Toast.makeText(this, "add a profile picture", Toast.LENGTH_SHORT).show();
             return false;
         }
 
