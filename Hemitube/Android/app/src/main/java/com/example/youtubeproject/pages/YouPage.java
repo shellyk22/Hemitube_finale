@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -31,6 +32,8 @@ public class YouPage extends AppCompatActivity {
     private Button logOutButton;
 
     private Button btnSignIn;
+
+    private ImageView profilePic;
     private final SessionManager sessionManager = SessionManager.getInstance();
 
 
@@ -43,10 +46,13 @@ public class YouPage extends AppCompatActivity {
 
         uploadButton = findViewById(R.id.btnAddVideo);
 
-
         logOutButton = findViewById(R.id.btnLogOut);
 
         btnSignIn = findViewById(R.id.btnSignIn);
+
+        profilePic = findViewById(R.id.profilePic);
+
+
 
 
 
@@ -85,6 +91,8 @@ public class YouPage extends AppCompatActivity {
             btnSignIn.setVisibility(View.GONE);
             textViewMyVideos.setVisibility(View.VISIBLE);
             uploadButton.setVisibility(View.VISIBLE);
+            profilePic.setVisibility(View.VISIBLE);
+            profilePic.setImageURI(sessionManager.getLoggedUser().getImageUri());
             List<Video> videos = SessionManager.getInstance().getLoggedUser().getMyVideos();
             adapter.setVideos(videos);
         }
@@ -93,6 +101,7 @@ public class YouPage extends AppCompatActivity {
             btnSignIn.setVisibility(View.VISIBLE);
             textViewMyVideos.setVisibility(View.GONE);
             uploadButton.setVisibility(View.GONE);
+            profilePic.setVisibility(View.GONE);
         }
 
         ImageButton btnHome = findViewById(R.id.btnHome);
