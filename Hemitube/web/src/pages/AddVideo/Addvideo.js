@@ -59,7 +59,7 @@ function AddVideo({ currentUser, videoList, setVideoList }) {
       thumbnail: selectedPicFile,
       data: selectedVideo,
       thimbnail_data: selectedThumbnail,
-      commentsArr: [{ id: '0', text: 'hello1', author: 'hemi' }]
+      commentsArr: [{ id: '0', text: 'boom, magic', author: 'hemi' }]
     };
 
     setVideoList([...videoList, newVideo]);
