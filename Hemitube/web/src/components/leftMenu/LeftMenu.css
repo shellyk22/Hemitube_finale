@@ -18,4 +18,29 @@
     height: auto;
     margin-top: 10px;
   }
+
+  /* src/components/leftMenu/LeftMenu.css */
+
+.left-menu {
+    background-color: var(--sidebar-bg-color);
+    color: var(--sidebar-text-color);
+    transition: background-color 0.3s, color 0.3s;
+  }
+  
+  .left-menu .list-group-item {
+    background-color: var(--sidebar-bg-color);
+    color: var(--sidebar-text-color);
+    border: none; /* Ensure no contrasting borders in dark mode */
+  }
+  
+  .left-menu .btn-outline-danger {
+    color: var(--sidebar-text-color);
+    border-color: var(--sidebar-text-color);
+  }
+  
+  .left-menu .btn-outline-danger:hover {
+    background-color: var(--sidebar-text-color);
+    color: var(--sidebar-bg-color);
+  }
+  
   

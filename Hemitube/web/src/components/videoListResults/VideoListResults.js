@@ -1,6 +1,5 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import VideoItem from '../videoItem/VideoItem';
 import './VideoListResults.css';
 
 function VideoListResults({ filteredVideoList }) {
@@ -11,9 +10,9 @@ function VideoListResults({ filteredVideoList }) {
   const videoLinks = filteredVideoList.map((video, index) => (
     <Link to={`/video/${video.id}`} key={index} style={{ textDecoration: 'none', color: 'inherit' }}>
       <div className="video-item-res">
-        <img style={{height: 100, width: 180}} src={video.thimbnail_data} alt={`${video.title} `} />
-        <div className="title">{video.title}</div>
-        <div className="details">
+        <img className="video-thumbnail" src={video.thimbnail_data} alt={`${video.title}`} />
+        <div className="video-title">{video.title}</div>
+        <div className="video-details">
           <p>{video.author}</p>
           <p>{video.views} views • {video.time}</p>
         </div>

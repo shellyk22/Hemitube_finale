@@ -131,3 +131,22 @@
     margin-bottom: 10px;
   }
   
+  .logo-container4 {
+    display: flex;
+    justify-content: left;
+    align-items: left;
+    width: 60px; /* Adjust width to match height for perfect circle */
+    height: 60px; /* Adjust height to match width for perfect circle */
+    border-radius: 50%; /* Makes the container round */
+    overflow: hidden; /* Ensures the image does not overflow the container */
+    display: flex;
+    align-items: left;
+    justify-content: center;
+   
+  }
+  
+  .logo4 {
+
+    width: 100%;
+    height: auto;
+  }

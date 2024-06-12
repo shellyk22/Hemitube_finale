@@ -39,7 +39,9 @@ function AddVideo({ currentUser, videoList, setVideoList }) {
       titleTextBox.current.value.length < 1 ||
       descriptionBox.current.value.length < 1 ||
       !VideoInputRef.current.files ||
-      VideoInputRef.current.files.length === 0
+      VideoInputRef.current.files.length === 0 ||
+      ThumbnailInputRef.current.files ||
+      ThumbnailInputRef.current.files.length === 0 
     ) {
       alert('You must fill all fields');
       return false;

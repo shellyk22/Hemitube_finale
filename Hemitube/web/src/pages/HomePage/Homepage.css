@@ -1,23 +1,4 @@
-/* #results_and_seach {
-    width: 30px;
-    height: 100%;
-  float: left;
-}
-#manu-bar {
-    width: 50px;
-    height: 100%;
-  float: right;
-}
 
-.top-right-image {
-    position: absolute;
-    top: 100;
-    float: right;
-    width: 10%;
-    height: 10%;
-} */
-
-/* HomePage.css */
 
 .homepage-container2 {
   display: flex;
@@ -41,13 +22,6 @@
   align-items: center;
 }
 
-.search-container2 {
-  width: 100%;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 20px;
-}
 
 /* Sidebar */
 .sidebar2 {
@@ -81,12 +55,86 @@
   }
 }
 
-/* Search bar and logo */
-.search-bar2 {
-  display: flex;
-  align-items: center;
+/* Container for video list */
+.video-list-res2 {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr); /* 5 videos per row */
+  gap: 20px; /* 20px gap between rows and columns */
 }
 
-.top-right-image2 {
-  margin-left: 10px; /* Adjust spacing as needed */
+
+
+.top-left-image2 {
+  margin-right: 30px; /* Adjust spacing as needed */
+}
+
+/* Sidebar container */
+.sidebar-container2 {
+  width: 20%; /* Set the sidebar to 20% of the screen width */
+  background-color: #f8f9fa;
+  padding: 15px;
+  border-right: 1px solid #ddd;
+  height: 100vh;
+  position: fixed;
+  top: 0;
+  left: 0;
+}
+
+/* Main content */
+.main-content2 {
+  margin-left: 20%; /* Adjust based on the sidebar width */
+  padding: 15px;
+  width: 80%; /* Adjust based on the sidebar width */
+}
+
+/* Responsive adjustments for smaller screens */
+@media (max-width: 768px) {
+  .sidebar-container2 {
+    position: relative;
+    width: 100%;
+    height: auto;
+  }
+  .main-content2 {
+    margin-left: 0;
+    width: 100%;
+  }
+
+  .search-bar2 {
+    display: flex;
+    align-items: center;
+    justify-content: center; /* Centers the search bar horizontally */
+  }
+  
+  .logo-container3 {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    overflow: hidden;
+  }
+  
+  .logo3 {
+    width: 100%;
+    height: auto;
+  }
+  .search-container {
+    flex-grow: 1; /* Allows the search bar to take up available space */
+  }
+  
+  .search-bar2 .form-control-lg {
+    width: 100%;
+    max-width: 600px; /* Limits the maximum width of the search bar */
+    border-radius: 50px; /* Adds a rounded border to the search bar */
+    padding: 10px 20px; /* Adds padding inside the search bar */
+  }
+  @media (max-width: 576px) {
+    .search-bar2 {
+      flex-direction: column; /* Stack the logo and search bar vertically on small screens */
+    }
+    .logo-container3 {
+      margin-bottom: 10px; /* Adds space between the logo and search bar */
+    }
+  }  
 }

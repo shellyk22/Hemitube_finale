@@ -3,11 +3,15 @@ import { Link } from 'react-router-dom';
 import React from 'react';
 import usersTable from '../Users.json';
 
+import logo from '../../components/hemitubeLogoForC.jpeg';
+
 function LeftMenu({ setCurrentUser, currentUser }) {
   return (
     <div className="left-menu">
       <ul className="list-group">
         <h1>HemiTube</h1>
+        
+
         <li className="list-group-item d-flex align-items-center">
           <i className="bi bi-house-fill"></i>
           <span className="w-100 m-1 ms-3">Home</span>
