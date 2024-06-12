@@ -3,15 +3,7 @@
 Ariel Golanski 211873963
 Shelly Koretsky 326705829
 
-
-
-
-
-
-
-
-
-
+# about the name: we chose to call our app Hemitube and created a logo (of Hemi holding the youtube sign) which you can see all around our anroid app and web
 
 
 
@@ -28,4 +20,17 @@ Things to notice:
 3) Notice the search bar that searches the videos based on the title name and the uploader name.
 4) Notice the dark mode button.
 5) Notice the users permissions management.
-6) Notice the Style of the app.  
+6) Notice the Style of the app.
+
+# web:
+# in order to run the web, open the web package and make sure to run directly from it (cd web) and not from the project file youtubeProject.
+- when you open the site, it takes you directly to the homepage, where you can see all the build in videos.
+- if you enter a videView page as a guest, the only things you can do are watch- both the video and comments, with no option to edit or add.
+- when you register, you get the option to delete, upload and edit any video. as well as add, adit and delete any comment.
+- when signing up, if you dont choose a profile photo, you will get a default photo (our hemitube logo).
+- you can see, that when you are not registered, the add video button an log out buttons are not displayed.
+- also, when you are registered, you have to properly sign out before signing in as a different user.
+- if you go back to homepage in the moddle of signin/signup process, you will simply go back to being a guest (and the attempt will be forgotten)
+- you are not signed in/up until you complate the process appropriately.
+- same about video adding
+
