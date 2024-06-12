@@ -31,7 +31,6 @@ public class CommentsListAdapter extends RecyclerView.Adapter<CommentsListAdapte
 
         private final Button btnDelete;
 
-        private final Button btnEdit;
 
 
         private CommentViewHolder(View itemView) {
@@ -40,7 +39,6 @@ public class CommentsListAdapter extends RecyclerView.Adapter<CommentsListAdapte
             timePassed = itemView.findViewById(R.id.commentUploadDate);
             content = itemView.findViewById(R.id.commentText);
             btnDelete = itemView.findViewById(R.id.deleteBtn);
-            btnEdit = itemView.findViewById(R.id.editBtn);
 
         }
 
@@ -87,14 +85,6 @@ public class CommentsListAdapter extends RecyclerView.Adapter<CommentsListAdapte
             }else {
                 holder.btnDelete.setVisibility(View.GONE);
             }
-
-            holder.btnEdit.setOnClickListener(v -> {
-                if (sessionManager.getLoggedUser().getUsername().equals(current.getUploader())) {
-                    ///////////////////////////////////////////////////////////////////////////
-                    //////////////////////////////////////////////////////////////////////////
-                    /////////////////////////////////////////////////////////////////////////
-                }
-            });
 
         }
     }
