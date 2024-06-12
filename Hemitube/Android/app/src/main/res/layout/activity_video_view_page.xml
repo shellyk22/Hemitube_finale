@@ -10,12 +10,17 @@
 
     <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
 
         <VideoView
             android:id="@+id/videoPlayer"
+            android:layout_gravity="center"
             android:layout_width="match_parent"
             android:layout_height="220dp" />
+
     </FrameLayout>
 
 
@@ -24,11 +29,21 @@
         style="@style/TextColor"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:padding="10dp"
+        android:layout_marginLeft="5dp"
         android:textSize="20dp"
         android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/linearLayout"
         app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.357"
+        tools:layout_editor_absoluteX="0dp" />
+
+    <TextView
+        android:id="@+id/videoContent"
+        style="@style/TextColor"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        app:layout_constraintTop_toBottomOf="@id/videoTitle"
         app:layout_constraintVertical_bias="0.357"
         tools:layout_editor_absoluteX="0dp" />
 
@@ -37,7 +52,7 @@
         style="@style/ScreenBackground"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@+id/videoTitle">
+        app:layout_constraintTop_toBottomOf="@+id/videoContent">
 
         <TextView
             android:id="@+id/videoUploader"

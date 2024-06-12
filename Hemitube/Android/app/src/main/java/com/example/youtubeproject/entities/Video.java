@@ -23,6 +23,7 @@ public class Video {
     private String views;
 
     private String timePassedFromUpload;
+    private String content;
 
     private Uri picUri;
     private Uri resourceUri;
@@ -34,6 +35,7 @@ public class Video {
                  String timePassedFromUpload, Uri picUri, Uri resourceUri) {
         this.id = id;
         this.title = title;
+        this.content = content;
         this.uploader = uploader;
         this.views = views;
         this.timePassedFromUpload = timePassedFromUpload;
@@ -88,6 +90,14 @@ public class Video {
 
     public void setTitle(String title) {
         this.title = title;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
+    }
+
+    public String getContent() {
+        return content;
     }
 
     public Uri getResourceUri() {
