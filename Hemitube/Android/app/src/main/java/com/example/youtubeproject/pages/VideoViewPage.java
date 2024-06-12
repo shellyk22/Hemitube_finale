@@ -51,11 +51,13 @@ public class VideoViewPage extends AppCompatActivity {
 
 
         TextView title = findViewById(R.id.videoTitle);
+        TextView content = findViewById(R.id.videoContent);
         TextView uploader = findViewById(R.id.videoUploader);
         TextView views = findViewById(R.id.videoViews);
         TextView timePassed = findViewById(R.id.videoPassedTime);
 
         title.setText(video.getTitle());
+        content.setText(video.getContent());
         uploader.setText(video.getUploader() + " . ");
         views.setText(video.getViews() + " views . ");
         timePassed.setText(video.getTimePassedFromUpload() + " ago");
@@ -202,10 +204,12 @@ public class VideoViewPage extends AppCompatActivity {
         builder.setView(inflater.inflate(R.layout.dialog_edit, null))
                 .setPositiveButton("Edit", (dialog, id) -> {
                     AlertDialog alertDialog = (AlertDialog) dialog;
-                    EditText commentInput = alertDialog.findViewById(R.id.editVideo);
-                    String titleText = commentInput.getText().toString().trim();
+                    EditText videoTitleInput = alertDialog.findViewById(R.id.editVideoTitle);
+                    EditText videoContentInput = alertDialog.findViewById(R.id.editVideoContent);
+                    String titleText = videoTitleInput.getText().toString().trim();
+                    String contentText = videoContentInput.getText().toString().trim();
                     if (!titleText.isEmpty()) {
-                        changeTitle(titleText);
+                        changeVideoDetails(titleText, contentText);
                     } else {
                         Toast.makeText(this, "Title cannot be empty", Toast.LENGTH_SHORT).show();
                     }
@@ -216,15 +220,15 @@ public class VideoViewPage extends AppCompatActivity {
 
     private void addComment(String commentText) {
         Comment newComment = new Comment(String.valueOf(video.getComments().size()) + 1, sessionManager.getLoggedUser().getUsername(), "1 sec", commentText, video);
-        Log.i("i", "push now");
         sessionManager.addComment(newComment, video);
         adapter.setComments(video.getComments());
         adapter.notifyDataSetChanged();
     }
 
-    private void changeTitle(String titleText) {
+    private void changeVideoDetails(String titleText, String cotentText) {
         Video oldVideo = video;
         video.setTitle(titleText);
+        video.setContent(cotentText);
         sessionManager.replaceVideo(oldVideo, video);
         TextView title = findViewById(R.id.videoTitle);
         title.setText(titleText);

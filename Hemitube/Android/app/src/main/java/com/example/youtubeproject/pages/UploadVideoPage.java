@@ -5,7 +5,6 @@ import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -123,13 +122,9 @@ public class UploadVideoPage extends AppCompatActivity {
             Toast.makeText(this, "Please select an image and a video", Toast.LENGTH_SHORT).show();
             return;
         }
-        Log.i("i", String.valueOf(sessionManager.getVideos().size()));
         String id = String.valueOf(sessionManager.getVideos().size() + 1);
-        Log.i("i", "hello2");
         User user = sessionManager.getLoggedUser();
-        Log.i("i", imageUri.toString());
         Video video = new Video(id, editTextTitle.getText().toString(), user.getUsername(), editTextContent.getText().toString(), "0", "1 sec", imageUri, videoUri);
-        Log.i("i", imageUri.toString());
         sessionManager.addVideo(video);
 
     }

@@ -58,6 +58,7 @@
                 android:backgroundTint="@color/red"
                 android:text="@string/delete"/>
 
+
         </LinearLayout>
 
     </LinearLayout>

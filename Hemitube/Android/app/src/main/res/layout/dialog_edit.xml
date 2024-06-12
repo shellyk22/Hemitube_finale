@@ -12,10 +12,19 @@
         android:padding="16dp">
 
         <EditText
-            android:id="@+id/editVideo"
+            android:id="@+id/editVideoTitle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/edit_the_video_name"
+            android:inputType="text"
+            android:gravity="top"
+            android:padding="10dp" />
+
+        <EditText
+            android:id="@+id/editVideoContent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/edit_the_video_descreption"
             android:inputType="text"
             android:minHeight="100dp"
             android:gravity="top"
