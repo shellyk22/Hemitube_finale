@@ -1,10 +1,8 @@
 package com.example.youtubeproject.pages;
 
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.text.TextUtils;
 import android.widget.Button;
 import android.widget.EditText;
@@ -18,13 +16,15 @@ import com.example.youtubeproject.R;
 import com.example.youtubeproject.entities.SessionManager;
 import com.example.youtubeproject.entities.User;
 
-import java.io.IOException;
-
 public class RegistrationPage extends AppCompatActivity {
 
     private EditText editTextPasswordRepeat, editTextNickname, editTextUsername, editTextPassword;
     private static final int PICK_IMAGE_REQUEST = 1;
     private ImageView imageViewProfilePicture;
+
+    private Uri imageUri;
+
+    private final SessionManager sessionManager = SessionManager.getInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,7 +42,6 @@ public class RegistrationPage extends AppCompatActivity {
         buttonSelectPhoto.setOnClickListener(v -> openImagePicker());
 
 
-
         Button btnLogUp = findViewById(R.id.btnLogUp);
         btnLogUp.setOnClickListener(view -> {
             if (validateInput()) {
@@ -52,12 +51,12 @@ public class RegistrationPage extends AppCompatActivity {
                 user.setUsername(editTextUsername.getText().toString());
                 user.setPassword(editTextPassword.getText().toString());
                 user.setNickname(editTextNickname.getText().toString());
-                user.setImage(imageViewProfilePicture);
+                user.setImageUri(imageUri);
 
                 // Adding the user to the session
-                SessionManager.getInstance().addUser(user);
-                SessionManager.getInstance().setLoggedUser(user);
-                SessionManager.getInstance().setLogedIn(true);
+                sessionManager.addUser(user);
+                sessionManager.setLoggedUser(user);
+                sessionManager.setLogedIn(true);
 
                 Intent i = new Intent(this, LogInPage.class);
                 startActivity(i);
@@ -78,13 +77,8 @@ public class RegistrationPage extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null) {
-            Uri imageUri = data.getData();
-            try {
-                Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), imageUri);
-                imageViewProfilePicture.setImageBitmap(bitmap);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+            imageUri = data.getData();
+            imageViewProfilePicture.setImageURI(imageUri);
         }
     }
 
@@ -109,12 +103,12 @@ public class RegistrationPage extends AppCompatActivity {
             return false;
         }
 
-        if(TextUtils.isEmpty(repeatPassword) || !password.equals(repeatPassword)){
+        if (TextUtils.isEmpty(repeatPassword) || !password.equals(repeatPassword)) {
             editTextPasswordRepeat.setError("Passwords does not matching!");
             return false;
         }
 
-        if(TextUtils.isEmpty(nickname)){
+        if (TextUtils.isEmpty(nickname)) {
             editTextPasswordRepeat.setError("You Must enter Nickname!");
             return false;
         }

@@ -15,6 +15,9 @@
         android:theme="@style/Theme.YouTubeProject"
         tools:targetApi="31">
         <activity
+            android:name=".entities.Comment"
+            android:exported="false" />
+        <activity
             android:name=".pages.UploadVideoPage"
             android:exported="false" />
         <activity

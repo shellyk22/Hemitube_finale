@@ -1,5 +1,6 @@
 package com.example.youtubeproject;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -22,17 +23,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
-
-
-
     private SwitchCompat switchMode;
     private boolean isNightMode;
     private SearchView searchView;
     private List<Video> filteredVideos;
     private List<Video> videos;
 
-
-
+    private final SessionManager sessionManager = SessionManager.getInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,24 +39,21 @@ public class MainActivity extends AppCompatActivity {
         switchMode = findViewById(R.id.switchMode);
         searchView = findViewById(R.id.searchView);
 
-        isNightMode = SessionManager.getInstance().isNightModeOn();
+        isNightMode = sessionManager.isNightModeOn();
 
-
-
-        if(isNightMode){
+        if (isNightMode) {
             switchMode.setChecked(true);
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
         }
         switchMode.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(isNightMode){
+                if (isNightMode) {
                     AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
-                    SessionManager.getInstance().setNightModeOn(false);
-                }
-                else {
+                    sessionManager.setNightModeOn(false);
+                } else {
                     AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
-                    SessionManager.getInstance().setNightModeOn(true);
+                    sessionManager.setNightModeOn(true);
                 }
             }
         });
@@ -68,8 +62,7 @@ public class MainActivity extends AppCompatActivity {
         final VideosListAdapter adapter = new VideosListAdapter(this);
         lstVideos.setAdapter(adapter);
         lstVideos.setLayoutManager(new LinearLayoutManager(this));
-        SessionManager.getInstance().resetVideos();
-        videos = SessionManager.getInstance().getVideos();
+        videos = sessionManager.getVideos();
         filteredVideos = new ArrayList<>(videos);
         adapter.setVideos(filteredVideos);
 
@@ -102,6 +95,12 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    @SuppressLint("MissingSuperCall")
+    @Override
+    public void onBackPressed() {
+        return;
+    }
+
 
     private void filterVideos(String query, VideosListAdapter adapter) {
         filteredVideos.clear();
@@ -110,13 +109,14 @@ public class MainActivity extends AppCompatActivity {
         } else {
             String lowerCaseQuery = query.toLowerCase();
             for (Video video : videos) {
-                if (video.getTitle().toLowerCase().contains(lowerCaseQuery)) {
+                if (video.getTitle().toLowerCase().contains(lowerCaseQuery) || video.getUploader().toLowerCase().contains(lowerCaseQuery)) {
                     filteredVideos.add(video);
                 }
             }
         }
         adapter.setVideos(filteredVideos);
     }
+
 
     @Override
     protected void onStart() {
