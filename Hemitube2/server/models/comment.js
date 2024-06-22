@@ -3,9 +3,10 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const CommentSchema = new Schema({ //MessageSchema
-    publiced: { //created
-        type: String,
-        default: () => new Date().toISOString()
+    published: { //created
+        type: Date,
+        //default: () => new Date().toISOString()
+        default: Date.now
     },
     author: { //sender
         type: Schema.Types.ObjectId,
