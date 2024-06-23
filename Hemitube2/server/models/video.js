@@ -19,8 +19,6 @@ const VideoSchema = new Schema({
     ],
     title: [ 
         {
-            //type: Schema.Types.ObjectId,
-            //ref: 'User',
             type: String ,
             required: true
         }

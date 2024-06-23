@@ -1,0 +1,47 @@
+<!-- server/index.html -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Comment API Test</title>
+    <script>
+        async function fetchComments() {
+            try {
+                const response = await fetch('/api/comments');
+                const data = await response.json();
+                console.log(data);
+                document.getElementById('comments').textContent = JSON.stringify(data, null, 2);
+            } catch (error) {
+                console.error('Error fetching comments:', error);
+            }
+        }
+
+        async function addComment() {
+            const content = document.getElementById('commentContent').value;
+            try {
+                const response = await fetch('/api/comments', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ content }) // Only send content, omit author
+                });
+                const data = await response.json();
+                console.log(data);
+                fetchComments(); // Refresh the comments list
+            } catch (error) {
+                console.error('Error adding comment:', error);
+            }
+        }
+    </script>
+</head>
+<body>
+    <h1>Comment API Test</h1>
+    <button onclick="fetchComments()">Fetch Comments</button>
+    <pre id="comments"></pre>
+
+    <h2>Add Comment</h2>
+    <input type="text" id="commentContent" placeholder="Comment content">
+    <button onclick="addComment()">Add Comment</button>
+</body>
+</html>

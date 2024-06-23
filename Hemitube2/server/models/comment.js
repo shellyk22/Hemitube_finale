@@ -1,19 +1,24 @@
+// server/models/comment.js
+
 const mongoose = require('mongoose');
 
 const Schema = mongoose.Schema;
 
-const CommentSchema = new Schema({ //MessageSchema
-    published: { //created
+const CommentSchema = new Schema({
+    published: {
         type: Date,
-        //default: () => new Date().toISOString()
         default: Date.now
     },
-    author: { //sender
+    // Make author optional
+    author: {
         type: Schema.Types.ObjectId,
         ref: 'User',
-        default: null
+        default: null  // Set a default value or leave it as null
     },
-    content: String
+    content: {
+        type: String,
+        required: true
+    }
 });
 
 module.exports = mongoose.model('Comment', CommentSchema);
