@@ -45,4 +45,23 @@ const deleteComment = async (_, res) => {
     res.json(comment);
 };
 
-module.exports = {createComment, getComment, updateComment, getComments, deleteComment}
+
+const isLoggedIn = async (req, res, next) => {
+    if (req.headers.authorization) {
+        // Extract the token from that header
+        const token = req.headers.authorization.split(" ")[1];
+        try {
+            // Verify the token is valid
+            jwt.verify(token, key);
+
+            //Token validation was successful. Continue to the actual function (index)
+            return next();
+        } catch (err) {
+            return res.status(401).send("Invalid Token");
+        }
+    } else
+        return res.status(403).send('Token required');
+};
+
+
+module.exports = {createComment, getComment, updateComment, getComments, deleteComment, isLoggedIn}

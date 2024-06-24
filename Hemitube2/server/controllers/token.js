@@ -3,7 +3,9 @@ const authService = require('../services/token');
 async function login(req, res) {
 
     // Check login 
-    const {username, password} = req.body;
+    const {password, username} = req.body;
+
+    console.log("username:", username, "passowrd:", password)
 
     const user = await authService.getUserByUsername(username);
 
@@ -15,7 +17,7 @@ async function login(req, res) {
     const token = authService.generateToken(username);
 
     // Success! Send JWT back to client.
-    return res.status(200).send(token);
+    return res.status(200).json({token: token});
 }
 
 module.exports = {login};
