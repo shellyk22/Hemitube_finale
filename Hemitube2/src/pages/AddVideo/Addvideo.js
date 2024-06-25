@@ -52,7 +52,7 @@ function AddVideo({ currentUser, videoList, setVideoList }) {
       id: Date.now().toString(), // Use a unique ID
       title: titleTextBox.current.value,
       description: descriptionBox.current.value,
-      author: usersTable[currentUser].nickname,
+      author: usersTable[currentUser].username,
       views: '0',
       time: '0s',
       file_path: selectedVidFile,
