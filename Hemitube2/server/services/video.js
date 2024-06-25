@@ -6,16 +6,11 @@ const Comment = require('../models/comment');
 
 const createVideo = async (title, publisher = [null], comments = [], file = null) => {
     try {
-        const video = new Video({
-            publisher,
-            title,
-            comments,
-            file
-        });
+        const video = new Video({ publisher, title, comments, file });
         await video.save();
         return video.toObject();
     } catch (error) {
-        console.log("Error creating video: ", error); // Log the detailed error
+        console.log("Error creating video: ", error);
         throw new Error('Could not create video');
     }
 };
@@ -52,7 +47,6 @@ const updateVideo = async (id, updateData) => {
 
 const deleteVideo = async (id) => {
     try {
-        // Delete associated file if necessary
         const video = await Video.findById(id);
         if (video && video.file) {
             await VidFile.findByIdAndDelete(video.file);
@@ -64,14 +58,11 @@ const deleteVideo = async (id) => {
     }
 };
 
-// Add a comment to a video
 const addCommentToVideo = async (videoId, commentContent) => {
     try {
-        // Create the comment with a null author
         const comment = new Comment({ content: commentContent, author: null });
         await comment.save();
 
-        // Attach comment to the video
         const video = await Video.findById(videoId);
         if (!video) {
             throw new Error('Video not found');

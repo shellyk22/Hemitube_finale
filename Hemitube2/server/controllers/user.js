@@ -53,21 +53,36 @@ const deleteUser = async (req, res) => {
     }
 };
 
-const isLoggedIn = async (req, res, next) => {
+// const isLoggedIn = async (req, res, next) => {
+//     if (req.headers.authorization) {
+//         // Extract the token from that header
+//         const token = req.headers.authorization.split(" ")[1];
+//         try {
+//             // Verify the token is valid
+//             jwt.verify(token, key);
+            
+//             //Token validation was successful. Continue to the actual function (index)
+//             return next();
+//         } catch (err) {
+//             return res.status(401).send("Invalid Token");
+//         }
+//     } else
+//         return res.status(403).send('Token required');
+// };
+
+const isLoggedIn = (req, res, next) => {
     if (req.headers.authorization) {
-        // Extract the token from that header
         const token = req.headers.authorization.split(" ")[1];
         try {
-            // Verify the token is valid
-            jwt.verify(token, key);
-            
-            //Token validation was successful. Continue to the actual function (index)
+            const decoded = jwt.verify(token, key);
+            req.user = decoded; // Attach decoded token data to req.user
             return next();
         } catch (err) {
             return res.status(401).send("Invalid Token");
         }
-    } else
+    } else {
         return res.status(403).send('Token required');
+    }
 };
 
-module.exports = {createUser, isLoggedIn, getUser, updateUser};
+module.exports = {createUser, isLoggedIn, getUser, updateUser, deleteUser};

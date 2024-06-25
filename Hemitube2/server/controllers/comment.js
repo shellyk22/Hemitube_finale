@@ -1,5 +1,8 @@
 const commentService = require('../services/comment') 
 
+const jwt = require('jsonwebtoken'); 
+
+const key = "secret key foo foo foo bar";
 const createComment = async (req, res) => {
     try {
         const { author, content } = req.body;

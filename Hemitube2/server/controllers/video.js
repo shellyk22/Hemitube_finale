@@ -2,7 +2,9 @@
 
 const videoService = require('../services/video');
 const VidFile = require('../models/vidFile');
+const jwt = require('jsonwebtoken'); 
 
+const key = "secret key foo foo foo bar";
 const createVideo = async (req, res) => {
     try {
         const { title, publisher, comments, file } = req.body;
@@ -11,11 +13,9 @@ const createVideo = async (req, res) => {
             return res.status(400).json({ errors: ['Title is required'] });
         }
 
-        // Process publisher and comments to handle null or valid ObjectId values
         const processedPublisher = Array.isArray(publisher) && publisher.length > 0 && publisher[0] !== 'null' ? publisher : [null];
         const processedComments = Array.isArray(comments) && comments.length > 0 && comments[0] !== 'null' ? comments : [];
 
-        // Create file attachment if provided
         let fileDoc = null;
         if (file && file.name && file.data) {
             const { name, data } = file;
@@ -23,7 +23,6 @@ const createVideo = async (req, res) => {
             await fileDoc.save();
         }
 
-        // Create video and attach file
         const newVideo = await videoService.createVideo(
             title,
             processedPublisher,
@@ -31,7 +30,6 @@ const createVideo = async (req, res) => {
             fileDoc ? fileDoc._id : null
         );
 
-        // Update file with the video reference
         if (fileDoc) {
             fileDoc.attachedVid = newVideo._id;
             await fileDoc.save();
@@ -44,10 +42,10 @@ const createVideo = async (req, res) => {
     }
 };
 
-
-const getVideos = async (_, res) => {
+const getVideos = async (req, res) => {
     try {
-        const videos = await videoService.getVideos();
+        const userId = req.params.id;
+        const videos = await videoService.getVideos({ publisher: userId });
         res.status(200).json(videos);
     } catch (error) {
         res.status(500).json({ errors: [error.message] });
@@ -56,7 +54,7 @@ const getVideos = async (_, res) => {
 
 const getVideo = async (req, res) => {
     try {
-        const video = await videoService.getVideoById(req.params.id);
+        const video = await videoService.getVideoById(req.params.pid);
         if (!video) {
             return res.status(404).json({ errors: ['Video not found'] });
         }
@@ -68,7 +66,7 @@ const getVideo = async (req, res) => {
 
 const updateVideo = async (req, res) => {
     try {
-        const updatedVideo = await videoService.updateVideo(req.params.id, req.body);
+        const updatedVideo = await videoService.updateVideo(req.params.pid, req.body);
         if (!updatedVideo) {
             return res.status(404).json({ errors: ['Video not found'] });
         }
@@ -80,7 +78,7 @@ const updateVideo = async (req, res) => {
 
 const deleteVideo = async (req, res) => {
     try {
-        const deletedVideo = await videoService.deleteVideo(req.params.id);
+        const deletedVideo = await videoService.deleteVideo(req.params.pid);
         if (!deletedVideo) {
             return res.status(404).json({ errors: ['Video not found'] });
         }
@@ -90,7 +88,6 @@ const deleteVideo = async (req, res) => {
     }
 };
 
-// Add a comment to a video
 const addCommentToVideo = async (req, res) => {
     try {
         const { videoId, content } = req.body;
@@ -104,4 +101,21 @@ const addCommentToVideo = async (req, res) => {
     }
 };
 
-module.exports = { createVideo, getVideos, getVideo, updateVideo, deleteVideo, addCommentToVideo };
+const isLoggedIn = async (req, res, next) => {
+    if (req.headers.authorization) {
+        // Extract the token from that header
+        const token = req.headers.authorization.split(" ")[1];
+        try {
+            // Verify the token is valid
+            jwt.verify(token, key);
+
+            //Token validation was successful. Continue to the actual function (index)
+            return next();
+        } catch (err) {
+            return res.status(401).send("Invalid Token");
+        }
+    } else
+        return res.status(403).send('Token required');
+};
+
+module.exports = { createVideo, getVideos, getVideo, updateVideo, deleteVideo, addCommentToVideo, isLoggedIn };
