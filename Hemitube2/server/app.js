@@ -1,4 +1,4 @@
-// server/app.js
+
 const express = require('express');
 const path = require('path');
 const http = require('http');
@@ -45,3 +45,4 @@ const PORT = process.env.PORT || 5000;
 server.listen(PORT, () => {
     console.log(`Server is running on port ${PORT} in ${environment} mode`);
 });
+

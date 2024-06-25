@@ -1,4 +1,5 @@
 const userService = require('../services/user');
+
 const jwt = require('jsonwebtoken'); 
 
 const key = "secret key foo foo foo bar";
@@ -86,3 +87,4 @@ const isLoggedIn = (req, res, next) => {
 };
 
 module.exports = {createUser, isLoggedIn, getUser, updateUser, deleteUser};
+

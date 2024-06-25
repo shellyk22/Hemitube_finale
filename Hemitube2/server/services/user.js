@@ -1,3 +1,4 @@
+
 const User = require('../models/user');
 
 const createUser = async (username, password, nickName, profilePic) => {
@@ -8,6 +9,7 @@ const createUser = async (username, password, nickName, profilePic) => {
             password: password,
             nickName: nickName,
             profilePic: profilePic
+
         });
         await user.save();
         return 'success';
@@ -80,3 +82,4 @@ const deleteUser = async (id) => {
 
 
 module.exports = {createUser, getUserById, updateUser, deleteUser, getUser}
+
