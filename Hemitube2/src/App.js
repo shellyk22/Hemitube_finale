@@ -11,6 +11,8 @@ import usersTable from './components/Users.json'
 import VideoView from './pages/VideoView/VideoView';
 import AddVideo from './pages/AddVideo/Addvideo';
 import DarkModeToggle from './components/darkmode/Darkmode'
+import ProfilePage from './pages/ProfilePage/ProfilePage'; // Import ProfilePage
+import MyVideos from './pages/MyVideos/MyVideos';
 function App() {
 
 
@@ -88,6 +90,14 @@ function App() {
           <Route path="/signin" element={<SignIn setCurrentUser={setCurrentUser} />} />
           <Route path="/addVideo" element={<AddVideo setCurrentUser={setCurrentUser}
             videoList={videoList} setVideoList={setVideoList} currentUser={currentUser} />} />
+          <Route
+            path="/profile"
+            element={<ProfilePage currentUser={currentUser} setCurrentUser={setCurrentUser} />}
+          />
+          <Route
+            path="/:username"
+            element={<MyVideos videoList={videoList}/>}
+          />
           <Route path="*" element={<NotFound />} />
         </Routes>
 

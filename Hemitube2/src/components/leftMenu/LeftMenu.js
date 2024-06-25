@@ -62,6 +62,20 @@ function LeftMenu({ setCurrentUser, currentUser }) {
             Sign Out
         </button>
       )}</div>
+      <div>{currentUser && (
+        <Link to="/profile">
+          <button type="button" className="btn btn-outline-danger list-group-item d-flex align-items-center">
+            Profile
+          </button>
+        </Link>
+      )}</div>
+      <div>{currentUser && (
+        <Link to={`/${currentUser}`} className="w-100 m-1 ms-3">
+          <button type="button" className="btn btn-outline-danger list-group-item d-flex align-items-center">
+            My Videos
+          </button>
+        </Link>
+      )}</div>
       <div className="user-list mt-4 list-group-item d-flex align-items-center">
         <h4>Hello, {usersTable[currentUser] ? usersTable[currentUser].nickname : "Guest"}</h4>
       </div>
