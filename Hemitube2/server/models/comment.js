@@ -13,7 +13,7 @@ const CommentSchema = new Schema({
     author: {
         type: Schema.Types.ObjectId,
         ref: 'User',
-        default: null  // Set a default value or leave it as null
+        //default: null  // Set a default value or leave it as null
     },
     content: {
         type: String,

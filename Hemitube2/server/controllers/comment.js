@@ -49,22 +49,29 @@ const deleteComment = async (_, res) => {
 };
 
 
-const isLoggedIn = async (req, res, next) => {
+const isLoggedIn = (req, res, next) => {
     if (req.headers.authorization) {
-        // Extract the token from that header
         const token = req.headers.authorization.split(" ")[1];
         try {
-            // Verify the token is valid
-            jwt.verify(token, key);
-
-            //Token validation was successful. Continue to the actual function (index)
+            const decoded = jwt.verify(token, key);
+            req.user = decoded; // Attach decoded token data to req.user
             return next();
         } catch (err) {
             return res.status(401).send("Invalid Token");
         }
-    } else
+    } else {
         return res.status(403).send('Token required');
+    }
+};
+
+const deleteCommentsByUserId = async (req, res) => {
+    try {
+        const result = await commentService.deleteCommentsByUserId(req.params.userId);
+        res.status(200).json(result);
+    } catch (error) {
+        res.status(500).json({ errors: [error.message] });
+    }
 };
 
 
-module.exports = {createComment, getComment, updateComment, getComments, deleteComment, isLoggedIn}
+module.exports = {createComment, getComment, updateComment, getComments, deleteComment, isLoggedIn, deleteCommentsByUserId}

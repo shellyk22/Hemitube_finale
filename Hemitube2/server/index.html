@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -44,7 +44,6 @@
         }
 
         async function addVideo() {
-            const userId = document.getElementById('userId').value;
             const publisher = document.getElementById('publisher').value.split(',').map(id => id.trim());
             const title = document.getElementById('title').value;
             const comments = document.getElementById('comments').value.split(',').map(id => id.trim());
@@ -53,7 +52,7 @@
                 data: document.getElementById('fileData').value
             };
             try {
-                const response = await fetch(`/api/users/${userId}/videos`, {
+                const response = await fetch(`/api/users/${publisher}/videos`, {
                     method: 'POST',
                     headers: { 
                         'Content-Type': 'application/json',
@@ -61,9 +60,7 @@
                     },
                     body: JSON.stringify({ publisher, title, comments, file })
                 });
-                const data = await response.json();
-                console.log(data);
-                fetchVideos(); // Refresh the videos list
+                console.log("video added successfully")
             } catch (error) {
                 console.error('Error adding video:', error);
             }
@@ -87,7 +84,7 @@
         }
 
         async function updateVideo() {
-            const userId = document.getElementById('userId').value;
+            const userId = document.getElementById('updatePublisher').value;
             const videoId = document.getElementById('updateVideoId').value;
             const title = document.getElementById('updateTitle').value;
             try {
@@ -99,16 +96,14 @@
                     },
                     body: JSON.stringify({ title })
                 });
-                const data = await response.json();
-                console.log(data);
-                fetchVideos(); // Refresh the videos list
+                console.log("video title updated successfully");
             } catch (error) {
                 console.error('Error updating video:', error);
             }
         }
 
         async function deleteVideo() {
-            const userId = document.getElementById('userId').value;
+            const userId = document.getElementById('deletePublisher').value;
             const videoId = document.getElementById('deleteVideoId').value;
             try {
                 const response = await fetch(`/api/users/${userId}/videos/${videoId}`, {
@@ -117,9 +112,7 @@
                         'Authorization': `Bearer ${token}` // Include the token in the headers
                     }
                 });
-                const data = await response.json();
-                console.log(data);
-                fetchVideos(); // Refresh the videos list
+                console.log("video deleting done successfully!");
             } catch (error) {
                 console.error('Error deleting video:', error);
             }
@@ -143,6 +136,52 @@
                 fetchVideos(); // Refresh the videos list
             } catch (error) {
                 console.error('Error adding comment to video:', error);
+            }
+        }
+
+        async function deleteUser() {
+            const userId = document.getElementById('deleteUserId').value;
+            try {
+                const response = await fetch(`/api/users/${userId}`, {
+                    method: 'DELETE',
+                    headers: {
+                        'Authorization': `Bearer ${token}` // Include the token in the headers
+                    }
+                });
+                console.log("User deleted successfully!");
+            } catch (error) {
+                console.error('Error deleting user:', error);
+            }
+        }
+
+        async function deleteComment() {
+            const commentId = document.getElementById('deleteCommentId').value;
+            try {
+                const response = await fetch(`/api/comments/${commentId}`, {
+                    method: 'DELETE',
+                    headers: {
+                        'Authorization': `Bearer ${token}` // Include the token in the headers
+                    }
+                });
+                console.log("Comment deleted successfully!");
+            } catch (error) {
+                console.error('Error deleting comment:', error);
+            }
+        }
+
+        async function fetchCommentsByVideoId() {
+            const videoId = document.getElementById('fetchCommentVideoId').value;
+            try {
+                const response = await fetch(`/api/videos/${videoId}/comments`, {
+                    headers: {
+                        'Authorization': `Bearer ${token}` // Include the token in the headers
+                    }
+                });
+                const data = await response.json();
+                console.log(data);
+                document.getElementById('videoComments').textContent = JSON.stringify(data, null, 2);
+            } catch (error) {
+                console.error('Error fetching comments for video:', error);
             }
         }
     </script>
@@ -178,11 +217,13 @@
     <pre id="video"></pre>
 
     <h3>Update Video</h3>
+    <input type="text" id="updatePublisher" placeholder="Publisher IDs (comma-separated)">
     <input type="text" id="updateVideoId" placeholder="Video ID">
     <input type="text" id="updateTitle" placeholder="New Title">
     <button onclick="updateVideo()">Update Video</button>
 
     <h3>Delete Video</h3>
+    <input type="text" id="deletePublisher" placeholder="Publisher IDs (comma-separated)">
     <input type="text" id="deleteVideoId" placeholder="Video ID">
     <button onclick="deleteVideo()">Delete Video</button>
 
@@ -191,6 +232,19 @@
     <input type="text" id="commentVideoId" placeholder="Video ID">
     <input type="text" id="commentContent" placeholder="Comment Content">
     <button onclick="addCommentToVideo()">Add Comment</button>
+
+    <h3>Delete Comment</h3>
+    <input type="text" id="deleteCommentId" placeholder="Comment ID">
+    <button onclick="deleteComment()">Delete Comment</button>
+
+    <h3>Get Comments by Video ID</h3>
+    <input type="text" id="fetchCommentVideoId" placeholder="Video ID">
+    <button onclick="fetchCommentsByVideoId()">Fetch Comments</button>
+    <pre id="videoComments"></pre>
+
+    <h3>Delete User</h3>
+    <input type="text" id="deleteUserId" placeholder="User ID">
+    <button onclick="deleteUser()">Delete User</button>
 
     <h2>User Operations</h2>
     <h3>Sign Up</h3>

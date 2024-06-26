@@ -1,8 +1,9 @@
-// server/services/video.js
+
 
 const Video = require('../models/video');
 const VidFile = require('../models/vidFile');
 const Comment = require('../models/comment');
+const User = require('../models/video');
 
 const createVideo = async (title, publisher = [null], comments = [], file = null) => {
     try {
@@ -58,6 +59,18 @@ const deleteVideo = async (id) => {
     }
 };
 
+const deleteVideosByUserId = async (userId) => {
+    try {
+            await Video.deleteMany({ author: userId});
+        return {message : `Videos by user ${userId} deleted successfully`};
+    } catch (error) {
+        console.log("Error deleting videos by user Id: ", error);
+        throw new Error('Could not delete videos by user ID');
+    }
+};
+
+
+
 const addCommentToVideo = async (videoId, commentContent) => {
     try {
         const comment = new Comment({ content: commentContent, author: null });
@@ -77,4 +90,27 @@ const addCommentToVideo = async (videoId, commentContent) => {
     }
 };
 
-module.exports = { createVideo, getVideos, getVideoById, updateVideo, deleteVideo, addCommentToVideo };
+const getVideosByUserId = async (userId) => {
+    try {
+        return await Video.find({ publisher: userId })
+            .populate('publisher comments file'); // Populate comments and file
+    } catch (error) {
+        console.log("Error fetching videos by user ID: ", error);
+        throw new Error('Could not fetch videos by user ID');
+    }
+};
+
+const getCommentsByVideoId = async (videoId) => {
+    try {
+        const video = await Video.findById(videoId).populate('comments');
+        if (!video) {
+            throw new Error('Video not found');
+        }
+        return video.comments;
+    } catch (error) {
+        console.log("Error fetching comments by video ID: ", error);
+        throw new Error('Could not fetch comments by video ID');
+    }
+};
+
+module.exports = { createVideo, getVideos, getVideoById, updateVideo, deleteVideo, addCommentToVideo, getVideosByUserId, getCommentsByVideoId, getCommentsByVideoId, deleteVideosByUserId };
