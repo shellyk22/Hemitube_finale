@@ -44,7 +44,17 @@ const deleteComment = async (id) => {
     return comment;
 };
 
+const deleteCommentsByUserId = async (userId) => {
+    try {
+        await Comment.deleteMany({ author: userId });
+        return { message: `Comments by user ${userId} deleted successfully` };
+    } catch (error) {
+        console.log('Error deleting comments by user ID:', error);
+        throw new Error('Could not delete comments by user ID');
+    }
+};
 
 
 
-module.exports = {createComment, getComments, getCommentById, updateComment, deleteComment}
+
+module.exports = {createComment, getComments, getCommentById, updateComment, deleteComment, deleteCommentsByUserId}

@@ -1,7 +1,4 @@
-// server/models/video.js
-
 const mongoose = require('mongoose');
-
 const Schema = mongoose.Schema;
 
 const VideoSchema = new Schema({
@@ -9,16 +6,16 @@ const VideoSchema = new Schema({
         {
             type: Schema.Types.ObjectId,
             ref: 'User',
-            //required: true
-            default: null // Default to null
+            required: true
+            //default: null // Default to null
         }
     ],
     comments: [
         {
             type: Schema.Types.ObjectId,
             ref: 'Comment',
-            //required: true
-            default: []
+            required: true
+            //default: []
         }
     ],
     title: {

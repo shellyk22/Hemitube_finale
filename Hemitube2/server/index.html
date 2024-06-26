@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -44,7 +44,6 @@
         }
 
         async function addVideo() {
-            const userId = document.getElementById('userId').value;
             const publisher = document.getElementById('publisher').value.split(',').map(id => id.trim());
             const title = document.getElementById('title').value;
             const comments = document.getElementById('comments').value.split(',').map(id => id.trim());
@@ -53,7 +52,7 @@
                 data: document.getElementById('fileData').value
             };
             try {
-                const response = await fetch(`/api/users/${userId}/videos`, {
+                const response = await fetch(`/api/users/${publisher}/videos`, {
                     method: 'POST',
                     headers: { 
                         'Content-Type': 'application/json',
@@ -61,9 +60,7 @@
                     },
                     body: JSON.stringify({ publisher, title, comments, file })
                 });
-                const data = await response.json();
-                console.log(data);
-                fetchVideos(); // Refresh the videos list
+                console.log("video added successfully")
             } catch (error) {
                 console.error('Error adding video:', error);
             }
@@ -87,7 +84,7 @@
         }
 
         async function updateVideo() {
-            const userId = document.getElementById('userId').value;
+            const userId = document.getElementById('updatePublisher').value;
             const videoId = document.getElementById('updateVideoId').value;
             const title = document.getElementById('updateTitle').value;
             try {
@@ -99,16 +96,14 @@
                     },
                     body: JSON.stringify({ title })
                 });
-                const data = await response.json();
-                console.log(data);
-                fetchVideos(); // Refresh the videos list
+                console.log("video title updated successfully");
             } catch (error) {
                 console.error('Error updating video:', error);
             }
         }
 
         async function deleteVideo() {
-            const userId = document.getElementById('userId').value;
+            const userId = document.getElementById('deletePublisher').value;
             const videoId = document.getElementById('deleteVideoId').value;
             try {
                 const response = await fetch(`/api/users/${userId}/videos/${videoId}`, {
@@ -117,9 +112,7 @@
                         'Authorization': `Bearer ${token}` // Include the token in the headers
                     }
                 });
-                const data = await response.json();
-                console.log(data);
-                fetchVideos(); // Refresh the videos list
+                console.log("video deleting done successfully!");
             } catch (error) {
                 console.error('Error deleting video:', error);
             }
@@ -178,11 +171,13 @@
     <pre id="video"></pre>
 
     <h3>Update Video</h3>
+    <input type="text" id="updatePublisher" placeholder="Publisher IDs (comma-separated)">
     <input type="text" id="updateVideoId" placeholder="Video ID">
     <input type="text" id="updateTitle" placeholder="New Title">
     <button onclick="updateVideo()">Update Video</button>
 
     <h3>Delete Video</h3>
+    <input type="text" id="deletePublisher" placeholder="Publisher IDs (comma-separated)">
     <input type="text" id="deleteVideoId" placeholder="Video ID">
     <button onclick="deleteVideo()">Delete Video</button>
 

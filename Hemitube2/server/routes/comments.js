@@ -1,11 +1,12 @@
 
 const express = require('express');
 const commentController = require('../controllers/comment');
+const videoController = require('../controllers/video');
 
 const router = express.Router();
 
 router.route('/:vid/comments')
-    .get(commentController.getComments) // Get all comments for a video by video ID (:vid)
+    .get(videoController.getCommentsByVideoId) // Get all comments for a video by video ID (:vid)
     .post(commentController.isLoggedIn, commentController.createComment); // Add a new comment to a video by video ID (:vid)
 
 router.route('/:vid/comments/:cid')

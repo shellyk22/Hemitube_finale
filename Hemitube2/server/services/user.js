@@ -1,5 +1,6 @@
 
 const User = require('../models/user');
+const { deleteCommentsByUserId } = require('../services/comment');
 
 const createUser = async (username, password, nickName, profilePic) => {
     console.log("in create user")
@@ -72,6 +73,9 @@ const updateUser = async (id, newPic, newnickName) => {
 
 const deleteUser = async (id) => {
     try {
+        // Delete comments
+        await deleteCommentsByUserId(id);
+
         return await User.findByIdAndDelete(id);
     } catch (error) {
         console.log("Error deleting user: " + error);

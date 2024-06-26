@@ -101,21 +101,37 @@ const addCommentToVideo = async (req, res) => {
     }
 };
 
-const isLoggedIn = async (req, res, next) => {
+const isLoggedIn = (req, res, next) => {
     if (req.headers.authorization) {
-        // Extract the token from that header
         const token = req.headers.authorization.split(" ")[1];
         try {
-            // Verify the token is valid
-            jwt.verify(token, key);
-
-            //Token validation was successful. Continue to the actual function (index)
+            const decoded = jwt.verify(token, key);
+            req.user = decoded; // Attach decoded token data to req.user
             return next();
         } catch (err) {
             return res.status(401).send("Invalid Token");
         }
-    } else
+    } else {
         return res.status(403).send('Token required');
+    }
 };
 
-module.exports = { createVideo, getVideos, getVideo, updateVideo, deleteVideo, addCommentToVideo, isLoggedIn };
+const getVideosByUserId = async (req, res) => {
+    try {
+        const userId = req.params.id;
+        const videos = await videoService.getVideosByUserId(userId);
+        res.status(200).json(videos);
+    } catch (error) {
+        res.status(500).json({ errors: [error.message] });
+    }
+};
+const getCommentsByVideoId = async (req, res) => {
+    try {
+        const comments = await videoService.getCommentsByVideoId(req.params.videoId);
+        res.status(200).json(comments);
+    } catch (error) {
+        res.status(500).json({ errors: [error.message] });
+    }
+};
+
+module.exports = { createVideo, getVideos, getVideo, updateVideo, deleteVideo, addCommentToVideo, isLoggedIn , getVideosByUserId, getCommentsByVideoId};
