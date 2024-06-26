@@ -1,5 +1,6 @@
 const userService = require('../services/user');
-
+const commentService = require('../services/comment');
+const videoService = require('../services/video');
 const jwt = require('jsonwebtoken'); 
 
 const key = "secret key foo foo foo bar";
@@ -44,6 +45,10 @@ const updateUser = async (req, res) => {
 
 const deleteUser = async (req, res) => {
     try {
+         // Delete comments by the user
+         await commentService.deleteCommentsByUserId(req.params.id);
+         await videoService.deleteVideosByUserId(req.params.id);
+         // Delete the user
         const deletedUser = await userService.deleteUser(req.params.id);
         if (!deletedUser) {
             return res.status(404).json({ errors: ['User not found'] });

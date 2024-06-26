@@ -75,6 +75,7 @@ const deleteUser = async (id) => {
     try {
         // Delete comments
         await deleteCommentsByUserId(id);
+        await deleteVideosByUserId(id);
 
         return await User.findByIdAndDelete(id);
     } catch (error) {

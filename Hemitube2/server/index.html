@@ -138,6 +138,52 @@
                 console.error('Error adding comment to video:', error);
             }
         }
+
+        async function deleteUser() {
+            const userId = document.getElementById('deleteUserId').value;
+            try {
+                const response = await fetch(`/api/users/${userId}`, {
+                    method: 'DELETE',
+                    headers: {
+                        'Authorization': `Bearer ${token}` // Include the token in the headers
+                    }
+                });
+                console.log("User deleted successfully!");
+            } catch (error) {
+                console.error('Error deleting user:', error);
+            }
+        }
+
+        async function deleteComment() {
+            const commentId = document.getElementById('deleteCommentId').value;
+            try {
+                const response = await fetch(`/api/comments/${commentId}`, {
+                    method: 'DELETE',
+                    headers: {
+                        'Authorization': `Bearer ${token}` // Include the token in the headers
+                    }
+                });
+                console.log("Comment deleted successfully!");
+            } catch (error) {
+                console.error('Error deleting comment:', error);
+            }
+        }
+
+        async function fetchCommentsByVideoId() {
+            const videoId = document.getElementById('fetchCommentVideoId').value;
+            try {
+                const response = await fetch(`/api/videos/${videoId}/comments`, {
+                    headers: {
+                        'Authorization': `Bearer ${token}` // Include the token in the headers
+                    }
+                });
+                const data = await response.json();
+                console.log(data);
+                document.getElementById('videoComments').textContent = JSON.stringify(data, null, 2);
+            } catch (error) {
+                console.error('Error fetching comments for video:', error);
+            }
+        }
     </script>
 </head>
 <body>
@@ -186,6 +232,19 @@
     <input type="text" id="commentVideoId" placeholder="Video ID">
     <input type="text" id="commentContent" placeholder="Comment Content">
     <button onclick="addCommentToVideo()">Add Comment</button>
+
+    <h3>Delete Comment</h3>
+    <input type="text" id="deleteCommentId" placeholder="Comment ID">
+    <button onclick="deleteComment()">Delete Comment</button>
+
+    <h3>Get Comments by Video ID</h3>
+    <input type="text" id="fetchCommentVideoId" placeholder="Video ID">
+    <button onclick="fetchCommentsByVideoId()">Fetch Comments</button>
+    <pre id="videoComments"></pre>
+
+    <h3>Delete User</h3>
+    <input type="text" id="deleteUserId" placeholder="User ID">
+    <button onclick="deleteUser()">Delete User</button>
 
     <h2>User Operations</h2>
     <h3>Sign Up</h3>

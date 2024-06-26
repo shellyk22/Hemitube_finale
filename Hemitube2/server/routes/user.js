@@ -8,7 +8,8 @@ router.route('/')
 
 router.route('/:id')
     .get(userController.getUser)
-    .put(userController.isLoggedIn, userController.updateUser);
+    .put(userController.isLoggedIn, userController.updateUser)
+    .delete(userController.isLoggedIn, userController.deleteUser);
 
 
 module.exports = router;
