@@ -10,14 +10,14 @@ function HomePage({ doSearch, videoList, setCurrentUser, currentUser, filteredVi
   if (!filteredVideoList) {
     return <div>No videos</div>;
   }
-  console.log("Current User: " + currentUser);
+  console.log("Current User: " + localStorage.getItem("username"));
 
   return (
     <div className="container-fluid">
       <div className="row">
         {/* Left Menu */}
         <div className="col-12 col-md-2 sidebar2">
-          <LeftMenu currentUser={currentUser} setCurrentUser={setCurrentUser} />
+          <LeftMenu />
         </div>
 
         {/* Search and Video List Results */}

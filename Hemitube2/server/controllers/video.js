@@ -116,18 +116,6 @@ const isLoggedIn = (req, res, next) => {
     }
 };
 
-const deleteVideosByUserId = async (req, res) => {
-    try {
-        const deletedVideo = await videoService.deleteVideosByUserId(req.params.userId);
-        if (!deletedVideo) {
-            return res.status(404).json({ errors: ['Video not found'] });
-        }
-        res.status(200).json({ message: 'Video and associated file deleted successfully' });
-    } catch (error) {
-        res.status(500).json({ errors: [error.message] });
-    }
-};
-
 const getVideosByUserId = async (req, res) => {
     try {
         const userId = req.params.id;
@@ -146,4 +134,17 @@ const getCommentsByVideoId = async (req, res) => {
     }
 };
 
-module.exports = { createVideo, getVideos, getVideo, updateVideo, deleteVideo, addCommentToVideo, isLoggedIn , getVideosByUserId, getCommentsByVideoId, deleteVideosByUserId};
+const deleteVideosByUserId = async (req, res) => {
+    try {
+        const deletedVideo = await videoService.deleteVideosByUserId(req.params.userId);
+        if (!deletedVideo) {
+            return res.status(404).json({ errors: ['Video not found'] });
+        }
+        res.status(200).json({ message: 'Video and associated file deleted successfully' });
+    } catch (error) {
+        res.status(500).json({ errors: [error.message] });
+    }
+};
+
+module.exports = { createVideo, getVideos, getVideo, updateVideo, deleteVideo, 
+    addCommentToVideo, isLoggedIn , getVideosByUserId, getCommentsByVideoId, deleteVideosByUserId};

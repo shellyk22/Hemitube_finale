@@ -2,10 +2,12 @@ import './LeftMenu.css';
 import { Link } from 'react-router-dom';
 import React from 'react';
 import usersTable from '../Users.json';
+import { logOut } from '../../DataAccess/users';
 
 import logo from '../../components/hemitubeLogoForC.jpeg';
 
 function LeftMenu({ setCurrentUser, currentUser }) {
+  console.log(localStorage.getItem("username"))
   return (
     <div className="left-menu">
       <ul className="list-group">
@@ -47,19 +49,19 @@ function LeftMenu({ setCurrentUser, currentUser }) {
           </button>
         </Link>
       )}</div>
-      <div>{currentUser && (
+      <div>{localStorage.getItem("username") && (
         <Link to="/addVideo">
           <button type="button" className="btn btn-outline-danger list-group-item d-flex align-items-center">
             Add Video
           </button>
         </Link>
       )}</div>
-      <div>{currentUser && (
+      <div>{localStorage.getItem("username") && (
         <button 
           type="button" 
           className="btn btn-outline-danger list-group-item d-flex align-items-center"
-          onClick={() => setCurrentUser(null)}>
-            Sign Out
+          onClick={() => logOut()}>
+            Log Out
         </button>
       )}</div>
       <div>{currentUser && (
@@ -77,12 +79,12 @@ function LeftMenu({ setCurrentUser, currentUser }) {
         </Link>
       )}</div>
       <div className="user-list mt-4 list-group-item d-flex align-items-center">
-        <h4>Hello, {usersTable[currentUser] ? usersTable[currentUser].nickname : "Guest"}</h4>
+        <h4>Hello, {localStorage.getItem("username") ? localStorage.getItem("username") : "Guest"}</h4>
       </div>
-      {currentUser && usersTable[currentUser] && usersTable[currentUser].pic_data && (
+      {localStorage.getItem("profilePic") && (
         <div className="user-pic">
           <img
-            src={usersTable[currentUser].pic_data}
+            src={localStorage.getItem("profilePic")}
             alt="profile_pic"
             className="img-fluid rounded-circle"
           />

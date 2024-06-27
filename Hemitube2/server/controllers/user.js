@@ -1,6 +1,6 @@
 const userService = require('../services/user');
-const commentService = require('../services/comment');
 const videoService = require('../services/video');
+
 const jwt = require('jsonwebtoken'); 
 
 const key = "secret key foo foo foo bar";
@@ -33,7 +33,7 @@ const getUser = async (req, res) => {
     if (!user) {
         res.status(404).send("User not found.");
     }
-    res.status(200).json({username: user.username, nickName: user.nickName, profilePic: user.profilePic});
+    res.status(200).json({_id: user._id, username: user.username, nickName: user.nickName, profilePic: user.profilePic});
 }
 
 const updateUser = async (req, res) => {
@@ -45,10 +45,11 @@ const updateUser = async (req, res) => {
 
 const deleteUser = async (req, res) => {
     try {
-         // Delete comments by the user
-         await commentService.deleteCommentsByUserId(req.params.id);
-         await videoService.deleteVideosByUserId(req.params.id);
-         // Delete the user
+        
+
+        //await videoService.deleteVideosByUserId(req.params.id);
+        //await videoService.deleteCommentsByUserId(req.params.id);
+        
         const deletedUser = await userService.deleteUser(req.params.id);
         if (!deletedUser) {
             return res.status(404).json({ errors: ['User not found'] });
@@ -92,4 +93,3 @@ const isLoggedIn = (req, res, next) => {
 };
 
 module.exports = {createUser, isLoggedIn, getUser, updateUser, deleteUser};
-

@@ -72,7 +72,7 @@ function VideoView({
           <p>Views: {video.views}</p>
           <p>Uploaded: {video.time} ago</p>
         </div>
-        {currentUser && (
+        {localStorage.getItem("username") && (
           <div className="video-actions">
             <div className="action-buttons d-flex flex-wrap">
               <div className="dropdown">
@@ -125,7 +125,6 @@ function VideoView({
         <div className="comment-section">
           <CommentSection
             videoList={videoList}
-            currentUser={currentUser}
             updateComments={updateComments}
           />
         </div>
