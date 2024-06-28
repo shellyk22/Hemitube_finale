@@ -7,11 +7,11 @@ export function setUserJWT(newJWT) {
 }
 
 export function logOut() {
-    localStorage.setItem('userId', undefined);
-    localStorage.setItem('JWT', null);
-    localStorage.setItem('username', undefined);
-    localStorage.setItem('nickName', undefined);
-    localStorage.setItem('profilePic', undefined);
+    localStorage.setItem('userId', "undefined");
+    localStorage.setItem('JWT', "null");
+    localStorage.setItem('username', "undefined");
+    localStorage.setItem('nickName', "undefined");
+    localStorage.setItem('profilePic', "undefined");
     window.location.reload();
 }
 

@@ -71,6 +71,7 @@
         async function addVideo() {
             const publisher = document.getElementById('publisher').value.split(',').map(id => id.trim());
             const title = document.getElementById('title').value;
+            const description = document.getElementById('description').value;
             const comments = document.getElementById('comments').value.split(',').map(id => id.trim());
             const file = {
                 name: document.getElementById('fileName').value,
@@ -83,7 +84,7 @@
                         'Content-Type': 'application/json',
                         'Authorization': `Bearer ${token}` // Include the token in the headers
                     },
-                    body: JSON.stringify({ publisher, title, comments, file })
+                    body: JSON.stringify({ publisher, title, description, comments, file })
                 });
                 console.log("video added successfully")
             } catch (error) {
@@ -229,6 +230,7 @@
     <h3>Add Video</h3>
     <input type="text" id="publisher" placeholder="Publisher IDs (comma-separated)">
     <input type="text" id="title" placeholder="Title">
+    <input type="text" id="description" placeholder="Description">
     <input type="text" id="comments" placeholder="Comment IDs (comma-separated)">
     <div id="fileContainer">
         <input type="text" id="fileName" placeholder="File Name">

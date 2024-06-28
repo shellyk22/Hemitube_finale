@@ -73,11 +73,6 @@ const updateUser = async (id, newPic, newnickName) => {
 
 const deleteUser = async (id) => {
     try {
-        // Delete comments
-        
-        //await deleteVideosByUserId(id);
-        //await deleteCommentsByUserId(id);
-
         return await User.findByIdAndDelete(id);
     } catch (error) {
         console.log("Error deleting user: " + error);

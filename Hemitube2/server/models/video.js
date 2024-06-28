@@ -27,11 +27,15 @@ const VideoSchema = new Schema({
         required: true
     },
     views: {
-        type: Integer,
+        type: String,
         required: true
     },
     uploadDate: {
         type: Date,
+        required: true
+    },
+    thumbnail: {
+        type: String,
         required: true
     },
     file: { // Single reference to a VidFile document

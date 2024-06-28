@@ -45,9 +45,7 @@ const updateUser = async (req, res) => {
 
 const deleteUser = async (req, res) => {
     try {
-        
-
-        //await videoService.deleteVideosByUserId(req.params.id);
+        await videoService.deleteVideosByUserId(req.params.id);
         //await videoService.deleteCommentsByUserId(req.params.id);
         
         const deletedUser = await userService.deleteUser(req.params.id);
