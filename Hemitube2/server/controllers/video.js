@@ -1,7 +1,7 @@
 // server/controllers/video.js
 
 const videoService = require('../services/video');
-const VidFile = require('../models/vidFile');
+const VidFile = require('../models/vidFile.js');
 const jwt = require('jsonwebtoken'); 
 
 const key = "secret key foo foo foo bar";
@@ -95,11 +95,12 @@ const deleteVideo = async (req, res) => {
 
 const addCommentToVideo = async (req, res) => {
     try {
-        const { videoId, content } = req.body;
-        if (!videoId || !content) {
+        const {content} = req.body;
+        const {vid , id } = req.params;
+        if (!vid || !content) {
             return res.status(400).json({ errors: ['Video ID and content are required'] });
         }
-        const newComment = await videoService.addCommentToVideo(videoId, content);
+        const newComment = await videoService.addCommentToVideo(vid, content, id);
         res.status(201).json(newComment);
     } catch (error) {
         res.status(500).json({ errors: [error.message] });
@@ -132,7 +133,7 @@ const getVideosByUserId = async (req, res) => {
 };
 const getCommentsByVideoId = async (req, res) => {
     try {
-        const comments = await videoService.getCommentsByVideoId(req.params.videoId);
+        const comments = await videoService.getCommentsByVideoId(req.params.vid);
         res.status(200).json(comments);
     } catch (error) {
         res.status(500).json({ errors: [error.message] });

@@ -195,9 +195,10 @@
         }
 
         async function fetchCommentsByVideoId() {
+            const userId = document.getElementById('userId').value;
             const videoId = document.getElementById('fetchCommentVideoId').value;
             try {
-                const response = await fetch(`/api/videos/${videoId}/comments`, {
+                const response = await fetch(`/api/users/${userId}/videos/${videoId}/comments`, {
                     headers: {
                         'Authorization': `Bearer ${token}` // Include the token in the headers
                     }
@@ -237,6 +238,7 @@
     <button onclick="addVideo()">Add Video</button>
 
     <h3>Get Video by ID</h3>
+    <input type="text" id="userId" placeholder="User ID">
     <input type="text" id="videoId" placeholder="Video ID">
     <button onclick="fetchVideoById()">Fetch Video</button>
     <pre id="video"></pre>
@@ -254,6 +256,7 @@
 
     <h2>Comment Operations</h2>
     <h3>Add Comment to Video</h3>
+    <input type="text" id="userId" placeholder="User ID">
     <input type="text" id="commentVideoId" placeholder="Video ID">
     <input type="text" id="commentContent" placeholder="Comment Content">
     <button onclick="addCommentToVideo()">Add Comment</button>
@@ -263,6 +266,7 @@
     <button onclick="deleteComment()">Delete Comment</button>
 
     <h3>Get Comments by Video ID</h3>
+    <input type="text" id="userId" placeholder="User ID">
     <input type="text" id="fetchCommentVideoId" placeholder="Video ID">
     <button onclick="fetchCommentsByVideoId()">Fetch Comments</button>
     <pre id="videoComments"></pre>

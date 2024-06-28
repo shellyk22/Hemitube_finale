@@ -1,7 +1,7 @@
 const Video = require('../models/video');
-const VidFile = require('../models/vidFile');
+const VidFile = require('../models/vidFile.js');
 const Comment = require('../models/comment');
-const User = require('../models/video');
+const User = require('../models/user');
 
 const createVideo = async (title, descreption,  publisher = [null], comments = [], file = null) => {
     try {
@@ -60,9 +60,10 @@ const deleteVideo = async (id) => {
 
 
 
-const addCommentToVideo = async (videoId, commentContent) => {
+const addCommentToVideo = async (videoId, commentContent, userId) => {
     try {
-        const comment = new Comment({ content: commentContent, author: null });
+        const user = await User.findById(userId);
+        const comment = new Comment({ content: commentContent, author: user?.nickName });
         await comment.save();
 
         const video = await Video.findById(videoId);
