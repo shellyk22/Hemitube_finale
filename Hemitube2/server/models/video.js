@@ -15,7 +15,6 @@ const VideoSchema = new Schema({
             type: Schema.Types.ObjectId,
             ref: 'Comment',
             required: true
-            //default: []
         }
     ],
     title: {
@@ -27,12 +26,12 @@ const VideoSchema = new Schema({
         required: true
     },
     views: {
-        type: Integer,
+        type: String,
         required: true
     },
     uploadDate: {
         type: Date,
-        required: true
+        //required: true
     },
     file: { // Single reference to a VidFile document
         type: Schema.Types.ObjectId,
