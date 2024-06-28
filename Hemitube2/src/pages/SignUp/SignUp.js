@@ -2,7 +2,8 @@ import React, { useState , useRef } from 'react';
 import { Link , useNavigate } from 'react-router-dom';
 import './signup.css'; 
 import usersTable from '../../components/Users.json';
-import logo from '../../components/hemitubeLogoForC.jpeg'; 
+import logo from '../../components/hemitubeLogoForC.jpeg';
+import { registerUser } from '../../DataAccess/users'; 
 
 function SignUp() {
   const [username, setUsername] = useState('');
@@ -60,35 +61,30 @@ function SignUp() {
     }
 };
 
-  const handleSignUp = () => {
+  const handleSignUp = async () => {
     
     if(!isPasswordValid || !doPasswordsMatch
       || username.length < 1 || nickname.length < 1) {
       console.log("oh no");
       return;}
 
-    if (usersTable[username]) {
-      console.log("BAHHHHHH");
-      alert('Choose a different username, the one you chose is unavailable')
-      return null; //TODO: add notification about existing username
+    try{
+    const result = await registerUser(username, password, nickname, profilePhoto );
+    if(result === 'success'){
+      return true;
     }
-
-    //setProfilePhoto(usersTable.s.pic_data);
-    //let selectedPicFile = usersTable.s.pic_data; // Default pic
-
-    // if (!ThumbnailInputRef.current.files && ThumbnailInputRef.current.files.length < 0) {
-    //   setProfilePhoto(usersTable.s.pic_data);
-    // }
-    
-    usersTable[username] = {
-      "username" : username,
-      "password" : password,
-      "nickname" : nickname,
-      "profilepic" : profilePhoto,
-      "pic_data" : profilePhoto
+    else{
+      return false;
     }
     return true;
+    }catch(error){
+    alert("choose different username this one is taken");
+    return false;
+    }
   }
+
+
+
   const navigate = useNavigate();
 
 

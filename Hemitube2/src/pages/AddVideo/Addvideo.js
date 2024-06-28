@@ -52,7 +52,7 @@ function AddVideo({ currentUser, videoList, setVideoList }) {
       id: Date.now().toString(), // Use a unique ID
       title: titleTextBox.current.value,
       description: descriptionBox.current.value,
-      author: usersTable[currentUser].username,
+      author: localStorage.getItem("username"),
       views: '0',
       time: '0s',
       file_path: selectedVidFile,
@@ -76,7 +76,7 @@ function AddVideo({ currentUser, videoList, setVideoList }) {
               <img src={logo} alt="HemiTube Logo" className="logo" />
             </div>
             <div>
-              <h4>Hello {usersTable[currentUser] ? usersTable[currentUser].nickname : 'Guest'}, let's add a video</h4>
+              <h4>Hello {localStorage.getItem("username") ? localStorage.getItem("username") : 'Guest'}, let's add a video</h4>
               <div>
                 <input
                   type="text"

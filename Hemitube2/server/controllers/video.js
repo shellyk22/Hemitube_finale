@@ -7,10 +7,14 @@ const jwt = require('jsonwebtoken');
 const key = "secret key foo foo foo bar";
 const createVideo = async (req, res) => {
     try {
-        const { title, publisher, comments, file } = req.body;
+        const { title, descreption,  publisher, comments, file } = req.body;
 
         if (!title) {
             return res.status(400).json({ errors: ['Title is required'] });
+        }
+
+        if (!descreption) {
+            return res.status(400).json({ errors: ['Description is required'] });
         }
 
         const processedPublisher = Array.isArray(publisher) && publisher.length > 0 && publisher[0] !== 'null' ? publisher : [null];
@@ -25,6 +29,7 @@ const createVideo = async (req, res) => {
 
         const newVideo = await videoService.createVideo(
             title,
+            description,
             processedPublisher,
             processedComments,
             fileDoc ? fileDoc._id : null
@@ -116,18 +121,6 @@ const isLoggedIn = (req, res, next) => {
     }
 };
 
-const deleteVideosByUserId = async (req, res) => {
-    try {
-        const deletedVideo = await videoService.deleteVideosByUserId(req.params.userId);
-        if (!deletedVideo) {
-            return res.status(404).json({ errors: ['Video not found'] });
-        }
-        res.status(200).json({ message: 'Video and associated file deleted successfully' });
-    } catch (error) {
-        res.status(500).json({ errors: [error.message] });
-    }
-};
-
 const getVideosByUserId = async (req, res) => {
     try {
         const userId = req.params.id;
@@ -146,4 +139,17 @@ const getCommentsByVideoId = async (req, res) => {
     }
 };
 
-module.exports = { createVideo, getVideos, getVideo, updateVideo, deleteVideo, addCommentToVideo, isLoggedIn , getVideosByUserId, getCommentsByVideoId, deleteVideosByUserId};
+const deleteVideosByUserId = async (req, res) => {
+    try {
+        const deletedVideo = await videoService.deleteVideosByUserId(req.params.userId);
+        if (!deletedVideo) {
+            return res.status(404).json({ errors: ['Video not found'] });
+        }
+        res.status(200).json({ message: 'Video and associated file deleted successfully' });
+    } catch (error) {
+        res.status(500).json({ errors: [error.message] });
+    }
+};
+
+module.exports = { createVideo, getVideos, getVideo, updateVideo, deleteVideo, 
+    addCommentToVideo, isLoggedIn , getVideosByUserId, getCommentsByVideoId, deleteVideosByUserId};

@@ -7,6 +7,31 @@
     <script>
         let token = ''; // Global variable to store the token
 
+        async function signUp() {
+            const username = document.getElementById('signUpUsername').value;
+            const password = document.getElementById('signUpPassword').value;
+            const nickName = document.getElementById('signUpNickName').value;
+            const profilePic = document.getElementById('signUpProfilePic').value || 'default_profile_pic_url';
+
+            try {
+                const response = await fetch('/api/users', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ username, password, nickName, profilePic })
+                });
+                const data = await response.json();
+                console.log('Sign Up:', data);
+                document.getElementById('signUpResponse').textContent = JSON.stringify(data, null, 2);
+            } catch (error) {
+                console.error('Error signing up:', error);
+            }
+        }
+
+
+
+
+
+
         async function login() {
             const password = document.getElementById('password-login').value;
             const username = document.getElementById('username-login').value;

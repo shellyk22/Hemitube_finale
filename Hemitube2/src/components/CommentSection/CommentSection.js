@@ -17,7 +17,7 @@ function CommentSection({ videoList, currentUser, updateComments }) {
   }, [id, videoList, video]);
 
   const handleAddComment = () => {
-    if (currentUser && commentText.trim()) {
+    if (localStorage.getItem("username") && commentText.trim()) {
       const newComment = {
         id: Date.now().toString(),
         text: commentText,
@@ -53,7 +53,7 @@ function CommentSection({ videoList, currentUser, updateComments }) {
         <h1>comments:</h1>
       <div className="unique-comment-container">
         <div className="unique-comment-body">
-        {currentUser && (
+        {localStorage.getItem("username") && (
           <div className="unique-form-outline">
             <input
               type="text"
@@ -72,7 +72,7 @@ function CommentSection({ videoList, currentUser, updateComments }) {
                   <p className="small mb-0 ms-2"><strong>{comment.author}</strong></p>
                 </div>
                 <p>{comment.text}</p>
-                {currentUser && (
+                {localStorage.getItem("username") && (
                   <div className="unique-comment-actions">
                     <button className="btn btn-outline-secondary rounded-pill" onClick={() => handleDeleteComment(comment.id)}>Delete</button>
                     <button className="btn btn-outline-secondary rounded-pill" onClick={() => {

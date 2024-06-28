@@ -1,13 +1,12 @@
-
-
 const Video = require('../models/video');
 const VidFile = require('../models/vidFile');
 const Comment = require('../models/comment');
 const User = require('../models/video');
 
-const createVideo = async (title, publisher = [null], comments = [], file = null) => {
+const createVideo = async (title, descreption,  publisher = [null], comments = [], file = null) => {
     try {
-        const video = new Video({ publisher, title, comments, file });
+        let views = 0;
+        const video = new Video({ publisher, descreption, title, views, comments, file });
         await video.save();
         return video.toObject();
     } catch (error) {
@@ -59,16 +58,6 @@ const deleteVideo = async (id) => {
     }
 };
 
-const deleteVideosByUserId = async (userId) => {
-    try {
-            await Video.deleteMany({ author: userId});
-        return {message : `Videos by user ${userId} deleted successfully`};
-    } catch (error) {
-        console.log("Error deleting videos by user Id: ", error);
-        throw new Error('Could not delete videos by user ID');
-    }
-};
-
 
 
 const addCommentToVideo = async (videoId, commentContent) => {
@@ -113,4 +102,15 @@ const getCommentsByVideoId = async (videoId) => {
     }
 };
 
-module.exports = { createVideo, getVideos, getVideoById, updateVideo, deleteVideo, addCommentToVideo, getVideosByUserId, getCommentsByVideoId, getCommentsByVideoId, deleteVideosByUserId };
+const deleteVideosByUserId = async (userId) => {
+    try {
+            await Video.deleteMany({ author: userId});
+        return {message : `Videos by user ${userId} deleted successfully`};
+    } catch (error) {
+        console.log("Error deleting videos by user Id: ", error);
+        throw new Error('Could not delete videos by user ID');
+    }
+};
+
+module.exports = { createVideo, getVideos, getVideoById, updateVideo, deleteVideo, 
+    addCommentToVideo, getVideosByUserId, getCommentsByVideoId, getCommentsByVideoId,deleteVideosByUserId };

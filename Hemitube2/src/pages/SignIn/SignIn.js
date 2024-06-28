@@ -3,8 +3,9 @@ import { Link, useNavigate } from 'react-router-dom';
 import './SignIn.css';
 import usersTable from '../../components/Users.json';
 import logo from '../../components/hemitubeLogoForC.jpeg'; 
+import { loginUser } from '../../DataAccess/users';
 
-function SignIn({ setCurrentUser }) {
+function SignIn() {
   const [showPassword, setShowPassword] = useState(false);
   const [signInUsername, setsignInUsername] = useState('');
   const [signInPassword, setsignInPassword] = useState('');
@@ -13,12 +14,15 @@ function SignIn({ setCurrentUser }) {
     setShowPassword(!showPassword);
   };
 
-  const handleSignIn = () => {
-    if (usersTable[signInUsername] && usersTable[signInUsername].password === signInPassword) {
-      setCurrentUser(signInUsername);
+  const handleSignIn = async () => {
+    try {
+      const userLoginData = await loginUser(signInUsername, signInPassword);
+      localStorage.setItem('username', signInUsername);
+      console.log({ userLoginData });
       return true;
+    } catch {
+      return false;
     }
-    return false;
   }
 
   const navigate = useNavigate();
@@ -55,9 +59,9 @@ function SignIn({ setCurrentUser }) {
                 {showPassword ? <i className="bi bi-eye"></i> : <i className="bi bi-eye-slash"></i>}
               </button>
             </div1>
-            <Link to="/" onClick={(event) => {
+            <Link to="/" onClick={async (event) => {
               event.preventDefault();
-              if (handleSignIn()) {
+              if (await handleSignIn()) {
                 navigate('/');
               } else {
                 alert('Incorrect username or password. Please try again.');

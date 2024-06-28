@@ -1,4 +1,4 @@
-
+const { deleteVideosByUserId } = require('../controllers/video');
 const User = require('../models/user');
 const { deleteCommentsByUserId } = require('../services/comment');
 
@@ -74,8 +74,9 @@ const updateUser = async (id, newPic, newnickName) => {
 const deleteUser = async (id) => {
     try {
         // Delete comments
-        await deleteCommentsByUserId(id);
-        await deleteVideosByUserId(id);
+        
+        //await deleteVideosByUserId(id);
+        //await deleteCommentsByUserId(id);
 
         return await User.findByIdAndDelete(id);
     } catch (error) {
@@ -87,4 +88,3 @@ const deleteUser = async (id) => {
 
 
 module.exports = {createUser, getUserById, updateUser, deleteUser, getUser}
-
