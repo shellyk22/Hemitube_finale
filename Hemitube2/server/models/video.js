@@ -33,6 +33,10 @@ const VideoSchema = new Schema({
         type: Date,
         //required: true
     },
+    thumbnail: {
+        type: String,
+        required: true
+    },
     file: { // Single reference to a VidFile document
         type: Schema.Types.ObjectId,
         ref: 'VidFile',

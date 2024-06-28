@@ -59,14 +59,14 @@ function LeftMenu({ setCurrentUser, currentUser }) {
           </button>
         </Link>
       )}</div>
-      <div>{(jwt != null) && (
+      <div>{(jwt != 'null') && (
         <Link to="/addVideo">
           <button type="button" className="btn btn-outline-danger list-group-item d-flex align-items-center">
             Add Video
           </button>
         </Link>
       )}</div>
-      <div>{(jwt != null) && (
+      <div>{(jwt != 'null') && (
         <button 
           type="button" 
           className="btn btn-outline-danger list-group-item d-flex align-items-center"
@@ -74,14 +74,14 @@ function LeftMenu({ setCurrentUser, currentUser }) {
             Log Out
         </button>
       )}</div>
-      <div>{(jwt != null) && (
+      <div>{(jwt != 'null') && (
         <Link to="/profile">
           <button type="button" className="btn btn-outline-danger list-group-item d-flex align-items-center">
             Profile
           </button>
         </Link>
       )}</div>
-      <div>{(jwt != null) && (
+      <div>{(jwt != 'null') && (
         <Link to={`/${currentUser}`} className="w-100 m-1 ms-3">
           <button type="button" className="btn btn-outline-danger list-group-item d-flex align-items-center">
             My Videos
