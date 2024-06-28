@@ -22,6 +22,18 @@ const VideoSchema = new Schema({
         type: String,
         required: true
     },
+    descreption: {
+        type: String,
+        required: true
+    },
+    views: {
+        type: Integer,
+        required: true
+    },
+    uploadDate: {
+        type: Date,
+        required: true
+    },
     file: { // Single reference to a VidFile document
         type: Schema.Types.ObjectId,
         ref: 'VidFile',

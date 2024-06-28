@@ -3,9 +3,10 @@ const VidFile = require('../models/vidFile');
 const Comment = require('../models/comment');
 const User = require('../models/video');
 
-const createVideo = async (title, publisher = [null], comments = [], file = null) => {
+const createVideo = async (title, descreption,  publisher = [null], comments = [], file = null) => {
     try {
-        const video = new Video({ publisher, title, comments, file });
+        let views = 0;
+        const video = new Video({ publisher, descreption, title, views, comments, file });
         await video.save();
         return video.toObject();
     } catch (error) {

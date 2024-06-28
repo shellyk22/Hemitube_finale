@@ -2,12 +2,22 @@ import './LeftMenu.css';
 import { Link } from 'react-router-dom';
 import React from 'react';
 import usersTable from '../Users.json';
-import { logOut } from '../../DataAccess/users';
+import {useEffect, useState} from "react";
+import { logOut, setUserJWT } from '../../DataAccess/users';
 
 import logo from '../../components/hemitubeLogoForC.jpeg';
 
 function LeftMenu({ setCurrentUser, currentUser }) {
-  console.log(localStorage.getItem("username"))
+  
+
+  const [jwt, setJwt] = useState(localStorage.getItem('JWT'));
+
+  useEffect(() => {
+      setUserJWT(jwt);
+  }, [jwt])
+
+
+
   return (
     <div className="left-menu">
       <ul className="list-group">
@@ -35,28 +45,28 @@ function LeftMenu({ setCurrentUser, currentUser }) {
           <span className="badge bg-primary rounded-pill">1</span>
         </li>
       </ul>
-      <div>{!currentUser && (
+      <div>{(!jwt || jwt === 'undefined' || jwt ==='null') && (
         <Link to="/signin">
           <button type="button" className="btn btn-outline-danger list-group-item d-flex align-items-center">
             Sign In
           </button>
         </Link>
       )}</div>
-      <div>{!currentUser && (
+      <div>{(!jwt || jwt === 'undefined' || jwt ==='null') && (
         <Link to="/signup">
           <button type="button" className="btn btn-outline-danger list-group-item d-flex align-items-center">
             Sign Up
           </button>
         </Link>
       )}</div>
-      <div>{localStorage.getItem("username") && (
+      <div>{(jwt != null) && (
         <Link to="/addVideo">
           <button type="button" className="btn btn-outline-danger list-group-item d-flex align-items-center">
             Add Video
           </button>
         </Link>
       )}</div>
-      <div>{localStorage.getItem("username") && (
+      <div>{(jwt != null) && (
         <button 
           type="button" 
           className="btn btn-outline-danger list-group-item d-flex align-items-center"
@@ -64,14 +74,14 @@ function LeftMenu({ setCurrentUser, currentUser }) {
             Log Out
         </button>
       )}</div>
-      <div>{currentUser && (
+      <div>{(jwt != null) && (
         <Link to="/profile">
           <button type="button" className="btn btn-outline-danger list-group-item d-flex align-items-center">
             Profile
           </button>
         </Link>
       )}</div>
-      <div>{currentUser && (
+      <div>{(jwt != null) && (
         <Link to={`/${currentUser}`} className="w-100 m-1 ms-3">
           <button type="button" className="btn btn-outline-danger list-group-item d-flex align-items-center">
             My Videos
@@ -79,7 +89,7 @@ function LeftMenu({ setCurrentUser, currentUser }) {
         </Link>
       )}</div>
       <div className="user-list mt-4 list-group-item d-flex align-items-center">
-        <h4>Hello, {localStorage.getItem("username") ? localStorage.getItem("username") : "Guest"}</h4>
+        <h4>Hello, {(!jwt || jwt === 'undefined' || jwt ==='null') ? "Guest" : localStorage.getItem("username")}</h4>
       </div>
       {localStorage.getItem("profilePic") && (
         <div className="user-pic">

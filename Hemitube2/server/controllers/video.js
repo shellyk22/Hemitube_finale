@@ -7,10 +7,14 @@ const jwt = require('jsonwebtoken');
 const key = "secret key foo foo foo bar";
 const createVideo = async (req, res) => {
     try {
-        const { title, publisher, comments, file } = req.body;
+        const { title, descreption,  publisher, comments, file } = req.body;
 
         if (!title) {
             return res.status(400).json({ errors: ['Title is required'] });
+        }
+
+        if (!descreption) {
+            return res.status(400).json({ errors: ['Description is required'] });
         }
 
         const processedPublisher = Array.isArray(publisher) && publisher.length > 0 && publisher[0] !== 'null' ? publisher : [null];
@@ -25,6 +29,7 @@ const createVideo = async (req, res) => {
 
         const newVideo = await videoService.createVideo(
             title,
+            description,
             processedPublisher,
             processedComments,
             fileDoc ? fileDoc._id : null
