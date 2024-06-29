@@ -132,10 +132,8 @@ function App() {
             path="/profile"
             element={<ProfilePage currentUser={currentUser} setCurrentUser={setCurrentUser} />}
           />
-          <Route
-            path="/:username"
-            element={<MyVideos videoList={videoList}/>}
-          />
+          <Route path="/:userId" element={<MyVideos />} />
+
           <Route path="*" element={<NotFound />} />
         </Routes>
 

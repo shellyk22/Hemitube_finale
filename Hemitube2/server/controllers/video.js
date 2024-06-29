@@ -130,13 +130,15 @@ const isLoggedIn = (req, res, next) => {
 
 const getVideosByUserId = async (req, res) => {
     try {
-        const userId = req.params.id;
-        const videos = await videoService.getVideosByUserId(userId);
+        const id = req.params.id;
+        console.log(id);
+        const videos = await videoService.getVideosByUserId(id);
         res.status(200).json(videos);
     } catch (error) {
         res.status(500).json({ errors: [error.message] });
     }
 };
+
 const getCommentsByVideoId = async (req, res) => {
     try {
         const comments = await videoService.getCommentsByVideoId(req.params.vid);
