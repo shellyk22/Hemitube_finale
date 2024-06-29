@@ -14,14 +14,13 @@ function VideoViewVidResuls({filteredVideoList}) {
 
   const videoLinks = filteredVideoList.map((video, index) => (
     <>
-    {console.log("ariel", { video })}
       <Link to={`/video/${video._id}`} key={index} style={{ textDecoration: 'none', color: 'inherit' }}>
         <div className="video-item-res">
           <img className="video-thumbnail" src={`${serverAddress}/uploads/${video.thumbnail_name}`} alt={video.title} />
           <div className="video-title">{video.title}</div>
           <div className="video-details">
-            <p>{video.author}</p>
-            <p>{video.views} views • {video.time}</p>
+            <p>{video.publisher}</p>
+            <p>{video.views} views • {new Date(video.uploadDate).toLocaleDateString()}</p>
           </div>
         </div>
       </Link>
