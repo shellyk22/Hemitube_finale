@@ -121,7 +121,7 @@ function App() {
           <Route path="/" element={<HomePage doSearch={doSearch} filteredVideoList={filteredVideoList} currentUser={currentUser}
             setCurrentUser={setCurrentUser} videoList={videoList}/>} />
           <Route path="/video/:id" element={<VideoView doSearch={doSearch} filteredVideoList={filteredVideoList}
-            currentUser={currentUser}  videoList={videoList}
+            videoList={videoList}
             updateComments={updateComments} deleteVideo={deleteVideo} updateVideoDetails={updateVideoDetails}
             toggleLike={toggleLike} likedVideos={likedVideos} />} />
           <Route path="/signup" element={<SignUp />} />
