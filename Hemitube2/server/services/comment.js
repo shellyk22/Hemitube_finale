@@ -57,4 +57,4 @@ const deleteCommentsByUserId = async (userId) => {
 
 
 
-module.exports = {createComment, getComments, getCommentById, updateComment, deleteComment, deleteCommentsByUserId}
+module.exports = { getComments, getCommentById, updateComment, deleteComment, deleteCommentsByUserId}

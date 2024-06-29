@@ -18,6 +18,7 @@ const environment = process.env.NODE_ENV || 'default';
 customEnv.env(environment, './config');
 
 mongoose.connect(process.env.CONNECTION_STRING, {
+    // @ts-ignore
     useNewUrlParser: true,
     useUnifiedTopology: true
 }).then(() => console.log('MongoDB connected successfully'))
@@ -34,10 +35,14 @@ const commentRoutes = require('./routes/comments');
 app.use('/api/users/:id/videos', commentRoutes);
 
 const videoRoutes = require('./routes/videos');
-app.use('/api/users', videoRoutes);
+app.use('/api/videos', videoRoutes);
 
 const tokenRoutes = require('./routes/token');
 app.use('/api/token', tokenRoutes);
+
+const videosHemi = require('./routes/videosHemi');
+app.use('/', videosHemi);
+
 
 const server = http.createServer(app);
 

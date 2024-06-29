@@ -119,6 +119,8 @@ export async function loginUser(username, password) {
             localStorage.setItem('JWT', userJWT);
             localStorage.setItem('username', resData.username);
             localStorage.setItem('nickName', resData.nickName);
+            console.log("Profile Pic Path:")
+            console.log( resData.profilePic)
             localStorage.setItem('profilePic', resData.profilePic);
 
             console.log(localStorage.getItem)

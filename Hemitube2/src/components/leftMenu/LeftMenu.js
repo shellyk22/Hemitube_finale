@@ -91,7 +91,7 @@ function LeftMenu({ setCurrentUser, currentUser }) {
       <div className="user-list mt-4 list-group-item d-flex align-items-center">
         <h4>Hello, {(!jwt || jwt === 'undefined' || jwt ==='null') ? "Guest" : localStorage.getItem("username")}</h4>
       </div>
-      {localStorage.getItem("profilePic") && (
+      {(jwt != 'null') && (
         <div className="user-pic">
           <img
             src={localStorage.getItem("profilePic")}

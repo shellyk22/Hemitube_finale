@@ -1,21 +1,13 @@
-// server/models/comment.js
-
 const mongoose = require('mongoose');
-
 const Schema = mongoose.Schema;
 
 const CommentSchema = new Schema({
-    published: {
-        type: Date,
-        default: Date.now
-    },
-    // Make author optional
-    author: {
+    userID: {
         type: Schema.Types.ObjectId,
         ref: 'User',
-        //default: null  // Set a default value or leave it as null
+        required: true
     },
-    content: {
+    text: {
         type: String,
         required: true
     }

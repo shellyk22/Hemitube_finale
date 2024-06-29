@@ -2,44 +2,54 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const VideoSchema = new Schema({
-    publisher: [
-        {
-            type: Schema.Types.ObjectId,
-            ref: 'User',
-            required: true
-            //default: null // Default to null
-        }
-    ],
+    publisher: {
+        type: Schema.Types.ObjectId,
+        ref: 'User',
+        required: true
+    },
     comments: [
         {
-            type: Schema.Types.ObjectId,
-            ref: 'Comment',
-            required: true
+            userID: {
+                type: Schema.Types.ObjectId,
+                ref: 'User',
+                required: true
+            },
+            text: {
+                type: String,
+                required: true
+            }
         }
     ],
     title: {
         type: String,
         required: true
     },
-    descreption: {
+    description: {
         type: String,
         required: true
     },
     views: {
         type: String,
-        required: true
+        required: false
     },
     uploadDate: {
         type: Date,
-        //required: true
+        default: Date.now
     },
-    thumbnail: {
+    thumbnail_name: {
         type: String,
-        required: true
+        default: "Name Unknown"
     },
-    file: { // Single reference to a VidFile document
-        type: Schema.Types.ObjectId,
-        ref: 'VidFile',
+    thumbnail_data: {
+        type: String,
+        default: null
+    },
+    file_name: {
+        type: String,
+        default: "Name Unknown"
+    },
+    file_data: {
+        type: String,
         default: null
     }
 });
