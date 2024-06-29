@@ -69,17 +69,16 @@ async function getUserDetails(userId) {
     }
 }
 
-export async function setUserDetails(userId, username, newPic, newnickName) {
-    console.log("lmao: " + username);
+export async function setUserDetails(userId, newPic, newnickName) {
+    console.log("lmao: " + userId);
     try {
-        console.log("trying....");
-        const res = await fetch(serverAddress + '/api/user/' + userId, {
+        const res = await fetch(serverAddress + '/api/users/' + userId, {
             'method': 'put',
             'headers': {
                 'Content-Type': 'application/json',
                 "authorization": 'Bearer ' + localStorage.getItem('JWT'),
             },
-            'body': JSON.stringify({"newPic": newPic, "newDisplayName": newnickName}),
+            'body': JSON.stringify({"newPic": newPic, "newNickName": newnickName}),
         });
 
         return res.status === 200 ? 'success' : 'error';
@@ -88,6 +87,33 @@ export async function setUserDetails(userId, username, newPic, newnickName) {
         return 'error';
     }
 }
+
+
+
+export async function deleteUser(userId) {
+    console.log("lmao: " + userId);
+    try {
+        const res = await fetch(serverAddress + '/api/users/' + userId, {
+            'method': 'delete',
+            'headers': {
+                'Content-Type': 'application/json',
+                "authorization": 'Bearer ' + localStorage.getItem('JWT'),
+            },
+            'body': JSON.stringify({"userId": userId}),
+        });
+
+        return res.status === 200 ? 'success' : 'error';
+    } catch (error) {
+        console.log('Error deleting user:', error);
+        return 'error';
+    }
+}
+
+
+
+
+
+
 
 /**
  * Logs in a username.
@@ -119,8 +145,6 @@ export async function loginUser(username, password) {
             localStorage.setItem('JWT', userJWT);
             localStorage.setItem('username', resData.username);
             localStorage.setItem('nickName', resData.nickName);
-            console.log("Profile Pic Path:")
-            console.log( resData.profilePic)
             localStorage.setItem('profilePic', resData.profilePic);
 
             console.log(localStorage.getItem)
