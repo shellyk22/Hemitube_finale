@@ -37,7 +37,7 @@ const getUser = async (req, res) => {
 }
 
 const updateUser = async (req, res) => {
-    if (!(await userService.updateUser(req.params.id, req.body.newPic, req.body.newnickName))) {
+    if (!(await userService.updateUser(req.params.id, req.body.newPic, req.body.newNickName))) {
         res.status(500).send('Error updating user');
     }
     res.status(200).json({});

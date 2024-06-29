@@ -2,19 +2,19 @@ import './LeftMenu.css';
 import { Link } from 'react-router-dom';
 import React from 'react';
 import usersTable from '../Users.json';
-import {useEffect, useState} from "react";
+import { useEffect, useState } from "react";
 import { logOut, setUserJWT } from '../../DataAccess/users';
 
 import logo from '../../components/hemitubeLogoForC.jpeg';
 
 function LeftMenu({ setCurrentUser, currentUser }) {
-  
+
 
   const [jwt, setJwt] = useState(localStorage.getItem('JWT'));
   const userId = localStorage.getItem('userId');
 
   useEffect(() => {
-      setUserJWT(jwt);
+    setUserJWT(jwt);
   }, [jwt])
 
 
@@ -23,7 +23,7 @@ function LeftMenu({ setCurrentUser, currentUser }) {
     <div className="left-menu">
       <ul className="list-group">
         <h1>HemiTube</h1>
-        
+
 
         <li className="list-group-item d-flex align-items-center">
           <i className="bi bi-house-fill"></i>
@@ -46,14 +46,14 @@ function LeftMenu({ setCurrentUser, currentUser }) {
           <span className="badge bg-primary rounded-pill">1</span>
         </li>
       </ul>
-      <div>{(!jwt || jwt === 'undefined' || jwt ==='null') && (
+      <div>{(!jwt || jwt === 'undefined' || jwt === 'null') && (
         <Link to="/signin">
           <button type="button" className="btn btn-outline-danger list-group-item d-flex align-items-center">
             Sign In
           </button>
         </Link>
       )}</div>
-      <div>{(!jwt || jwt === 'undefined' || jwt ==='null') && (
+      <div>{(!jwt || jwt === 'undefined' || jwt === 'null') && (
         <Link to="/signup">
           <button type="button" className="btn btn-outline-danger list-group-item d-flex align-items-center">
             Sign Up
@@ -68,6 +68,7 @@ function LeftMenu({ setCurrentUser, currentUser }) {
         </Link>
       )}</div>
       <div>{(jwt != 'null') && (
+
         <button 
           type="button" 
           className="btn btn-outline-danger list-group-item d-flex align-items-center"
@@ -76,21 +77,33 @@ function LeftMenu({ setCurrentUser, currentUser }) {
         </button>
       )}</div>
       <div>{(jwt !== 'null') && (
+
         <Link to="/profile">
           <button type="button" className="btn btn-outline-danger list-group-item d-flex align-items-center">
             Profile
           </button>
         </Link>
       )}</div>
+
       <div>{(jwt !== 'null') && (
         <Link to={`/${userId}`} className="w-100 m-1 ms-3">
         <button type="button" className="btn btn-outline-danger list-group-item d-flex align-items-center">
           My Videos
         </button>
       </Link>
+
+      <div>{(jwt != 'null') && (
+        <button
+          type="button"
+          className="btn btn-outline-danger list-group-item d-flex align-items-center"
+          onClick={() => logOut()}>
+          Log Out
+        </button>
+      )}</div>
+
       )}</div>
       <div className="user-list mt-4 list-group-item d-flex align-items-center">
-        <h4>Hello, {(!jwt || jwt === 'undefined' || jwt ==='null') ? "Guest" : localStorage.getItem("username")}</h4>
+        <h4>Hello, {(!jwt || jwt === 'undefined' || jwt === 'null') ? "Guest" : localStorage.getItem("username")}</h4>
       </div>
       {(jwt !== 'null') && (
         <div className="user-pic">
