@@ -1,9 +1,9 @@
-import React, { useState , useRef } from 'react';
-import { Link , useNavigate } from 'react-router-dom';
-import './signup.css'; 
+import React, { useState, useRef } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import './signup.css';
 import usersTable from '../../components/Users.json';
 import logo from '../../components/hemitubeLogoForC.jpeg';
-import { registerUser } from '../../DataAccess/users'; 
+import { registerUser } from '../../DataAccess/users';
 
 function SignUp() {
   const [username, setUsername] = useState('');
@@ -53,33 +53,33 @@ function SignUp() {
   const handleThumbnailUpload = (event) => {
     const selectedThumbnailFile = event.target.files[0];
     if (selectedThumbnailFile) {
-        const reader = new FileReader();
-        reader.onload = (e) => {
-          setProfilePhoto(e.target.result);
-        };
-        reader.readAsDataURL(selectedThumbnailFile);
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        setProfilePhoto(e.target.result);
+      };
+      reader.readAsDataURL(selectedThumbnailFile);
     }
-};
+  };
 
   const handleSignUp = async () => {
-    
-    if(!isPasswordValid || !doPasswordsMatch
+
+    if (!isPasswordValid || !doPasswordsMatch
       || username.length < 1 || nickname.length < 1) {
       console.log("oh no");
-      return;}
+      return;
+    }
 
-    try{
-    const result = await registerUser(username, password, nickname, profilePhoto );
-    if(result === 'success'){
-      return true;
-    }
-    else{
+    try {
+      const result = await registerUser(username, password, nickname, profilePhoto);
+      if (result === 'success') {
+        return true;
+      }
+      else {
+        return false;
+      }
+    } catch (error) {
+      alert("choose different username this one is taken");
       return false;
-    }
-    return true;
-    }catch(error){
-    alert("choose different username this one is taken");
-    return false;
     }
   }
 
@@ -90,109 +90,109 @@ function SignUp() {
 
   return (
     <section className="text-center text-lg-start">
-      <div1 className="container py-4 align-items-center">
-        <div1 className="card cascading-right bg-body-tertiary shadow-5" style={{ backdropFilter: 'blur(30px)' }}>
-          <div1 className="card-body p-5 shadow-5 text-center">
-            <div1 className="logo-container mb-4">
+      <div className="container py-4 align-items-center">
+        <div className="card cascading-right bg-body-tertiary shadow-5" style={{ backdropFilter: 'blur(30px)' }}>
+          <div className="card-body p-5 shadow-5 text-center">
+            <div className="logo-container mb-4">
               <img src={logo} alt="HemiTube Logo" className="logo" />
-              </div1>
-    <div1>
-      <h1>Welcome to HemiTube</h1>
-      <div1 className="input-group mb-3">
-        <input
-          type="text"
-          className={`form-control ${username ? 'valid' : 'invalid'}`}
-          placeholder="Choose Username"
-          aria-label="Username"
-          value={username}
-          onChange={(e) => setUsername(e.target.value)}
-        />
-      </div1>
-      <div1 className={`input-group mb-3 ${isPasswordValid ? 'valid' : 'invalid'}`}>
-        <input
-          type={showPassword ? 'text' : 'password'}
-          className="form-control"
-          placeholder="Choose Password"
-          aria-label="Password"
-          value={password}
-          onChange={handlePasswordChange}
-        />
-        <button
-          type="button"
-          className="btn btn eye-icon"
-          onClick={PasswordVisibility}
-        >
-          {showPassword ? <i className="bi bi-eye-slash"></i> : <i className="bi bi-eye"></i>}
-        </button>
-        {(!isPasswordValid) && (
-        <div1 className="invalid-password-message">The password must contain at least 8 characters including a number, 
-        a lowercase letter and an uppercase letter .</div1>
-      )}
-
-      </div1>
-      <div1 className={`input-group mb-3 ${doPasswordsMatch ? '' : 'invalid'}`}>
-      <input
-        type={showVerificationPassword ? 'text' : 'password'}
-        className="form-control"
-        placeholder="Verify Password"
-        aria-label="Verify Password"
-        value={verifyPassword}
-        onChange={handleVerifyPasswordChange}
-/>
-        <button
-          type="button"
-          className="btn btn eye-icon"
-          onClick={PasswordVerificationVisibility}
-        >
-          {showVerificationPassword ? <i className="bi bi-eye-slash"></i> : <i className="bi bi-eye"></i>}
-        </button>
-        {password !== verifyPassword && verifyPassword.length >= 0 && (
-          <div1 className="validation-message">Passwords do not match.</div1>
-        )}
-      </div1>
-      <div1>
-        <input
-          type="text"
-          className="form-control"
-          placeholder="Choose Nickname"
-          aria-label="Nickname"
-          value={nickname}
-          onChange={(e) => setNickname(e.target.value)}
-        />
-      </div1>
-      <div1>
-            {"profile pic:"}
+            </div>
+            <div>
+              <h1>Welcome to HemiTube</h1>
+              <div className="input-group mb-3">
                 <input
-                    type="file"
-                    onChange={handleThumbnailUpload}
-                    accept="image/*"
-                    ref={ThumbnailInputRef}
+                  type="text"
+                  className={`form-control ${username ? 'valid' : 'invalid'}`}
+                  placeholder="Choose Username"
+                  aria-label="Username"
+                  value={username}
+                  onChange={(e) => setUsername(e.target.value)}
                 />
-            </div1>
-      
-      <Link to="/SignIn" onClick={(event) => {
-        event.preventDefault(); // Prevent the default link behavior
-        if (handleSignUp()) {
-          navigate('/SignIn'); //sign-up is successful
-        } else {
-          console.log('Sign-up failed. Staying on current page.');
-        }
-      }}>
-  <button
-    type="button"
-    className="btn btn-outline-danger">
-    Sign Up
-  </button>
-</Link>
-        <Link to="/">
-          <button type="button" className="btn btn-outline-danger list-group-item d-flex align-items-center">
-            Back to Home Page
-          </button>
-        </Link>
-    </div1>
-    </div1>
-        </div1>
-      </div1>
+              </div>
+              <div className={`input-group mb-3 ${isPasswordValid ? 'valid' : 'invalid'}`}>
+                <input
+                  type={showPassword ? 'text' : 'password'}
+                  className="form-control"
+                  placeholder="Choose Password"
+                  aria-label="Password"
+                  value={password}
+                  onChange={handlePasswordChange}
+                />
+                <button
+                  type="button"
+                  className="btn btn eye-icon"
+                  onClick={PasswordVisibility}
+                >
+                  {showPassword ? <i className="bi bi-eye-slash"></i> : <i className="bi bi-eye"></i>}
+                </button>
+                {(!isPasswordValid) && (
+                  <div className="invalid-password-message">The password must contain at least 8 characters including a number,
+                    a lowercase letter and an uppercase letter .</div>
+                )}
+
+              </div>
+              <div className={`input-group mb-3 ${doPasswordsMatch ? '' : 'invalid'}`}>
+                <input
+                  type={showVerificationPassword ? 'text' : 'password'}
+                  className="form-control"
+                  placeholder="Verify Password"
+                  aria-label="Verify Password"
+                  value={verifyPassword}
+                  onChange={handleVerifyPasswordChange}
+                />
+                <button
+                  type="button"
+                  className="btn btn eye-icon"
+                  onClick={PasswordVerificationVisibility}
+                >
+                  {showVerificationPassword ? <i className="bi bi-eye-slash"></i> : <i className="bi bi-eye"></i>}
+                </button>
+                {password !== verifyPassword && verifyPassword.length >= 0 && (
+                  <div className="validation-message">Passwords do not match.</div>
+                )}
+              </div>
+              <div>
+                <input
+                  type="text"
+                  className="form-control"
+                  placeholder="Choose Nickname"
+                  aria-label="Nickname"
+                  value={nickname}
+                  onChange={(e) => setNickname(e.target.value)}
+                />
+              </div>
+              <div>
+                {"profile pic:"}
+                <input
+                  type="file"
+                  onChange={handleThumbnailUpload}
+                  accept="image/*"
+                  ref={ThumbnailInputRef}
+                />
+              </div>
+
+              <Link to="/SignIn" onClick={(event) => {
+                event.preventDefault(); // Prevent the default link behavior
+                if (handleSignUp()) {
+                  navigate('/SignIn'); //sign-up is successful
+                } else {
+                  console.log('Sign-up failed. Staying on current page.');
+                }
+              }}>
+                <button
+                  type="button"
+                  className="btn btn-outline-danger">
+                  Sign Up
+                </button>
+              </Link>
+              <Link to="/">
+                <button type="button" className="btn btn-outline-danger list-group-item d-flex align-items-center">
+                  Back to Home Page
+                </button>
+              </Link>
+            </div>
+          </div>
+        </div>
+      </div>
     </section>
   );
 }

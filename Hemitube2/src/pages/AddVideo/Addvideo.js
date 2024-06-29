@@ -41,7 +41,6 @@ function AddVideo({ currentUser, videoList, setVideoList }) {
         formData.append('file', selectedVideo);
         formData.append('thumbnail', selectedThumbnail);
 
-
         try {
             const newVideo = await createVideo(formData);
             console.log('Video created successfully:', newVideo);

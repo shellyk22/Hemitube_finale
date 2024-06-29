@@ -55,7 +55,6 @@ const getVideos = async (req, res) => {
     try {
 
         console.log("Create Video function - request log :")
-        console.log(req)
         const userId = req.params.id;
         const videos = await videoService.getVideos();
         res.status(200).json(videos);
