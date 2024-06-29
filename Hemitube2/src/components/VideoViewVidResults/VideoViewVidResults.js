@@ -11,9 +11,12 @@ function VideoViewVidResuls({filteredVideoList}) {
   }
 
   const videoLinks = filteredVideoList.map((video, index) => (
+    <>
+    {localStorage.setItem('video1', video.thumbnail_data)}
+
     <Link to={`/video/${video.id}`} key={index} style={{ textDecoration: 'none', color: 'inherit' }}>
       <div className="video-item-res2">
-        <img src={video.thimbnail_data} alt={`${video.title} `} />
+        <img src={localStorage.getItem("video1")} alt={`${video.title} `} />
         <div className="title">{video.title}</div>
         <div className="details">
           <p>{video.author}</p>
@@ -21,6 +24,7 @@ function VideoViewVidResuls({filteredVideoList}) {
         </div>
       </div>
     </Link>
+    </>
   ));
 
   return (

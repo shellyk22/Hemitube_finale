@@ -29,14 +29,14 @@ function SignIn() {
 
   return (
     <section className="text-center text-lg-start">
-      <div1 className="container py-4 align-items-center">
-        <div1 className="card cascading-right bg-body-tertiary shadow-5" style={{ backdropFilter: 'blur(30px)' }}>
-          <div1 className="card-body p-5 shadow-5 text-center">
-            <div1 className="logo-container mb-4">
+      <div className="container py-4 align-items-center">
+        <div className="card cascading-right bg-body-tertiary shadow-5" style={{ backdropFilter: 'blur(30px)' }}>
+          <div className="card-body p-5 shadow-5 text-center">
+            <div className="logo-container mb-4">
               <img src={logo} alt="HemiTube Logo" className="logo" />
-            </div1>
+            </div>
             <h2 className="fw-bold mb-5">Welcome back to HemiTube</h2>
-            <div1 className="input-group mb-3">
+            <div className="input-group mb-3">
               <input
                 type="text"
                 className="form-control"
@@ -45,8 +45,8 @@ function SignIn() {
                 value={signInUsername}
                 onChange={(e) => setsignInUsername(e.target.value)}
               />
-            </div1>
-            <div1 className="input-group mb-3">
+            </div>
+            <div className="input-group mb-3">
               <input
                 type={showPassword ? 'text' : 'password'}
                 className="form-control"
@@ -58,7 +58,7 @@ function SignIn() {
               <button type="button" className="btn btn-outline-secondary" onClick={togglePasswordVisibility}>
                 {showPassword ? <i className="bi bi-eye"></i> : <i className="bi bi-eye-slash"></i>}
               </button>
-            </div1>
+            </div>
             <Link to="/" onClick={async (event) => {
               event.preventDefault();
               if (await handleSignIn()) {
@@ -79,9 +79,9 @@ function SignIn() {
             Back to Home Page
           </button>
         </Link>
-          </div1>
-        </div1>
-      </div1>
+          </div>
+        </div>
+      </div>
     </section>
   );
 }

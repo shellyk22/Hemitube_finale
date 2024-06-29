@@ -13,20 +13,55 @@ import AddVideo from './pages/AddVideo/Addvideo';
 import DarkModeToggle from './components/darkmode/Darkmode'
 import ProfilePage from './pages/ProfilePage/ProfilePage'; // Import ProfilePage
 import MyVideos from './pages/MyVideos/MyVideos';
+import {fetchVideos} from './DataAccess/videos'
+
+export const serverAddress = 'http://localhost:5001';
+
+
 function App() {
 
 
   const initialVideoList = Object.values(videoTable);
   const initialUsers = Object.values(usersTable);
-  const [videoList, setVideoList] = useState(Object.values(videoTable));
-  const [filteredVideoList, setFilteredVideoList] = useState(Object.values(videoTable));
+  const [videoList, setVideoList] = useState([]);
+  const [filteredVideoList, setFilteredVideoList] = useState([]);
   const [currentUser, setCurrentUser] = useState("");
   //const [usersVideos, setUsersVideos] = useState([]); 
   const [likedVideos, setLikedVideos] = useState([]);
 
   useEffect(() => {
-    setFilteredVideoList(videoList);
-  }, [videoList])
+    //setFilteredVideoList(videoList);
+
+    const fetchVideos = async () => {
+
+      try{
+            const response = await fetch(`${serverAddress}/api/videos`,{ 
+              method: 'get',
+              headers: {
+                  'Content-Type': 'application/json',
+                  'authorization': 'Bearer ' + localStorage.getItem('JWT'),
+              }});    
+
+              console.log("Videos Fetch Response:")
+              console.log(response);
+              
+              if (!response.ok){
+                throw new Error("Coudn't fetch any videos");
+              }
+              
+              const data = await response.json();
+              setFilteredVideoList(data)
+          }
+
+          catch (error)
+          {
+            return "Ooopss! We've run into a problem :(\nPlease try again later";
+          }
+        }
+
+        fetchVideos();
+
+  }, [videoList]);
 
   const doSearch = (q) => {
     if (!q) {

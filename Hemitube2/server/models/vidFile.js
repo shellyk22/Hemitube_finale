@@ -14,6 +14,11 @@ const VidFileSchema = new Schema({
         ref: 'Video',
         default: null
     },
+    uploadDate: {
+        type: Date,
+        default: Date.now
+        //required: true
+    },
     data: {
         type: String,
         default: null

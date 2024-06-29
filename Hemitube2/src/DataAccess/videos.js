@@ -2,7 +2,7 @@ export const serverAddress = 'http://localhost:5001';
 
 export async function fetchVideos() {
     try {
-        const res = await fetch(`${serverAddress}/api/videos`, {
+        const res = await fetch(`${serverAddress}/api/videosHemi`, {
             method: 'get',
             headers: {
                 'Content-Type': 'application/json',
@@ -42,26 +42,32 @@ export async function fetchVideoById(videoId) {
     }
 }
 
-export async function createVideo(title, publisher = [null], comments = [], file = null) {
+export async function createVideo(formData) {
     try {
-        const videoData = { title, publisher, comments, file };
-        const res = await fetch(`${serverAddress}/api/videos`, {
+        console.log("Form data:");
+        for (let [key, value] of formData.entries()) {
+            console.log(`${key}: ${value}`);
+        }
+
+        console.log("Path:");
+        console.log(`${serverAddress}/api/videos/${localStorage.getItem("userId")}/videos`);
+        const res = await fetch(`${serverAddress}/api/videos/${localStorage.getItem("userId")}/videos`, {
             method: 'post',
             headers: {
-                'Content-Type': 'application/json',
                 'authorization': 'Bearer ' + localStorage.getItem('JWT'),
             },
-            body: JSON.stringify(videoData),
+            body: formData,
         });
 
         if (res.status === 201) {
             return await res.json();
         } else {
-            throw new Error("Error creating video");
-        }
+            const errorText = await res.text();
+            console.log("Error response text:", errorText);
+            throw new Error("Error creating video");        }
     } catch (error) {
         console.log('Error creating video:', error);
-        return "Ooopss! We've run into a problem :(\nPlease try again later";
+        throw error; // Re-throw the error to be caught in the calling function
     }
 }
 

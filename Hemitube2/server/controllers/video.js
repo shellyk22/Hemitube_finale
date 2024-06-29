@@ -7,50 +7,56 @@ const jwt = require('jsonwebtoken');
 const key = "secret key foo foo foo bar";
 const createVideo = async (req, res) => {
     try {
-        const { title, description,  publisher, comments, file } = req.body;
 
-        if (!title) {
+        console.log("Create Video function - request log :")
+        console.log(req.body)
+        console.log(req.files.file[0])
+        console.log(req.files.thumbnail[0])
+
+        var title = req.body.title; 
+        var description = req.body.description;
+        var publisher = req.body.publisher
+        var file = req.files.file;
+        var thumb = req.files.thumbnail;
+
+        /*if (!title) {
             return res.status(400).json({ errors: ['Title is required'] });
-        }
-
-        if (!description) {
-            return res.status(400).json({ errors: ['Description is required'] });
-        }
-
-        const processedPublisher = Array.isArray(publisher) && publisher.length > 0 && publisher[0] !== 'null' ? publisher : [null];
-        const processedComments = Array.isArray(comments) && comments.length > 0 && comments[0] !== 'null' ? comments : [];
+        }*/
 
         let fileDoc = null;
-        if (file && file.name && file.data) {
-            const { name, data } = file;
-            fileDoc = new VidFile({ name, data, attachedVid: null });
+       /* if (file) {
+            fileDoc = new VidFile({ name: file.filename, data: file.path, attachedVid: null });
             await fileDoc.save();
-        }
+        }*/
 
         const newVideo = await videoService.createVideo(
             title,
             description,
-            processedPublisher,
-            processedComments,
-            fileDoc ? fileDoc._id : null
+            publisher, 
+            req.files.file[0].filename,
+            req.files.file[0].path,
+            req.files.thumbnail[0].filename,
+            req.files.thumbnail[0].path
         );
 
-        if (fileDoc) {
+       /* if (fileDoc) {
             fileDoc.attachedVid = newVideo._id;
             await fileDoc.save();
-        }
+        }*/
 
         res.status(201).json(newVideo);
     } catch (error) {
-        console.log("Detailed Error: ", error); // Log the detailed error
+        console.log("Detailed Error: ", error);
         res.status(500).json({ errors: [error.message] });
     }
 };
 
 const getVideos = async (req, res) => {
     try {
+
+        console.log("Create Video function - request log :")
         const userId = req.params.id;
-        const videos = await videoService.getVideos({ publisher: userId });
+        const videos = await videoService.getVideos();
         res.status(200).json(videos);
     } catch (error) {
         res.status(500).json({ errors: [error.message] });

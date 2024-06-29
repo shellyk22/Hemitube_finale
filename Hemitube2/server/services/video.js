@@ -3,11 +3,33 @@ const VidFile = require('../models/vidFile.js');
 const Comment = require('../models/comment');
 const User = require('../models/user');
 
-const createVideo = async (title, descreption,  publisher = [null], comments = [], file = null) => {
+const createVideo = async (title, description, publisher, file_name, file_data, thumbnail_name, thumbnail_data) => {
     try {
-        let views = "0";
-        let thumbnail = "fasggdgdgasdasg";
-        const video = new Video({ publisher, descreption, title, views, comments, uploadDate: new Date(), thumbnail, file });
+        const comments = [
+            {
+                userID: '667dc7a2e69ca93a73f1c1b0',
+                text: 'This is an amazing video!'
+            },
+            {
+                userID: '667e8256ca31bc259e62f65c',
+                text: 'Great content, keep it up!'
+            },
+            {
+                userID: '667e8256ca31bc259e62f65c',
+                text: 'I found this video very informative.'
+            },
+            {
+                userID: '667dc7a2e69ca93a73f1c1b0',
+                text: 'Can you make more videos on this topic?'
+            },
+            {
+                userID: '667e77c8ca31bc259e62f658',
+                text: 'Loved the editing and presentation!'
+            }
+        ];
+
+        console.log(comments);
+        const video = new Video({ title, description, publisher, comments, file_name, file_data, thumbnail_name, thumbnail_data });
         await video.save();
         return video.toObject();
     } catch (error) {
@@ -19,7 +41,7 @@ const createVideo = async (title, descreption,  publisher = [null], comments = [
 const getVideos = async () => {
     try {
         return await Video.find({})
-            .populate('publisher comments file'); // Populate comments and file
+        // .populate('publisher comments file'); // Populate comments and file
     } catch (error) {
         console.log("Error fetching videos: ", error);
         throw new Error('Could not fetch videos');
@@ -106,13 +128,15 @@ const getCommentsByVideoId = async (videoId) => {
 
 const deleteVideosByUserId = async (userId) => {
     try {
-        await Video.deleteMany({ publisher: userId});
-        return {message : `Videos by user ${userId} deleted successfully`};
+        await Video.deleteMany({ publisher: userId });
+        return { message: `Videos by user ${userId} deleted successfully` };
     } catch (error) {
         console.log("Error deleting videos by user Id: ", error);
         throw new Error('Could not delete videos by user ID');
     }
 };
 
-module.exports = { createVideo, getVideos, getVideoById, updateVideo, deleteVideo, 
-    addCommentToVideo, getVideosByUserId, getCommentsByVideoId, getCommentsByVideoId,deleteVideosByUserId };
+module.exports = {
+    createVideo, getVideos, getVideoById, updateVideo, deleteVideo,
+    addCommentToVideo, getVideosByUserId, getCommentsByVideoId, deleteVideosByUserId
+};
