@@ -48,20 +48,20 @@ const getUser = async (username) => {
     }
 };
 
-const updateUser = async (id, newPic, newnickName) => {
+const updateUser = async (id, newPic, newNickName) => {
     try {
         if (newPic) {
             await User.findOneAndUpdate(
-                id, // Filter condition to find the user
-                {profilePic: newPic}, // Updated field and value
-                {new: false}
+                { _id: id }, // Filter condition to find the user
+                { profilePic: newPic }, // Updated field and value
+                { new: false }
             );
         }
-        if (newnickName) {
+        if (newNickName) {
             await User.findOneAndUpdate(
-                id, // Filter condition to find the user
-                {nickName: newnickName}, // Updated field and value
-                {new: false}
+                { _id: id }, // Filter condition to find the user
+                { nickName: newNickName }, // Updated field and value
+                { new: false }
             );
         }
     } catch (error) {
@@ -69,7 +69,7 @@ const updateUser = async (id, newPic, newnickName) => {
         return null;
     }
     return 'success';
-}
+};
 
 const deleteUser = async (id) => {
     try {
