@@ -11,6 +11,7 @@ function LeftMenu({ setCurrentUser, currentUser }) {
   
 
   const [jwt, setJwt] = useState(localStorage.getItem('JWT'));
+  const userId = localStorage.getItem('userId');
 
   useEffect(() => {
       setUserJWT(jwt);
@@ -74,24 +75,24 @@ function LeftMenu({ setCurrentUser, currentUser }) {
             Log Out
         </button>
       )}</div>
-      <div>{(jwt != 'null') && (
+      <div>{(jwt !== 'null') && (
         <Link to="/profile">
           <button type="button" className="btn btn-outline-danger list-group-item d-flex align-items-center">
             Profile
           </button>
         </Link>
       )}</div>
-      <div>{(jwt != 'null') && (
-        <Link to={`/${currentUser}`} className="w-100 m-1 ms-3">
-          <button type="button" className="btn btn-outline-danger list-group-item d-flex align-items-center">
-            My Videos
-          </button>
-        </Link>
+      <div>{(jwt !== 'null') && (
+        <Link to={`/${userId}`} className="w-100 m-1 ms-3">
+        <button type="button" className="btn btn-outline-danger list-group-item d-flex align-items-center">
+          My Videos
+        </button>
+      </Link>
       )}</div>
       <div className="user-list mt-4 list-group-item d-flex align-items-center">
         <h4>Hello, {(!jwt || jwt === 'undefined' || jwt ==='null') ? "Guest" : localStorage.getItem("username")}</h4>
       </div>
-      {(jwt != 'null') && (
+      {(jwt !== 'null') && (
         <div className="user-pic">
           <img
             src={localStorage.getItem("profilePic")}

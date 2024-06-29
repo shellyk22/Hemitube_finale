@@ -2,6 +2,7 @@ const Video = require('../models/video');
 const VidFile = require('../models/vidFile.js');
 const Comment = require('../models/comment');
 const User = require('../models/user');
+const mongoose = require('mongoose');
 
 const createVideo = async (title, description, publisher, file_name, file_data, thumbnail_name, thumbnail_data) => {
     try {
@@ -102,8 +103,10 @@ const addCommentToVideo = async (videoId, commentContent, userId) => {
 
 const getVideosByUserId = async (userId) => {
     try {
+        //const objectId = mongoose.Types.ObjectId(userId);
+        console.log(userId)
         return await Video.find({ publisher: userId })
-            .populate('publisher comments file'); // Populate comments and file
+            //.populate('publisher comments file'); // Populate comments and file
     } catch (error) {
         console.log("Error fetching videos by user ID: ", error);
         throw new Error('Could not fetch videos by user ID');

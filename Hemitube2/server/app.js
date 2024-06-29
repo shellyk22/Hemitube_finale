@@ -6,6 +6,7 @@ const bodyParser = require('body-parser');
 const cors = require('cors');
 const customEnv = require('custom-env');
 const mongoose = require('mongoose');
+const users = require('./models/user')
 
 const app = express();
 
@@ -41,6 +42,13 @@ app.use('/api/token', tokenRoutes);
 const videosHemi = require('./routes/videosHemi');
 app.use('/', videosHemi);
 
+app.get('/api/users/:username', (req, res) => {
+    const user = users.find(u => u.username === req.params.username);
+    if (!user) {
+      return res.status(404).json({ error: 'User not found' });
+    }
+    res.json(user);
+  });
 
 const server = http.createServer(app);
 
