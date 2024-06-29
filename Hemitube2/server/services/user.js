@@ -48,20 +48,20 @@ const getUser = async (username) => {
     }
 };
 
-const updateUser = async (id, newPic, newNickName) => {
+const updateUser = async (username, newPic, newDisplayName) => {
     try {
         if (newPic) {
             await User.findOneAndUpdate(
-                { _id: id }, // Filter condition to find the user
-                { profilePic: newPic }, // Updated field and value
-                { new: false }
+                {username: username}, // Filter condition to find the user
+                {profilePic: newPic}, // Updated field and value
+                {new: false}
             );
         }
-        if (newNickName) {
+        if (newDisplayName) {
             await User.findOneAndUpdate(
-                { _id: id }, // Filter condition to find the user
-                { nickName: newNickName }, // Updated field and value
-                { new: false }
+                {username: username}, // Filter condition to find the user
+                {displayName: newDisplayName}, // Updated field and value
+                {new: false}
             );
         }
     } catch (error) {
@@ -69,11 +69,16 @@ const updateUser = async (id, newPic, newNickName) => {
         return null;
     }
     return 'success';
-};
+}
 
-const deleteUser = async (id) => {
+
+const deleteUser = async (username) => {
     try {
-        return await User.findByIdAndDelete(id);
+        const user = await User.findOneAndDelete({ username: username });
+        if (!user) {
+            throw new Error('User not found');
+        }
+        return user;
     } catch (error) {
         console.log("Error deleting user: " + error);
         throw new Error('Could not delete user');
