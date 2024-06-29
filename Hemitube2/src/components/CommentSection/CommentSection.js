@@ -3,7 +3,7 @@ import { useParams } from 'react-router-dom';
 import './CommentSection.css';
 import userTable from '../Users.json';
 
-function CommentSection({ videoList, currentUser, updateComments }) {
+function CommentSection({ videoList, updateComments }) {
   const { id } = useParams();
   const video = videoList.find(v => v.id === id);
   const [commentText, setCommentText] = useState('');
@@ -21,7 +21,7 @@ function CommentSection({ videoList, currentUser, updateComments }) {
       const newComment = {
         id: Date.now().toString(),
         text: commentText,
-        author: userTable[currentUser].nickname
+        author: localStorage.getItem("username")
       };
       const updatedComments = [...comments, newComment];
       setComments(updatedComments);

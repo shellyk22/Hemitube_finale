@@ -12,6 +12,6 @@ router.route('/:vid/comments')
 router.route('/:vid/comments/:cid')
     .get(commentController.getComment) // Get details of a comment by comment ID (:cid)
     .put(commentController.isLoggedIn,commentController.updateComment) // Update a comment by comment ID (:cid)
-    .delete(commentController.isLoggedIn,commentController.deleteComment); // Delete a comment by comment ID (:cid)
+    .delete(commentController.isLoggedIn,commentController.deleteCommentByVideoId); // Delete a comment by comment ID (:cid)
 
 module.exports = router;

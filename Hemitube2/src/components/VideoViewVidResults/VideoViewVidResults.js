@@ -4,6 +4,8 @@ import VideoItem from '../videoItem/VideoItem';
 import videoTable from '../videoItem/Videos.json';
 import './VideoViewVidResults.css';
 
+export const serverAddress = 'http://localhost:5001';
+
 function VideoViewVidResuls({filteredVideoList}) {
   if(!filteredVideoList){
     return <label>No Videos!!</label>
@@ -12,18 +14,17 @@ function VideoViewVidResuls({filteredVideoList}) {
 
   const videoLinks = filteredVideoList.map((video, index) => (
     <>
-    {localStorage.setItem('video1', video.thumbnail_data)}
-
-    <Link to={`/video/${video.id}`} key={index} style={{ textDecoration: 'none', color: 'inherit' }}>
-      <div className="video-item-res2">
-        <img src={localStorage.getItem("video1")} alt={`${video.title} `} />
-        <div className="title">{video.title}</div>
-        <div className="details">
-          <p>{video.author}</p>
-          <p>{video.views} views • {video.time}</p>
+    {console.log("ariel", { video })}
+      <Link to={`/video/${video._id}`} key={index} style={{ textDecoration: 'none', color: 'inherit' }}>
+        <div className="video-item-res">
+          <img className="video-thumbnail" src={`${serverAddress}/uploads/${video.thumbnail_name}`} alt={video.title} />
+          <div className="video-title">{video.title}</div>
+          <div className="video-details">
+            <p>{video.author}</p>
+            <p>{video.views} views • {video.time}</p>
+          </div>
         </div>
-      </div>
-    </Link>
+      </Link>
     </>
   ));
 

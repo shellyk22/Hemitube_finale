@@ -1,52 +1,82 @@
 const commentService = require('../services/comment') 
+const videoService = require('../services/video') 
+
 
 const jwt = require('jsonwebtoken'); 
 
 const key = "secret key foo foo foo bar";
-const createComment = async (req, res) => {
+// const createComment = async (req, res) => {
+//     try {
+//         const { author, content } = req.body;
+//         if (!content) {
+//             return res.status(400).json({ errors: ['Content is required'] });
+//         }
+//         // Pass `null` as the author if it's not provided
+//         const comment = await commentService.createComment(author || null, content);
+//         if (!comment) {
+//             return res.status(500).json({ errors: ['Error creating comment'] });
+//         }
+//         res.status(201).json(comment);
+//     } catch (error) {
+//         res.status(500).json({ errors: [error.message] });
+//     }
+// };
+
+const getComment = async (req, res) => {
     try {
-        const { author, content } = req.body;
-        if (!content) {
-            return res.status(400).json({ errors: ['Content is required'] });
-        }
-        // Pass `null` as the author if it's not provided
-        const comment = await commentService.createComment(author || null, content);
+        const comment = await commentService.getCommentById(req.params.cid);
         if (!comment) {
-            return res.status(500).json({ errors: ['Error creating comment'] });
+            return res.status(404).json({ errors: ['Comment not found'] });
         }
-        res.status(201).json(comment);
+        res.json(comment);
     } catch (error) {
         res.status(500).json({ errors: [error.message] });
     }
 };
 
-const getComment = async (req, res) => {
-    res.json(await commentService.getCommentById(req.params.id))
-    if (!comment) {
-        return res.status(404).json({errors: ['Comment not found']})
-    }
-    res.json(comment);
-};
 
 const updateComment = async (req, res) => {
-    res.json(await commentService.updateComment(req.body.content))
-    if (!comment) {
-        return res.status(404).json({errors: ['Comment not found']})
+    try {
+        const comment = await commentService.getCommentById(req.params.cid);
+        if (!comment) {
+            return res.status(404).json({ errors: ['Comment not found'] });
+        }
+        const updatedComment = await commentService.updateComment(req.params.cid, req.body.content);
+        res.json(updatedComment);
+    } catch (error) {
+        res.status(500).json({ errors: [error.message] });
     }
-    res.json(comment);
 };
 
 const getComments = async (_, res) => {
     res.json(await commentService.getComments())
 };
-
-const deleteComment = async (_, res) => {
-    res.json(await commentService.deleteComment(req.params.id))
-    if (!comment) {
-        return res.status(404).json({errors: ['Comment not found']})
+const deleteComment = async (req, res) => {
+    try {
+        const comment = await commentService.deleteComment(req.params.cid);
+        if (!comment) {
+            return res.status(404).json({ errors: ['Comment not found'] });
+        }
+        res.json({ message: 'Comment deleted successfully', comment });
+    } catch (error) {
+        res.status(500).json({ errors: [error.message] });
     }
-    res.json(comment);
 };
+
+const deleteCommentByVideoId = async (req, res) => {
+    try {
+        const commentId = await commentService.getCommentById(req.params.cid);
+        const videoId = await videoService.getVideoById(req.params.vid);
+        const comment = await commentService.deleteCommentByVideoId(videoId._id, commentId._id);
+        if (!comment) {
+            return res.status(404).json({ errors: ['Comment not found'] });
+        }
+        res.json({ message: 'Comment deleted successfully', comment });
+    } catch (error) {
+        res.status(500).json({ errors: [error.message] });
+    }
+};
+
 
 
 const isLoggedIn = (req, res, next) => {
@@ -66,7 +96,7 @@ const isLoggedIn = (req, res, next) => {
 
 const deleteCommentsByUserId = async (req, res) => {
     try {
-        const result = await commentService.deleteCommentsByUserId(req.params.userId);
+        const result = await commentService.deleteCommentsByUserId(req.params.id);
         res.status(200).json(result);
     } catch (error) {
         res.status(500).json({ errors: [error.message] });
@@ -74,4 +104,4 @@ const deleteCommentsByUserId = async (req, res) => {
 };
 
 
-module.exports = {createComment, getComment, updateComment, getComments, deleteComment, isLoggedIn, deleteCommentsByUserId}
+module.exports = {getComment, updateComment, getComments, deleteComment, isLoggedIn, deleteCommentsByUserId, deleteCommentByVideoId}

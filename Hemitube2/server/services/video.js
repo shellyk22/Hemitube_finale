@@ -70,10 +70,7 @@ const updateVideo = async (id, updateData) => {
 
 const deleteVideo = async (id) => {
     try {
-        const video = await Video.findById(id);
-        if (video && video.file) {
-            await VidFile.findByIdAndDelete(video.file);
-        }
+        //const video = await Video.findById(id);
         return await Video.findByIdAndDelete(id);
     } catch (error) {
         console.log("Error deleting video: ", error);

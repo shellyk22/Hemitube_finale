@@ -1,6 +1,7 @@
 //const Message = require('../models/message');
 //const FilesAttach = require('../models/files');
 const Comment = require('../models/comment.js');
+const Video = require('../models/video')
 
 // const createComment = async (author, content) => {
 //     try {
@@ -53,8 +54,23 @@ const deleteCommentsByUserId = async (userId) => {
         throw new Error('Could not delete comments by user ID');
     }
 };
+const deleteCommentByVideoId = async (videoId, commentId) => {
+    try {
+        const comment = await getCommentById(commentId);
+        if (!comment) return null;
+
+        // Remove comment from the specified video
+        await Video.findByIdAndUpdate(videoId, {
+            $pull: { comments: commentId }
+        });
+
+        await comment.deleteOne();
+        return comment;
+    } catch (error) {
+        console.log('Error deleting comment by video ID:', error);
+        throw new Error('Could not delete comment');
+    }
+};
 
 
-
-
-module.exports = { getComments, getCommentById, updateComment, deleteComment, deleteCommentsByUserId}
+module.exports = {getComments, getCommentById, updateComment, deleteComment, deleteCommentsByUserId, deleteCommentByVideoId}

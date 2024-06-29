@@ -33,7 +33,7 @@ const commentRoutes = require('./routes/comments');
 app.use('/api/users/:id/videos', commentRoutes);
 
 const videoRoutes = require('./routes/videos');
-app.use('/api/videos', videoRoutes);
+app.use('/api/users', videoRoutes);
 
 const tokenRoutes = require('./routes/token');
 app.use('/api/token', tokenRoutes);
