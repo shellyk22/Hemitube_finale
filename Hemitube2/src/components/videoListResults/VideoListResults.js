@@ -3,14 +3,8 @@ import { Link } from 'react-router-dom';
 import './VideoListResults.css';
 export const serverAddress = 'http://localhost:5001';
 
-
-export const serverAddress = 'http://localhost:5001';
-
 function VideoListResults({ filteredVideoList }) {
   
-
-  console.log("Here!")
-  console.log(filteredVideoList)
 
   if (!filteredVideoList) {
     return <label>No Videos!!</label>;
@@ -18,7 +12,7 @@ function VideoListResults({ filteredVideoList }) {
 
   const videoLinks = filteredVideoList.map((video, index) => (
     <>
-      {console.log("ariel", { video })}
+      
       <Link to={`/video/${video._id}`} key={index} style={{ textDecoration: 'none', color: 'inherit' }}>
         <div className="video-item-res">
           <img className="video-thumbnail" src={`${serverAddress}/uploads/${video.thumbnail_name}`} alt={video.title} />
