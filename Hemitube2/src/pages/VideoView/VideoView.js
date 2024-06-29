@@ -6,25 +6,31 @@ import VideoListResults from '../../components/VideoViewVidResults/VideoViewVidR
 import CommentSection from '../../components/CommentSection/CommentSection';
 import './VideoView.css';
 import logo from '../../components/hemitubeLogoForC.jpeg'; 
-
+export const serverAddress = 'http://localhost:5001';
 
 function VideoView({
-  doSearch, videoList, currentUser, filteredVideoList, updateComments, deleteVideo, updateVideoDetails, likedVideos, toggleLike
+  doSearch, videoList, filteredVideoList, updateComments, deleteVideo, updateVideoDetails, likedVideos, toggleLike
 }) {
   const { id } = useParams();
-  const video = videoList.find(v => v.id === id);
+  const [video, setVideo] = useState(null);
   const navigate = useNavigate();
   const [isEditing, setIsEditing] = useState(false);
-  const [editedTitle, setEditedTitle] = useState(video ? video.title : '');
-  const [editedDescription, setEditedDescription] = useState(video ? video.description : '');
+  const [editedTitle, setEditedTitle] = useState('');
+  const [editedDescription, setEditedDescription] = useState('');
   const isLiked = likedVideos.includes(id);
 
   useEffect(() => {
-    if (video) {
-      setEditedTitle(video.title);
-      setEditedDescription(video.description);
-    }
-  }, [video]);
+    const fetchVideo = () => {
+      const foundVideo = videoList.find(v => v._id === id);
+      console.log(videoList.find(v => v._id === id))
+      setVideo(foundVideo);
+      if (foundVideo) {
+        setEditedTitle(foundVideo.title);
+        setEditedDescription(foundVideo.description);
+      }
+    };
+    fetchVideo();
+  }, [id, videoList]);
 
   if (!video) {
     return <NotFound />;
@@ -54,17 +60,17 @@ function VideoView({
         <VideoListResults filteredVideoList={filteredVideoList} />
       </div>
       <div className="main-content">
-      <div className="search-bar2 d-flex align-items-center mb-3 justify-content-center">
-            <div className="logo-container3 me-3">
-              <img src={logo} alt="Logo" className="logo3" width="50px" />
-            </div>
-            <div className="search-container">
-              <Search doSearch={doSearch} className="form-control-lg" />
-            </div>
+        <div className="search-bar2 d-flex align-items-center mb-3 justify-content-center">
+          <div className="logo-container3 me-3">
+            <img src={logo} alt="Logo" className="logo3" width="50px" />
           </div>
+          <div className="search-container">
+            <Search doSearch={doSearch} className="form-control-lg" />
+          </div>
+        </div>
         <div>
           <h2>{video.title}</h2>
-          <video controls width="100%" src={video.data} />
+          <video controls width="100%" src={`${serverAddress}/uploads/${video.file_name}`} />
         </div>
         <div className="video-details">
           <p>Description: {video.description}</p>
@@ -72,6 +78,7 @@ function VideoView({
           <p>Views: {video.views}</p>
           <p>Uploaded: {video.time} ago</p>
         </div>
+
         {localStorage.getItem("username") && (
           <div className="video-actions">
             <div className="action-buttons d-flex flex-wrap">

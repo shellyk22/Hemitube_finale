@@ -51,6 +51,7 @@ function App() {
               
               const data = await response.json();
               setFilteredVideoList(data)
+              setVideoList(data)
           }
 
           catch (error)
@@ -61,7 +62,9 @@ function App() {
 
         fetchVideos();
 
-  }, [videoList]);
+  }, []);
+
+
 
   const doSearch = (q) => {
     if (!q) {
@@ -116,14 +119,14 @@ function App() {
         <DarkModeToggle isDarkMode={isDarkMode} toggleDarkMode={toggleDarkMode} />
         <Routes>
           <Route path="/" element={<HomePage doSearch={doSearch} filteredVideoList={filteredVideoList} currentUser={currentUser}
-            setCurrentUser={setCurrentUser} />} />
+            setCurrentUser={setCurrentUser} videoList={videoList}/>} />
           <Route path="/video/:id" element={<VideoView doSearch={doSearch} filteredVideoList={filteredVideoList}
-            currentUser={currentUser} setCurrentUser={setCurrentUser} videoList={videoList}
+            currentUser={currentUser}  videoList={videoList}
             updateComments={updateComments} deleteVideo={deleteVideo} updateVideoDetails={updateVideoDetails}
             toggleLike={toggleLike} likedVideos={likedVideos} />} />
           <Route path="/signup" element={<SignUp />} />
-          <Route path="/signin" element={<SignIn setCurrentUser={setCurrentUser} />} />
-          <Route path="/addVideo" element={<AddVideo setCurrentUser={setCurrentUser}
+          <Route path="/signin" element={<SignIn />} />
+          <Route path="/addVideo" element={<AddVideo
             videoList={videoList} setVideoList={setVideoList} currentUser={currentUser} />} />
           <Route
             path="/profile"
