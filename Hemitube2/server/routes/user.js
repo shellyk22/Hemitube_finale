@@ -4,7 +4,8 @@ const express = require('express');
 const router = express.Router();
 
 router.route('/')
-    .post(userController.createUser);
+    .post(userController.createUser)
+    .get(userController.getAllUsers);
 
 router.route('/:id')
     .get(userController.getUser)
