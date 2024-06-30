@@ -10,7 +10,9 @@ import logo from '../../components/hemitubeLogoForC.jpeg';
 export const serverAddress = 'http://localhost:5001';
 
 function VideoView({
+
   doSearch, videoList, filteredVideoList, updateComments, likedVideos, toggleLike
+
 }) {
   const { id } = useParams();
   const [video, setVideo] = useState(null);
@@ -91,7 +93,7 @@ function VideoView({
         </div>
         <div className="video-details">
           <p>Description: {video.description}</p>
-          <p>Author: {video.author}</p>
+          <p>Publisher: {video.publisher}</p>
           <p>Views: {video.views}</p>
           <p>Uploaded: {video.time} ago</p>
         </div>
@@ -149,7 +151,6 @@ function VideoView({
         <div className="comment-section">
           <CommentSection
             videoList={videoList}
-            updateComments={updateComments}
           />
         </div>
         <Link to="/">
