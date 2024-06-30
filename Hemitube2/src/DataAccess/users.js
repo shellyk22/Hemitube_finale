@@ -48,6 +48,7 @@ export async function registerUser(username, password, nickName, profilePic) {
     }
 }
 
+
 /**
  * Returns the user's data (username, displayName, profile-pic)
  */

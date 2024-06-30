@@ -12,6 +12,7 @@ function LeftMenu({ }) {
 
   const [jwt, setJwt] = useState(localStorage.getItem('JWT'));
   const userId = localStorage.getItem('userId');
+  const username = localStorage.getItem('username');
 
   useEffect(() => {
     setUserJWT(jwt);
@@ -92,7 +93,7 @@ function LeftMenu({ }) {
 
 
 <div>{(jwt != 'null') && (
-        <Link to={`/${userId}`} className="w-100 m-1 ms-3">
+        <Link to={`/${username}`} className="w-100 m-1 ms-3">
         <button type="button" className="btn btn-outline-danger list-group-item d-flex align-items-center">
           My Videos
         </button>
