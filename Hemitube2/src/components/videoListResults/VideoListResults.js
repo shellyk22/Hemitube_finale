@@ -18,7 +18,7 @@ function VideoListResults({ filteredVideoList }) {
           <img className="video-thumbnail" src={`${serverAddress}/uploads/${video.thumbnail_name}`} alt={video.title} />
           <div className="video-title">{video.title}</div>
           <div className="video-details">
-            <p>{video.publisher}</p>
+            <p>{video.publisher.username}</p>
             <p>{video.__v} views • {new Date(video.uploadDate).toLocaleDateString()}</p>
           </div>
         </div>

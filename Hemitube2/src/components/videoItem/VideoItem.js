@@ -1,3 +1,4 @@
+import React from 'react';
 import './VideoItem.css'
 
 function VideoItem({ title, author, views, time, img}){

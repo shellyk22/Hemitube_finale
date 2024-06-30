@@ -101,12 +101,12 @@ const deleteVideo = async (req, res) => {
 
 const addCommentToVideo = async (req, res) => {
     try {
-        const {content} = req.body;
-        const {vid , id } = req.params;
+        const {content, userID, username} = req.body;
+        const {vid } = req.params;
         if (!vid || !content) {
             return res.status(400).json({ errors: ['Video ID and content are required'] });
         }
-        const newComment = await videoService.addCommentToVideo(vid, content, id);
+        const newComment = await videoService.addCommentToVideo(vid, content, userID, username);
         res.status(201).json(newComment);
     } catch (error) {
         res.status(500).json({ errors: [error.message] });

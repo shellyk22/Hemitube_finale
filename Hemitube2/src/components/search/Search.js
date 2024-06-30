@@ -1,5 +1,4 @@
-
-import { useRef } from "react";
+import React, { useRef } from "react";
 
 
 
@@ -16,7 +15,7 @@ const search = function(){
 
 
     return (
-        <div className="row bg-white justify-content-center">
+        <div className="form-control-lg row bg-white justify-content-center">
             <div className="col-10">
                 <div className="input-group mb-3 p-2">
                     <input ref={searchBox} onKeyUp={search} type="text" className="form-control" placeholder="Search" aria-label="Search"

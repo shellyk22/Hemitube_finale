@@ -49,8 +49,6 @@ export async function createVideo(formData) {
             console.log(`${key}: ${value}`);
         }
 
-        console.log("Path:");
-        console.log(`${serverAddress}/api/users/${localStorage.getItem("username")}/videos`);
         const res = await fetch(`${serverAddress}/api/users/${localStorage.getItem("username")}/videos`, {
             method: 'post',
             headers: {

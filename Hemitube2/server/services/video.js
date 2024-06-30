@@ -6,26 +6,7 @@ const User = require('../models/user');
 const createVideo = async (title, description, publisher, file_name, file_data, thumbnail_name, thumbnail_data) => {
     try {
         const comments = [
-            {
-                userID: '667dc7a2e69ca93a73f1c1b0',
-                text: 'This is an amazing video!'
-            },
-            {
-                userID: '667e8256ca31bc259e62f65c',
-                text: 'Great content, keep it up!'
-            },
-            {
-                userID: '667e8256ca31bc259e62f65c',
-                text: 'I found this video very informative.'
-            },
-            {
-                userID: '667dc7a2e69ca93a73f1c1b0',
-                text: 'Can you make more videos on this topic?'
-            },
-            {
-                userID: '667e77c8ca31bc259e62f658',
-                text: 'Loved the editing and presentation!'
-            }
+            
         ];
 
         console.log(comments);
@@ -40,8 +21,7 @@ const createVideo = async (title, description, publisher, file_name, file_data, 
 
 const getVideos = async () => {
     try {
-        return await Video.find({})
-        // .populate('publisher comments file'); // Populate comments and file
+        return await Video.find({}).populate('publisher');
     } catch (error) {
         console.log("Error fetching videos: ", error);
         throw new Error('Could not fetch videos');
@@ -51,7 +31,7 @@ const getVideos = async () => {
 const getVideoById = async (id) => {
     try {
         return await Video.findById(id)
-            //.populate('publisher comments file'); // Populate comments and file
+        //.populate('publisher comments file'); // Populate comments and file
     } catch (error) {
         console.log("Error fetching video by ID: ", error);
         throw new Error('Could not fetch video');
@@ -74,7 +54,7 @@ const deleteVideo = async (id) => {
         if (video) {
             return await Video.findByIdAndDelete(id);
         }
-        
+
     } catch (error) {
         console.log("Error deleting video: ", error);
         throw new Error('Could not delete video');
@@ -83,18 +63,18 @@ const deleteVideo = async (id) => {
 
 
 
-const addCommentToVideo = async (videoId, commentContent, username) => {
+const addCommentToVideo = async (videoId, commentContent, userId, username) => {
     try {
+
         // Find user by username
         const user = await User.findOne({ username });
         if (!user) {
             throw new Error('User not found');
         }
-        const userId = user._id;
 
         // Create a new comment
-        const comment = new Comment({ content: commentContent, author: user?.nickName });
-        await comment.save();
+        const comment = new Comment({ userID: userId, text: commentContent });
+
 
         // Find the video by its ID
         const video = await Video.findById(videoId);
@@ -103,10 +83,12 @@ const addCommentToVideo = async (videoId, commentContent, username) => {
         }
 
         // Add the comment to the video's comments array
-        video.comments.push(comment._id);
+        video.comments.push(comment);
         await video.save();
 
-        return comment.toObject();
+        const populatedComment = await comment.populate('userID');
+
+        return { _id: populatedComment._id, content: populatedComment.text, author: populatedComment.userID };
     } catch (error) {
         console.error("Error adding comment to video: ", error);
         throw new Error('Could not add comment to video');
@@ -134,15 +116,15 @@ const getVideosByUsername = async (username) => {
 
 const getAllCommentsByVideoId = async (videoId) => {
     try {
-        const video = await Video.findById(videoId).populate('comments');
+        const video = await Video.findById(videoId).populate({ path: 'comments', populate: { path: 'userID' } });
         if (!video) {
             throw new Error('Video not found');
         }
 
         return video.comments.map(comment => ({
             _id: comment._id,
-            content: comment.content,
-            author: comment.author
+            content: comment.text,
+            author: comment.userID
         }));
     } catch (error) {
         console.error('Error getting comments by video ID:', error);
