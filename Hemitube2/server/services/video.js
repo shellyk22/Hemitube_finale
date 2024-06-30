@@ -134,16 +134,18 @@ const getVideosByUsername = async (username) => {
 
 const getAllCommentsByVideoId = async (videoId) => {
     try {
-        // Find the video by its ID and populate the comments
         const video = await Video.findById(videoId).populate('comments');
         if (!video) {
             throw new Error('Video not found');
         }
 
-        // Return the comments
-        return video.comments;
+        return video.comments.map(comment => ({
+            _id: comment._id,
+            content: comment.content,
+            author: comment.author
+        }));
     } catch (error) {
-        console.log('Error getting comments by video ID:', error);
+        console.error('Error getting comments by video ID:', error);
         throw new Error('Could not get comments');
     }
 };

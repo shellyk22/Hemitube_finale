@@ -65,7 +65,7 @@ function CommentSection({ videoList }) {
       if (!response.ok) {
         throw new Error('Failed to delete comment');
       }
-      setComments(comments.filter(comment => comment.id !== commentId));
+      setComments(comments.filter(comment => comment._id !== commentId));
     } catch (error) {
       console.error('Error deleting comment:', error);
     }
@@ -120,7 +120,7 @@ function CommentSection({ videoList }) {
                 <p>{comment.content}</p>
                 {localStorage.getItem("username") && (
                   <div className="unique-comment-actions">
-                    <button className="btn btn-outline-secondary rounded-pill" onClick={() => handleDeleteComment(comment.id)}>Delete</button>
+                    <button className="btn btn-outline-secondary rounded-pill" onClick={() => handleDeleteComment(comment._id)}>Delete</button>
                     <button className="btn btn-outline-secondary rounded-pill" onClick={() => {
                       const newText = prompt('Edit your comment:', comment.content);
                       if (newText !== null) handleEditComment(comment._id, newText);
