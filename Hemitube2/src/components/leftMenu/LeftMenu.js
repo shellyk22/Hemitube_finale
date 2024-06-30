@@ -91,6 +91,7 @@ function LeftMenu({ setCurrentUser, currentUser }) {
           My Videos
         </button>
       </Link>
+      )}</div>
 
       <div>{(jwt != 'null') && (
         <button
@@ -101,7 +102,8 @@ function LeftMenu({ setCurrentUser, currentUser }) {
         </button>
       )}</div>
 
-      )}</div>
+      
+
       <div className="user-list mt-4 list-group-item d-flex align-items-center">
         <h4>Hello, {(!jwt || jwt === 'undefined' || jwt === 'null') ? "Guest" : localStorage.getItem("username")}</h4>
       </div>
