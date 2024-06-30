@@ -160,5 +160,15 @@ const getAllCommentsByVideoId = async (req, res) => {
     }
 };
 
-module.exports = { createVideo, getVideos, getVideo, updateVideo, deleteVideo, 
+const getTopVids = async (req, res) => {
+    try {
+        const topVideos = await videoService.getTopVids();
+        res.status(200).json(topVideos);
+    } catch (error) {
+        console.error('Error getting top videos:', error);
+        res.status(500).json({ message: 'Failed to get top videos' });
+    }
+};
+
+module.exports = { createVideo, getVideos, getVideo, updateVideo, deleteVideo,  getTopVids,
     addCommentToVideo, isLoggedIn , getVideosByUsername, getAllCommentsByVideoId, deleteVideosByUsername};

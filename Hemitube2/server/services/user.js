@@ -85,16 +85,6 @@ const deleteUser = async (username) => {
     }
 };
 
-const getAllUsers = async () => {
-    try {
-        return await User.find({})
-        // .populate('publisher comments file'); // Populate comments and file
-    } catch (error) {
-        console.log("Error fetching users: ", error);
-        throw new Error('Could not fetch users');
-    }
-};
 
 
-
-module.exports = {createUser, updateUser, deleteUser, getUser, getAllUsers}
+module.exports = {createUser, updateUser, deleteUser, getUser}

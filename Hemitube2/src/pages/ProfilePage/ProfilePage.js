@@ -2,11 +2,10 @@
 import './ProfilePage.css';
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import usersTable from '../../components/Users.json';
 import { deleteUser, setUserDetails } from '../../DataAccess/users';
 
 
-function ProfilePage({ currentUser, setCurrentUser }) {
+function ProfilePage({ currentUser, setCurrentUser}) {
   const [profilePic, setProfilePic] = useState(localStorage.getItem("profilePic") || "");
   const [nickname, setNickname] = useState(localStorage.getItem("nickname") || "");
   const [isEditing, setIsEditing] = useState(false);
@@ -46,6 +45,7 @@ function ProfilePage({ currentUser, setCurrentUser }) {
     }
   };
 
+
   const handleDeleteUser = async () => {
 
     const userId = localStorage.getItem("userId");
@@ -70,6 +70,11 @@ function ProfilePage({ currentUser, setCurrentUser }) {
   };
 
   return (
+    <section className="text-center text-lg-start">
+    <div className="container py-4 align-items-center">
+      <div className="card cascading-right bg-body-tertiary shadow-5" style={{ backdropFilter: 'blur(30px)' }}>
+        <div className="card-body p-5 shadow-5 text-center">
+          <div className="logo-container mb-4">
     <div className="profile-page">
       <h1>Profile Page</h1>
       <div className="profile-picture">
@@ -113,6 +118,11 @@ function ProfilePage({ currentUser, setCurrentUser }) {
 
       )}
     </div>
+    </div>
+          </div>
+        </div>
+      </div>
+    </section>
   );
 }
 

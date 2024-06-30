@@ -85,15 +85,4 @@ const isLoggedIn = (req, res, next) => {
     }
 };
 
-const getAllUsers = async (req, res) => {
-    try {
-
-        console.log("getting all  users")
-        const users = await userService.getAllUsers();
-        res.status(200).json(users);
-    } catch (error) {
-        res.status(500).json({ errors: [error.message] });
-    }
-};
-
-module.exports = {createUser, isLoggedIn, getUser, updateUser, deleteUser, getAllUsers};
+module.exports = {createUser, isLoggedIn, getUser, updateUser, deleteUser};

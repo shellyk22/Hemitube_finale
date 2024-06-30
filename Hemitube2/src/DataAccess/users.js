@@ -111,7 +111,26 @@ export async function deleteUser(username) {
 }
 
 
+export async function fetchUsers() {
+    try {
+        const res = await fetch(`${serverAddress}/api/users`, {
+            method: 'get',
+            headers: {
+                'Content-Type': 'application/json',
+                'authorization': 'Bearer ' + localStorage.getItem('JWT'),
+            },
+        });
 
+        if (res.status === 200) {
+            return await res.json();
+        } else {
+            throw new Error("Error fetching videos");
+        }
+    } catch (error) {
+        console.log('Error fetching users:', error);
+        return "Ooopss! We've run into a big big problem :(\nPlease try again later";
+    }
+}
 
 
 
