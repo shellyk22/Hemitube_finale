@@ -18,7 +18,7 @@ function CommentSection({ videoList }) {
 
   const fetchComments = async () => {
     try {
-      const response = await fetch(`${serverAddress}/api/users/${video.publisher}/videos/${id}/comments`);
+      const response = await fetch(`${serverAddress}/api/users/${video.publisher._id}/videos/${id}/comments`);
       if (!response.ok) {
         throw new Error('Failed to fetch comments');
       }
@@ -34,11 +34,12 @@ function CommentSection({ videoList }) {
     if (localStorage.getItem("username") && commentText.trim()) {
       const newComment = {
         content: commentText,
-        author: localStorage.getItem("username")
+        userID: localStorage.getItem("userId"),
+        username: localStorage.getItem("username")
       };
 
       try {
-        const response = await fetch(`${serverAddress}/api/users/${video.publisher}/videos/${id}/comments`, {
+        const response = await fetch(`${serverAddress}/api/users/${video.publisher._id}/videos/${id}/comments`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -48,8 +49,8 @@ function CommentSection({ videoList }) {
         if (!response.ok) {
           throw new Error('Failed to add comment');
         }
-        const data = await response.json();
-        setComments([...comments, data.comment]);
+        const comment = await response.json();
+        setComments((prevComments) => [...prevComments, comment]);
         setCommentText('');
       } catch (error) {
         console.error('Error adding comment:', error);
@@ -59,7 +60,7 @@ function CommentSection({ videoList }) {
 
   const handleDeleteComment = async (commentId) => {
     try {
-      const response = await fetch(`${serverAddress}/api/users/${video.publisher}/videos/${id}/comments/${commentId}`, {
+      const response = await fetch(`${serverAddress}/api/users/${video.publisher._id}/videos/${id}/comments/${commentId}`, {
         method: 'DELETE',
       });
       if (!response.ok) {
@@ -73,7 +74,7 @@ function CommentSection({ videoList }) {
 
   const handleEditComment = async (commentId, newText) => {
     try {
-      const response = await fetch(`${serverAddress}/api/users/${video.publisher}/videos/${id}/comments/${commentId}`, {
+      const response = await fetch(`${serverAddress}/api/users/${video.publisher._id}/videos/${id}/comments/${commentId}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -115,7 +116,7 @@ function CommentSection({ videoList }) {
             <div key={comment._id} className="rounded-pill">
               <div className="unique-comment-header">
                 <div className="unique-comment-author">
-                  <p className="small mb-0 ms-2"><strong>{comment.author}</strong></p>
+                  <p className="small mb-0 ms-2"><strong>{comment.author.username}</strong></p>
                 </div>
                 <p>{comment.content}</p>
                 {localStorage.getItem("username") && (

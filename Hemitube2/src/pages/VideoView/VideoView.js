@@ -4,15 +4,13 @@ import Search from '../../components/search/Search';
 import NotFound from '../NotFound/NotFound';
 import VideoListResults from '../../components/VideoViewVidResults/VideoViewVidResults';
 import CommentSection from '../../components/CommentSection/CommentSection';
-import {deleteVideo, updateVideo} from '../../DataAccess/videos'
+import { deleteVideo, updateVideo } from '../../DataAccess/videos'
 import './VideoView.css';
-import logo from '../../components/hemitubeLogoForC.jpeg'; 
+import logo from '../../components/hemitubeLogoForC.jpeg';
 export const serverAddress = 'http://localhost:5001';
 
 function VideoView({
-
   doSearch, videoList, filteredVideoList, updateComments, likedVideos, toggleLike
-
 }) {
   const { id } = useParams();
   const [video, setVideo] = useState(null);
@@ -40,20 +38,20 @@ function VideoView({
   }
 
   const handleDeleteVideo = () => {
-    if(video.publisher == localStorage.getItem("userId")){
-    deleteVideo(video._id, video.publisher._id);
-    navigate('/');
-  }
-  else{
-    alert("only publisher of the video can delete it!")
-  }
+    if (video.publisher._id == localStorage.getItem("userId")) {
+      deleteVideo(video._id, video.publisher._id);
+      navigate('/');
+    }
+    else {
+      alert("only publisher of the video can delete it!")
+    }
   };
 
   const handleEditVideo = () => {
-    if(video.publisher == localStorage.getItem("userId")){
-    setIsEditing(true);
+    if (video.publisher._id == localStorage.getItem("userId")) {
+      setIsEditing(true);
     }
-    else{
+    else {
       alert("only the publisher of the video can edit the video details!")
     }
   };
@@ -62,9 +60,9 @@ function VideoView({
     const updateData = {
       title: editedTitle,
       description: editedDescription
-  };
-  
-    updateVideo(video._id, video.publisher, updateData);
+    };
+
+    updateVideo(video._id, video.publisher.username, updateData);
     setIsEditing(false);
     window.location.reload();
   };
@@ -84,7 +82,7 @@ function VideoView({
             <img src={logo} alt="Logo" className="logo3" width="50px" />
           </div>
           <div className="search-container">
-            <Search doSearch={doSearch} className="form-control-lg" />
+            <Search doSearch={doSearch} />
           </div>
         </div>
         <div>
@@ -93,9 +91,9 @@ function VideoView({
         </div>
         <div className="video-details">
           <p>Description: {video.description}</p>
-          <p>Publisher: {video.publisher}</p>
+          <p>Publisher: {video.publisher.username}</p>
           <p>Views: {video.__v}</p>
-          <p>Uploade date: {new Date(video.uploadDate).toLocaleDateString()} </p>
+          <p>Uploade date: {new Date(video.uploadDate).toLocaleDateString()}</p>
         </div>
 
         {localStorage.getItem("username") && (

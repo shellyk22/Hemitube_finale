@@ -71,7 +71,6 @@ async function getUserDetails(username) {
 }
 
 export async function setUserDetails(username, newPic, newnickName) {
-    console.log("lmao: " + username);
     try {
         const res = await fetch(serverAddress + '/api/users/' + username, {
             'method': 'put',

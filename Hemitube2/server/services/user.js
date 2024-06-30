@@ -48,7 +48,7 @@ const getUser = async (username) => {
     }
 };
 
-const updateUser = async (username, newPic, newDisplayName) => {
+const updateUser = async (username, newPic, newNickName) => {
     try {
         if (newPic) {
             await User.findOneAndUpdate(
@@ -57,10 +57,10 @@ const updateUser = async (username, newPic, newDisplayName) => {
                 {new: false}
             );
         }
-        if (newDisplayName) {
+        if (newNickName) {
             await User.findOneAndUpdate(
                 {username: username}, // Filter condition to find the user
-                {nickName: newDisplayName}, // Updated field and value
+                {nickName: newNickName}, // Updated field and value
                 {new: false}
             );
         }
