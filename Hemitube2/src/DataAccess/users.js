@@ -51,9 +51,9 @@ export async function registerUser(username, password, nickName, profilePic) {
 /**
  * Returns the user's data (username, displayName, profile-pic)
  */
-async function getUserDetails(userId) {
+async function getUserDetails(username) {
     try {
-        const res = await fetch(serverAddress + '/api/user/' + userId, {
+        const res = await fetch(serverAddress + '/api/users/' + username, {
             'method': 'get',
             'headers': {
                 'Content-Type': 'application/json',
@@ -69,10 +69,10 @@ async function getUserDetails(userId) {
     }
 }
 
-export async function setUserDetails(userId, newPic, newnickName) {
-    console.log("lmao: " + userId);
+export async function setUserDetails(username, newPic, newnickName) {
+    console.log("lmao: " + username);
     try {
-        const res = await fetch(serverAddress + '/api/users/' + userId, {
+        const res = await fetch(serverAddress + '/api/users/' + username, {
             'method': 'put',
             'headers': {
                 'Content-Type': 'application/json',
@@ -90,16 +90,16 @@ export async function setUserDetails(userId, newPic, newnickName) {
 
 
 
-export async function deleteUser(userId) {
-    console.log("lmao: " + userId);
+export async function deleteUser(username) {
+    console.log("lmao: " + username);
     try {
-        const res = await fetch(serverAddress + '/api/users/' + userId, {
+        const res = await fetch(serverAddress + '/api/users/' + username, {
             'method': 'delete',
             'headers': {
                 'Content-Type': 'application/json',
                 "authorization": 'Bearer ' + localStorage.getItem('JWT'),
             },
-            'body': JSON.stringify({"userId": userId}),
+            'body': JSON.stringify({"userId": username}),
         });
 
         return res.status === 200 ? 'success' : 'error';
@@ -150,7 +150,7 @@ export async function loginUser(username, password) {
             console.log(localStorage.getItem)
             
             console.log({ userJWT, id: resData._id });
-            return await getUserDetails(resData._id);
+            return await getUserDetails(resData.username);
         } else {
             throw new Error (res.status === 404 ? 'Username or password does not match.' :
                 "Ooopss! We've run into a problem :(\nPlease try again later");
