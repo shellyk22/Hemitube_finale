@@ -7,7 +7,7 @@ const uploadFields = require('../middleware/multer');
 const router = express.Router();
 
 router.route('/:id/videos')
-    .get(videoController.getVideosByUserId) // Get all videos for a user by user ID (:id)
+    .get(videoController.getVideosByUsername) // Get all videos for a user by user ID (:id)
     .post(userController.isLoggedIn, uploadFields, videoController.createVideo); // Create a new video for a user by user ID (:id)
 
 router.route('/:id/videos/:pid')

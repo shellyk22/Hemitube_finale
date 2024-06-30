@@ -29,15 +29,15 @@ const createUser = async (req, res) => {
 // Define a function that responds with a json response.
 // Only logged-in users should be able to execute this function
 const getUser = async (req, res) => {
-    const user = await userService.getUserById(req.params.id);
+    const user = await userService.getUser(req.params.id);
     if (!user) {
         res.status(404).send("User not found.");
     }
-    res.status(200).json({_id: user._id, username: user.username, nickName: user.nickName, profilePic: user.profilePic});
+    res.status(200).json({username: user.username, nickName: user.nickName, profilePic: user.profilePic});
 }
 
 const updateUser = async (req, res) => {
-    if (!(await userService.updateUser(req.params.id, req.body.newPic, req.body.newNickName))) {
+    if (!(await userService.updateUser(req.params.id, req.body.newPic, req.body.newnickName))) {
         res.status(500).send('Error updating user');
     }
     res.status(200).json({});
@@ -45,10 +45,21 @@ const updateUser = async (req, res) => {
 
 const deleteUser = async (req, res) => {
     try {
-        await videoService.deleteVideosByUserId(req.params.id);
-        //await videoService.deleteCommentsByUserId(req.params.id);
-        
-        const deletedUser = await userService.deleteUser(req.params.id);
+        const username = req.params.id;
+
+        // Fetch the user to get their ID
+        const user = await userService.getUser(username);
+        if (!user) {
+            return res.status(404).json({ errors: ['User not found'] });
+        }
+        const userId = user.id;
+
+        // Delete videos and comments by user ID
+        await videoService.deleteVideosByUserId(userId);
+        // await videoService.deleteCommentsByUserId(userId); // Uncomment if needed
+
+        // Delete the user by username
+        const deletedUser = await userService.deleteUser(username);
         if (!deletedUser) {
             return res.status(404).json({ errors: ['User not found'] });
         }
@@ -58,22 +69,6 @@ const deleteUser = async (req, res) => {
     }
 };
 
-// const isLoggedIn = async (req, res, next) => {
-//     if (req.headers.authorization) {
-//         // Extract the token from that header
-//         const token = req.headers.authorization.split(" ")[1];
-//         try {
-//             // Verify the token is valid
-//             jwt.verify(token, key);
-            
-//             //Token validation was successful. Continue to the actual function (index)
-//             return next();
-//         } catch (err) {
-//             return res.status(401).send("Invalid Token");
-//         }
-//     } else
-//         return res.status(403).send('Token required');
-// };
 
 const isLoggedIn = (req, res, next) => {
     if (req.headers.authorization) {

@@ -2,7 +2,6 @@ const Video = require('../models/video');
 const VidFile = require('../models/vidFile.js');
 const Comment = require('../models/comment');
 const User = require('../models/user');
-const mongoose = require('mongoose');
 
 const createVideo = async (title, description, publisher, file_name, file_data, thumbnail_name, thumbnail_data) => {
     try {
@@ -52,7 +51,7 @@ const getVideos = async () => {
 const getVideoById = async (id) => {
     try {
         return await Video.findById(id)
-            .populate('publisher comments file'); // Populate comments and file
+            //.populate('publisher comments file'); // Populate comments and file
     } catch (error) {
         console.log("Error fetching video by ID: ", error);
         throw new Error('Could not fetch video');
@@ -71,8 +70,11 @@ const updateVideo = async (id, updateData) => {
 
 const deleteVideo = async (id) => {
     try {
-        //const video = await Video.findById(id);
-        return await Video.findByIdAndDelete(id);
+        const video = await Video.findById(id);
+        if (video) {
+            return await Video.findByIdAndDelete(id);
+        }
+        
     } catch (error) {
         console.log("Error deleting video: ", error);
         throw new Error('Could not delete video');
@@ -81,62 +83,91 @@ const deleteVideo = async (id) => {
 
 
 
-const addCommentToVideo = async (videoId, commentContent, userId) => {
+const addCommentToVideo = async (videoId, commentContent, username) => {
     try {
-        const user = await User.findById(userId);
+        // Find user by username
+        const user = await User.findOne({ username });
+        if (!user) {
+            throw new Error('User not found');
+        }
+        const userId = user._id;
+
+        // Create a new comment
         const comment = new Comment({ content: commentContent, author: user?.nickName });
         await comment.save();
 
+        // Find the video by its ID
         const video = await Video.findById(videoId);
         if (!video) {
             throw new Error('Video not found');
         }
+
+        // Add the comment to the video's comments array
         video.comments.push(comment._id);
         await video.save();
 
         return comment.toObject();
     } catch (error) {
-        console.log("Error adding comment to video: ", error);
+        console.error("Error adding comment to video: ", error);
         throw new Error('Could not add comment to video');
     }
 };
 
-const getVideosByUserId = async (userId) => {
+const getVideosByUsername = async (username) => {
     try {
-        //const objectId = mongoose.Types.ObjectId(userId);
-        console.log(userId)
-        return await Video.find({ publisher: userId })
-            //.populate('publisher comments file'); // Populate comments and file
+        // Find user by username
+        const user = await User.findOne({ username });
+        if (!user) {
+            throw new Error('User not found');
+        }
+        const userId = user._id;
+
+        // Find videos by userId
+        const videos = await Video.find({ publisher: userId });
+
+        return videos.map(video => video.toObject());
     } catch (error) {
-        console.log("Error fetching videos by user ID: ", error);
-        throw new Error('Could not fetch videos by user ID');
+        console.error("Error getting videos by username: ", error);
+        throw new Error('Could not get videos by username');
     }
 };
 
-const getCommentsByVideoId = async (videoId) => {
+const getAllCommentsByVideoId = async (videoId) => {
     try {
+        // Find the video by its ID and populate the comments
         const video = await Video.findById(videoId).populate('comments');
         if (!video) {
             throw new Error('Video not found');
         }
+
+        // Return the comments
         return video.comments;
     } catch (error) {
-        console.log("Error fetching comments by video ID: ", error);
-        throw new Error('Could not fetch comments by video ID');
+        console.log('Error getting comments by video ID:', error);
+        throw new Error('Could not get comments');
     }
 };
 
-const deleteVideosByUserId = async (userId) => {
+const deleteVideosByUsername = async (username) => {
     try {
+        // Find user by username
+        const user = await User.findOne({ username });
+        if (!user) {
+            throw new Error('User not found');
+        }
+        const userId = user._id;
+
+        // Delete videos by userId
         await Video.deleteMany({ publisher: userId });
-        return { message: `Videos by user ${userId} deleted successfully` };
+
+        return { message: `Videos by user ${username} deleted successfully` };
     } catch (error) {
-        console.log("Error deleting videos by user Id: ", error);
-        throw new Error('Could not delete videos by user ID');
+        console.error("Error deleting videos by username: ", error);
+        throw new Error('Could not delete videos by username');
     }
 };
 
 module.exports = {
     createVideo, getVideos, getVideoById, updateVideo, deleteVideo,
-    addCommentToVideo, getVideosByUserId, getCommentsByVideoId, deleteVideosByUserId
+    addCommentToVideo, getVideosByUsername, getAllCommentsByVideoId, deleteVideosByUsername
 };

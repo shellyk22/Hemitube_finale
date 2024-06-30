@@ -75,12 +75,12 @@ function App() {
   };
 
   ///////comment section
-  const updateComments = (videoId, comments) => {
-    const updatedVideoList = videoList.map(video =>
-      video.id === videoId ? { ...video, commentsArr: comments } : video
-    );
-    setVideoList(updatedVideoList);
-  };
+  // const updateComments = (videoId, comments) => {
+  //   const updatedVideoList = videoList.map(video =>
+  //     video.id === videoId ? { ...video, commentsArr: comments } : video
+  //   );
+  //   setVideoList(updatedVideoList);
+  // };
   ////////////delete video 
   const deleteVideo = (videoId) => {
     const updatedVideoList = videoList.filter(video => video.id !== videoId);
@@ -121,8 +121,7 @@ function App() {
           <Route path="/" element={<HomePage doSearch={doSearch} filteredVideoList={filteredVideoList} currentUser={currentUser}
             setCurrentUser={setCurrentUser} videoList={videoList}/>} />
           <Route path="/video/:id" element={<VideoView doSearch={doSearch} filteredVideoList={filteredVideoList}
-            videoList={videoList}
-            updateComments={updateComments} deleteVideo={deleteVideo} updateVideoDetails={updateVideoDetails}
+            videoList={videoList} deleteVideo={deleteVideo} updateVideoDetails={updateVideoDetails}
             toggleLike={toggleLike} likedVideos={likedVideos} />} />
           <Route path="/signup" element={<SignUp />} />
           <Route path="/signin" element={<SignIn />} />

@@ -1,4 +1,5 @@
-// server/controllers/video.js
+
+const Video = require('../models/video.js');
 
 const videoService = require('../services/video');
 const VidFile = require('../models/vidFile.js');
@@ -55,7 +56,6 @@ const getVideos = async (req, res) => {
     try {
 
         console.log("Create Video function - request log :")
-        const userId = req.params.id;
         const videos = await videoService.getVideos();
         res.status(200).json(videos);
     } catch (error) {
@@ -128,29 +128,20 @@ const isLoggedIn = (req, res, next) => {
     }
 };
 
-const getVideosByUserId = async (req, res) => {
+const getVideosByUsername = async (req, res) => {
     try {
-        const id = req.params.id;
-        console.log(id);
-        const videos = await videoService.getVideosByUserId(id);
+        const username = req.params.id;
+        console.log(username);
+        const videos = await videoService.getVideosByUsername(username);
         res.status(200).json(videos);
     } catch (error) {
         res.status(500).json({ errors: [error.message] });
     }
 };
 
-const getCommentsByVideoId = async (req, res) => {
+const deleteVideosByUsername = async (req, res) => {
     try {
-        const comments = await videoService.getCommentsByVideoId(req.params.vid);
-        res.status(200).json(comments);
-    } catch (error) {
-        res.status(500).json({ errors: [error.message] });
-    }
-};
-
-const deleteVideosByUserId = async (req, res) => {
-    try {
-        const deletedVideo = await videoService.deleteVideosByUserId(req.params.userId);
+        const deletedVideo = await videoService.deleteVideosByUsername(req.params.id);
         if (!deletedVideo) {
             return res.status(404).json({ errors: ['Video not found'] });
         }
@@ -160,5 +151,14 @@ const deleteVideosByUserId = async (req, res) => {
     }
 };
 
+const getAllCommentsByVideoId = async (req, res) => {
+    try {
+        const comments = await videoService.getAllCommentsByVideoId(req.params.vid);
+        res.status(200).json(comments);
+    } catch (error) {
+        res.status(500).json({ errors: [error.message] });
+    }
+};
+
 module.exports = { createVideo, getVideos, getVideo, updateVideo, deleteVideo, 
-    addCommentToVideo, isLoggedIn , getVideosByUserId, getCommentsByVideoId, deleteVideosByUserId};
+    addCommentToVideo, isLoggedIn , getVideosByUsername, getAllCommentsByVideoId, deleteVideosByUsername};

@@ -2,7 +2,7 @@
 //const FilesAttach = require('../models/files');
 const Comment = require('../models/comment.js');
 const Video = require('../models/video')
-
+const User = require('../models/user')
 // const createComment = async (author, content) => {
 //     try {
 //         const comment = new Comment({
@@ -45,32 +45,26 @@ const deleteComment = async (id) => {
     return comment;
 };
 
-const deleteCommentsByUserId = async (userId) => {
+const deleteCommentsByUsername = async (username) => {
     try {
+        // Find user by username
+        const user = await User.findOne({ username });
+        if (!user) {
+            throw new Error('User not found');
+        }
+        const userId = user._id;
+
+        // Delete comments by userId
         await Comment.deleteMany({ author: userId });
-        return { message: `Comments by user ${userId} deleted successfully` };
-    } catch (error) {
-        console.log('Error deleting comments by user ID:', error);
-        throw new Error('Could not delete comments by user ID');
-    }
-};
-const deleteCommentByVideoId = async (videoId, commentId) => {
-    try {
-        const comment = await getCommentById(commentId);
-        if (!comment) return null;
 
-        // Remove comment from the specified video
-        await Video.findByIdAndUpdate(videoId, {
-            $pull: { comments: commentId }
-        });
-
-        await comment.deleteOne();
-        return comment;
+        return { message: `Comments by user ${username} deleted successfully` };
     } catch (error) {
-        console.log('Error deleting comment by video ID:', error);
-        throw new Error('Could not delete comment');
+        console.error('Error deleting comments by username:', error);
+        throw new Error('Could not delete comments by username');
     }
 };
 
 
-module.exports = {getComments, getCommentById, updateComment, deleteComment, deleteCommentsByUserId, deleteCommentByVideoId}
+
+
+module.exports = {getComments, getCommentById, updateComment, deleteComment, deleteCommentsByUsername}

@@ -37,7 +37,7 @@ const videoRoutes = require('./routes/videos');
 app.use('/api/users', videoRoutes);
 
 const tokenRoutes = require('./routes/token');
-app.use('/api/token', tokenRoutes);
+app.use('/api/tokens', tokenRoutes);
 
 const videosHemi = require('./routes/videosHemi');
 app.use('/', videosHemi);
