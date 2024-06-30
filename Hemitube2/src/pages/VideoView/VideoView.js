@@ -4,12 +4,15 @@ import Search from '../../components/search/Search';
 import NotFound from '../NotFound/NotFound';
 import VideoListResults from '../../components/VideoViewVidResults/VideoViewVidResults';
 import CommentSection from '../../components/CommentSection/CommentSection';
+import {deleteVideo, updateVideo} from '../../DataAccess/videos'
 import './VideoView.css';
 import logo from '../../components/hemitubeLogoForC.jpeg'; 
 export const serverAddress = 'http://localhost:5001';
 
 function VideoView({
-  doSearch, videoList, filteredVideoList, deleteVideo, updateVideoDetails, likedVideos, toggleLike
+
+  doSearch, videoList, filteredVideoList, updateComments, likedVideos, toggleLike
+
 }) {
   const { id } = useParams();
   const [video, setVideo] = useState(null);
@@ -37,17 +40,33 @@ function VideoView({
   }
 
   const handleDeleteVideo = () => {
-    deleteVideo(id);
+    if(video.publisher == localStorage.getItem("userId")){
+    deleteVideo(video._id, video.publisher._id);
     navigate('/');
+  }
+  else{
+    alert("only publisher of the video can delete it!")
+  }
   };
 
   const handleEditVideo = () => {
+    if(video.publisher == localStorage.getItem("userId")){
     setIsEditing(true);
+    }
+    else{
+      alert("only the publisher of the video can edit the video details!")
+    }
   };
 
   const handleSaveChanges = () => {
-    updateVideoDetails(id, editedTitle, editedDescription);
+    const updateData = {
+      title: editedTitle,
+      description: editedDescription
+  };
+  
+    updateVideo(video._id, video.publisher, updateData);
     setIsEditing(false);
+    window.location.reload();
   };
 
   const handleToggleLike = () => {

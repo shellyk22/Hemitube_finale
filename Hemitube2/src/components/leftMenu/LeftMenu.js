@@ -67,15 +67,7 @@ function LeftMenu({ setCurrentUser, currentUser }) {
           </button>
         </Link>
       )}</div>
-      <div>{(jwt != 'null') && (
-
-        <button 
-          type="button" 
-          className="btn btn-outline-danger list-group-item d-flex align-items-center"
-          onClick={() => logOut()}>
-            Log Out
-        </button>
-      )}</div>
+      
       <div>{(jwt !== 'null') && (
 
         <Link to="/profile">
@@ -85,13 +77,8 @@ function LeftMenu({ setCurrentUser, currentUser }) {
         </Link>
       )}</div>
 
-      <div>{(jwt !== 'null') && (
-        <Link to={`/${userId}`} className="w-100 m-1 ms-3">
-        <button type="button" className="btn btn-outline-danger list-group-item d-flex align-items-center">
-          My Videos
-        </button>
-      </Link>
-      )}</div>
+      
+     
 
       <div>{(jwt != 'null') && (
         <button
@@ -101,6 +88,17 @@ function LeftMenu({ setCurrentUser, currentUser }) {
           Log Out
         </button>
       )}</div>
+
+
+
+<div>{(jwt != 'null') && (
+        <Link to={`/${userId}`} className="w-100 m-1 ms-3">
+        <button type="button" className="btn btn-outline-danger list-group-item d-flex align-items-center">
+          My Videos
+        </button>
+      </Link>
+      )}</div>
+      
 
       
 
