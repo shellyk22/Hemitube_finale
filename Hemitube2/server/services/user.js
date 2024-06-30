@@ -1,6 +1,6 @@
-const { deleteVideosByUserId } = require('../controllers/video');
+//const { deleteVideosByUserId } = require('../controllers/video');
 const User = require('../models/user');
-const { deleteCommentsByUserId } = require('../services/comment');
+//const { deleteCommentsByUserId } = require('../services/comment');
 
 const createUser = async (username, password, nickName, profilePic) => {
     console.log("in create user")
@@ -60,7 +60,7 @@ const updateUser = async (username, newPic, newDisplayName) => {
         if (newDisplayName) {
             await User.findOneAndUpdate(
                 {username: username}, // Filter condition to find the user
-                {displayName: newDisplayName}, // Updated field and value
+                {nickName: newDisplayName}, // Updated field and value
                 {new: false}
             );
         }
