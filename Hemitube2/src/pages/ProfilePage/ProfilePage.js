@@ -31,10 +31,10 @@ function ProfilePage({ currentUser, setCurrentUser }) {
 
   const handleSaveChanges = async () => {
 
-    const userId = localStorage.getItem("userId");
+    const username = localStorage.getItem("username");
 
     try {
-      const result = await setUserDetails(userId, profilePic, nickname);
+      const result = await setUserDetails(username, profilePic, nickname);
       localStorage.setItem("profilePic", profilePic);
       localStorage.setItem("nickName", nickname);
       setIsEditing(false);
@@ -49,9 +49,10 @@ function ProfilePage({ currentUser, setCurrentUser }) {
   const handleDeleteUser = async () => {
 
     const userId = localStorage.getItem("userId");
+    const username = localStorage.getItem("username");
 
     try {
-      const userLoginData = await deleteUser(userId);
+      const userLoginData = await deleteUser(username);
       localStorage.setItem('userId', "undefined");
       localStorage.setItem('JWT', "null");
       localStorage.setItem('username', "undefined");

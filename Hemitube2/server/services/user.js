@@ -20,14 +20,14 @@ const createUser = async (username, password, nickName, profilePic) => {
     }
 };
 
-const getUserById = async (id) => {
-    try {
-        return await User.findById(id);
-    } catch (error) {
-        console.log("Error fetching user by ID: " + error);
-        throw new Error('Could not fetch user');
-    }
-};
+// const getUserById = async (id) => {
+//     try {
+//         return await User.findById(id);
+//     } catch (error) {
+//         console.log("Error fetching user by ID: " + error);
+//         throw new Error('Could not fetch user');
+//     }
+// };
 
 const getUser = async (username) => {
     try {
@@ -87,4 +87,4 @@ const deleteUser = async (username) => {
 
 
 
-module.exports = {createUser, getUserById, updateUser, deleteUser, getUser}
+module.exports = {createUser, updateUser, deleteUser, getUser}
