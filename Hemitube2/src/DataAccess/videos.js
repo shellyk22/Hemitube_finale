@@ -21,6 +21,27 @@ export async function fetchVideos() {
     }
 }
 
+export async function fetchVideosTopVids() {
+    try {
+        const res = await fetch(`${serverAddress}/api/videos`, {
+            method: 'get',
+            headers: {
+                'Content-Type': 'application/json',
+                'authorization': 'Bearer ' + localStorage.getItem('JWT'),
+            },
+        });
+
+        if (res.status === 200) {
+            return await res.json();
+        } else {
+            throw new Error("Error fetching videos");
+        }
+    } catch (error) {
+        console.log('Error fetching videos:', error);
+        return "Ooopss! We've run into a problem :(\nPlease try again later";
+    }
+}
+
 export async function fetchVideoById(videoId) {
     try {
         const res = await fetch(`${serverAddress}/api/videos/${videoId}`, {

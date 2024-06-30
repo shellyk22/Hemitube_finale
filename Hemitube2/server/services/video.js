@@ -169,7 +169,17 @@ const deleteVideosByUsername = async (username) => {
     }
 };
 
+const getTopVids = async () => {
+    try {
+        const topVideos = await Video.find().sort({ views: -1 }).limit(20);
+        return topVideos;
+    } catch (error) {
+        console.error('Error getting top videos:', error);
+        throw new Error('Failed to get top videos');
+    }
+};
+
 module.exports = {
-    createVideo, getVideos, getVideoById, updateVideo, deleteVideo,
+    createVideo, getVideos, getVideoById, updateVideo, deleteVideo, getTopVids,
     addCommentToVideo, getVideosByUsername, getAllCommentsByVideoId, deleteVideosByUsername
 };

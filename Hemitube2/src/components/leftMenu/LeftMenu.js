@@ -68,6 +68,13 @@ function LeftMenu({ }) {
           </button>
         </Link>
       )}</div>
+      <div>
+        <Link to="/TopVids">
+          <button type="button" className="btn btn-outline-danger list-group-item d-flex align-items-center">
+            Top Videos
+          </button>
+        </Link>
+      </div>
       
       <div>{(jwt !== 'null') && (
 

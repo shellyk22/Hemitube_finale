@@ -5,6 +5,7 @@ import HomePage from './pages/HomePage/HomePage';
 import SignUp from './pages/SignUp/SignUp';
 import SignIn from './pages/SignIn/SignIn';
 import NotFound from './pages/NotFound/NotFound';
+import TopVids from './pages/TopVids/TopVids';
 //import videos from './components/videoItem/videos';
 import videoTable from './components/videoItem/Videos.json'
 import usersTable from './components/Users.json'
@@ -13,7 +14,8 @@ import AddVideo from './pages/AddVideo/Addvideo';
 import DarkModeToggle from './components/darkmode/Darkmode'
 import ProfilePage from './pages/ProfilePage/ProfilePage'; // Import ProfilePage
 import MyVideos from './pages/MyVideos/MyVideos';
-import {fetchVideos} from './DataAccess/videos'
+import {fetchVideos} from './DataAccess/videos';
+import {fetchUsers} from './DataAccess/users';
 
 export const serverAddress = 'http://localhost:5001';
 
@@ -23,11 +25,13 @@ function App() {
 
   const initialVideoList = Object.values(videoTable);
   const initialUsers = Object.values(usersTable);
+  const [userslist, setUsersList] = useState([]);
   const [videoList, setVideoList] = useState([]);
   const [filteredVideoList, setFilteredVideoList] = useState([]);
   const [currentUser, setCurrentUser] = useState("");
   //const [usersVideos, setUsersVideos] = useState([]); 
   const [likedVideos, setLikedVideos] = useState([]);
+ 
 
   useEffect(() => {
     //setFilteredVideoList(videoList);
@@ -35,7 +39,7 @@ function App() {
     const fetchVideos = async () => {
 
       try{
-            const response = await fetch(`${serverAddress}/api/videos`,{ 
+            const response = await fetch(`${serverAddress}/api/videosHemi`,{ 
               method: 'get',
               headers: {
                   'Content-Type': 'application/json',
@@ -52,6 +56,7 @@ function App() {
               const data = await response.json();
               setFilteredVideoList(data)
               setVideoList(data)
+              
           }
 
           catch (error)
@@ -129,10 +134,10 @@ function App() {
             videoList={videoList} setVideoList={setVideoList} currentUser={currentUser} />} />
           <Route
             path="/profile"
-            element={<ProfilePage currentUser={currentUser} setCurrentUser={setCurrentUser} />}
+            element={<ProfilePage currentUser={currentUser} setCurrentUser={setCurrentUser}/>}
           />
           <Route path="/:username" element={<MyVideos />} />
-
+        <Route path="/TopVids" element={<TopVids />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
 

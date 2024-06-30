@@ -5,7 +5,7 @@ import usersTable from '../../components/Users.json';
 import logo from '../../components/hemitubeLogoForC.jpeg';
 import { registerUser } from '../../DataAccess/users';
 
-function SignUp() {
+function SignUp(userslist, setUsersList) {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [verifyPassword, setVerifyPassword] = useState('');
@@ -70,7 +70,9 @@ function SignUp() {
     }
 
     try {
+
       const result = await registerUser(username, password, nickname, profilePhoto);
+      
       if (result === 'success') {
         return true;
       }
@@ -78,7 +80,7 @@ function SignUp() {
         return false;
       }
     } catch (error) {
-      alert("choose different username this one is taken");
+      alert(error);
       return false;
     }
   }
