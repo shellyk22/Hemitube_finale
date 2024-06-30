@@ -51,9 +51,9 @@ export async function registerUser(username, password, nickName, profilePic) {
 /**
  * Returns the user's data (username, displayName, profile-pic)
  */
-async function getUserDetails(username) {
+async function getUserDetails(userId) {
     try {
-        const res = await fetch(serverAddress + '/api/users/' + username, {
+        const res = await fetch(serverAddress + '/api/user/' + userId, {
             'method': 'get',
             'headers': {
                 'Content-Type': 'application/json',
@@ -69,10 +69,10 @@ async function getUserDetails(username) {
     }
 }
 
-export async function setUserDetails(username, newPic, newnickName) {
-    console.log("lmao: " + username);
+export async function setUserDetails(userId, newPic, newnickName) {
+    console.log("lmao: " + userId);
     try {
-        const res = await fetch(serverAddress + '/api/users/' + username, {
+        const res = await fetch(serverAddress + '/api/users/' + userId, {
             'method': 'put',
             'headers': {
                 'Content-Type': 'application/json',
@@ -90,16 +90,16 @@ export async function setUserDetails(username, newPic, newnickName) {
 
 
 
-export async function deleteUser(username) {
-    console.log("lmao: " + username);
+export async function deleteUser(userId) {
+    console.log("lmao: " + userId);
     try {
-        const res = await fetch(serverAddress + '/api/users/' + username, {
+        const res = await fetch(serverAddress + '/api/users/' + userId, {
             'method': 'delete',
             'headers': {
                 'Content-Type': 'application/json',
                 "authorization": 'Bearer ' + localStorage.getItem('JWT'),
             },
-            'body': JSON.stringify({"username": username}),
+            'body': JSON.stringify({"userId": userId}),
         });
 
         return res.status === 200 ? 'success' : 'error';
