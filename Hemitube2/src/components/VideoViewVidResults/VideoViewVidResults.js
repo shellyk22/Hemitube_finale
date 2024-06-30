@@ -20,7 +20,7 @@ function VideoViewVidResuls({filteredVideoList}) {
           <div className="video-title">{video.title}</div>
           <div className="video-details">
             <p>{video.publisher}</p>
-            <p>{video.views} views • {new Date(video.uploadDate).toLocaleDateString()}</p>
+            <p>{video.__v} views • {new Date(video.uploadDate).toLocaleDateString()}</p>
           </div>
         </div>
       </Link>

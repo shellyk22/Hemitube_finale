@@ -94,8 +94,8 @@ function VideoView({
         <div className="video-details">
           <p>Description: {video.description}</p>
           <p>Publisher: {video.publisher}</p>
-          <p>Views: {video.views}</p>
-          <p>Uploaded: {video.time} ago</p>
+          <p>Views: {video.__v}</p>
+          <p>Uploade date: {new Date(video.uploadDate).toLocaleDateString()} </p>
         </div>
 
         {localStorage.getItem("username") && (
