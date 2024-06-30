@@ -29,15 +29,15 @@ const createUser = async (req, res) => {
 // Define a function that responds with a json response.
 // Only logged-in users should be able to execute this function
 const getUser = async (req, res) => {
-    const user = await userService.getUser(req.params.username);
+    const user = await userService.getUser(req.params.id);
     if (!user) {
         res.status(404).send("User not found.");
     }
-    res.status(200).json({username: user.username, displayName: user.nickName, profilePic: user.profilePic});
+    res.status(200).json({username: user.username, nickName: user.nickName, profilePic: user.profilePic});
 }
 
 const updateUser = async (req, res) => {
-    if (!(await userService.updateUser(req.params.username, req.body.newPic, req.body.newDisplayName))) {
+    if (!(await userService.updateUser(req.params.id, req.body.newPic, req.body.newnickName))) {
         res.status(500).send('Error updating user');
     }
     res.status(200).json({});
@@ -45,7 +45,7 @@ const updateUser = async (req, res) => {
 
 const deleteUser = async (req, res) => {
     try {
-        const username = req.params.username;
+        const username = req.params.id;
 
         // Fetch the user to get their ID
         const user = await userService.getUser(username);

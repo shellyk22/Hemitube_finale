@@ -63,22 +63,6 @@ const deleteComment = async (req, res) => {
     }
 };
 
-const deleteCommentByVideoId = async (req, res) => {
-    try {
-        const commentId = await commentService.getCommentById(req.params.cid);
-        const videoId = await videoService.getVideoById(req.params.vid);
-        const comment = await commentService.deleteCommentByVideoId(videoId._id, commentId._id);
-        if (!comment) {
-            return res.status(404).json({ errors: ['Comment not found'] });
-        }
-        res.json({ message: 'Comment deleted successfully', comment });
-    } catch (error) {
-        res.status(500).json({ errors: [error.message] });
-    }
-};
-
-
-
 const isLoggedIn = (req, res, next) => {
     if (req.headers.authorization) {
         const token = req.headers.authorization.split(" ")[1];
@@ -94,9 +78,9 @@ const isLoggedIn = (req, res, next) => {
     }
 };
 
-const deleteCommentsByUserId = async (req, res) => {
+const deleteCommentsByUsername = async (req, res) => {
     try {
-        const result = await commentService.deleteCommentsByUserId(req.params.id);
+        const result = await commentService.deleteCommentsByUsername(req.params.id);
         res.status(200).json(result);
     } catch (error) {
         res.status(500).json({ errors: [error.message] });
@@ -104,4 +88,4 @@ const deleteCommentsByUserId = async (req, res) => {
 };
 
 
-module.exports = {getComment, updateComment, getComments, deleteComment, isLoggedIn, deleteCommentsByUserId, deleteCommentByVideoId}
+module.exports = {getComment, updateComment, getComments, deleteComment, isLoggedIn, deleteCommentsByUsername}

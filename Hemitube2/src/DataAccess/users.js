@@ -125,7 +125,7 @@ export async function loginUser(username, password) {
             "password": password
         }
 
-        const res = await fetch(serverAddress + '/api/token', {
+        const res = await fetch(serverAddress + '/api/tokens', {
             'method': 'post',
             'headers': {
                 'Content-Type': 'application/json',
