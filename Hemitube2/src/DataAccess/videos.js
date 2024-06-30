@@ -50,8 +50,8 @@ export async function createVideo(formData) {
         }
 
         console.log("Path:");
-        console.log(`${serverAddress}/api/users/${localStorage.getItem("userId")}/videos`);
-        const res = await fetch(`${serverAddress}/api/users/${localStorage.getItem("userId")}/videos`, {
+        console.log(`${serverAddress}/api/users/${localStorage.getItem("username")}/videos`);
+        const res = await fetch(`${serverAddress}/api/users/${localStorage.getItem("username")}/videos`, {
             method: 'post',
             headers: {
                 'authorization': 'Bearer ' + localStorage.getItem('JWT'),
@@ -71,9 +71,9 @@ export async function createVideo(formData) {
     }
 }
 
-export async function updateVideo(videoId,userId, updateData) {
+export async function updateVideo(videoId,username, updateData) {
     try {
-        const res = await fetch(`${serverAddress}/api/users/${userId}/videos/${videoId}`, {
+        const res = await fetch(`${serverAddress}/api/users/${username}/videos/${videoId}`, {
             method: 'put',
             headers: {
                 'Content-Type': 'application/json',
@@ -93,9 +93,9 @@ export async function updateVideo(videoId,userId, updateData) {
     }
 }
 
-export async function deleteVideo(videoId,userId) {
+export async function deleteVideo(videoId,username) {
     try {
-        const res = await fetch(`${serverAddress}/api/users/${userId}/videos/${videoId}`, {
+        const res = await fetch(`${serverAddress}/api/users/${username}/videos/${videoId}`, {
             method: 'delete',
             headers: {
                 'Content-Type': 'application/json',
@@ -114,9 +114,9 @@ export async function deleteVideo(videoId,userId) {
     }
 }
 
-export async function fetchVideosByUserId(userId) {
+export async function fetchVideosByUserId(username) {
     try {
-        const res = await fetch(`${serverAddress}/api/users/${userId}/videos`, {
+        const res = await fetch(`${serverAddress}/api/users/${username}/videos`, {
             method: 'get',
             headers: {
                 'Content-Type': 'application/json',
@@ -135,10 +135,10 @@ export async function fetchVideosByUserId(userId) {
     }
 }
 
-export async function addCommentToVideo(videoId, content, userId) {
+export async function addCommentToVideo(videoId, content, username) {
     try {
         const commentData = { videoId, content };
-        const res = await fetch(`${serverAddress}/api/users/${userId}/videos/${videoId}/comments`, {
+        const res = await fetch(`${serverAddress}/api/users/${username}/videos/${videoId}/comments`, {
             method: 'post',
             headers: {
                 'Content-Type': 'application/json',
@@ -158,9 +158,9 @@ export async function addCommentToVideo(videoId, content, userId) {
     }
 }
 
-export async function fetchCommentsByVideoId(videoId, userId) {
+export async function fetchCommentsByVideoId(videoId, username) {
     try {
-        const res = await fetch(`${serverAddress}/api/users/${userId}/videos/${videoId}/comments`, {
+        const res = await fetch(`${serverAddress}/api/users/${username}/videos/${videoId}/comments`, {
             method: 'get',
             headers: {
                 'Content-Type': 'application/json',

@@ -7,7 +7,7 @@ import { logOut, setUserJWT } from '../../DataAccess/users';
 
 import logo from '../../components/hemitubeLogoForC.jpeg';
 
-function LeftMenu({ setCurrentUser, currentUser }) {
+function LeftMenu({ }) {
 
 
   const [jwt, setJwt] = useState(localStorage.getItem('JWT'));
