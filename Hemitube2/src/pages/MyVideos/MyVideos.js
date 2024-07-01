@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import VideoListResults from '../../components/videoListResults/VideoListResults';
 import './MyVideos.css';
 
@@ -39,6 +39,11 @@ function MyVideos() {
     <div className="my-videos-container">
       <h1>{username}'s Videos</h1>
       <VideoListResults filteredVideoList={userVideos} />
+      <Link to="/">
+                <button type="button" className="btn btn-outline-danger list-group-item d-flex align-items-center">
+                  Back to Home Page
+                </button>
+              </Link>
     </div>
   );
 }

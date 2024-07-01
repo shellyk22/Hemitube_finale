@@ -89,27 +89,29 @@ export async function createVideo(formData) {
     }
 }
 
-export async function updateVideo(videoId,username, updateData) {
+export async function updateVideo(videoId, username, updateData) {
     try {
-        const res = await fetch(`${serverAddress}/api/users/${username}/videos/${videoId}`, {
-            method: 'put',
-            headers: {
-                'Content-Type': 'application/json',
-                'authorization': 'Bearer ' + localStorage.getItem('JWT'),
-            },
-            body: JSON.stringify(updateData),
-        });
-
-        if (res.status === 200) {
-            return await res.json();
-        } else {
-            throw new Error("Error updating video");
-        }
+      const res = await fetch(`${serverAddress}/api/users/${username}/videos/${videoId}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          'authorization': 'Bearer ' + localStorage.getItem('JWT'),
+        },
+        body: JSON.stringify(updateData),
+      });
+  
+      if (res.ok) {
+        return await res.json();
+      } else {
+        const errorData = await res.json();
+        throw new Error(errorData.errors[0] || 'Error updating video');
+      }
     } catch (error) {
-        console.log('Error updating video:', error);
-        return "Ooopss! We've run into a problem :(\nPlease try again later";
+      console.log('Error updating video:', error);
+      return { error: "Ooopss! We've run into a problem :(\nPlease try again later" };
     }
-}
+  }
+  
 
 export async function deleteVideo(videoId,username) {
     try {

@@ -1,4 +1,5 @@
 # HemiTube2
+
 API Functionality:
 The HemiTube website incorporates the following API endpoints and functionalities:
 
@@ -30,3 +31,10 @@ Comments:
   
 
 Notice that we expanded the required API, but we ensured that the core functionalities remained intact.
+
+some examples of how our app works:
+
+
+
+![alt text](<Screenshot 2024-07-01 195110.png>) ![alt text](<Screenshot 2024-07-01 173437.png>) ![alt text](<Screenshot 2024-07-01 193542.png>) ![alt text](<Screenshot 2024-07-01 193633.png>) ![alt text](<Screenshot 2024-07-01 193700.png>) ![alt text](<Screenshot 2024-07-01 193712.png>) ![alt text](<Screenshot 2024-07-01 193746.png>) ![alt text](<Screenshot 2024-07-01 193759.png>) ![alt text](<Screenshot 2024-07-01 193822.png>) ![alt text](<Screenshot 2024-07-01 194203.png>) ![alt text](<Screenshot 2024-07-01 194215.png>) ![alt text](<Screenshot 2024-07-01 194226.png>) ![alt text](<Screenshot 2024-07-01 194305.png>) ![alt text](<Screenshot 2024-07-01 194333.png>) ![alt text](<Screenshot 2024-07-01 194359.png>) ![alt text](<Screenshot 2024-07-01 194415.png>) ![alt text](<Screenshot 2024-07-01 194435.png>) ![alt text](<Screenshot 2024-07-01 194446.png>) ![alt text](<Screenshot 2024-07-01 194517.png>) ![alt text](<Screenshot 2024-07-01 194530.png>) ![alt text](<Screenshot 2024-07-01 194632.png>) ![alt text](<Screenshot 2024-07-01 194646.png>) ![alt text](<Screenshot 2024-07-01 194700.png>) ![alt text](<Screenshot 2024-07-01 194716.png>) ![alt text](<Screenshot 2024-07-01 194743.png>) ![alt text](<Screenshot 2024-07-01 194758.png>) ![alt text](<Screenshot 2024-07-01 194819.png>) ![alt text](<Screenshot 2024-07-01 194830.png>) ![alt text](<Screenshot 2024-07-01 194841.png>) ![alt text](<Screenshot 2024-07-01 194953.png>) ![alt text](<Screenshot 2024-07-01 195031.png>) ![alt text](<Screenshot 2024-07-01 195052.png>)
+

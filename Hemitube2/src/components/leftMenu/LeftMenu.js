@@ -24,8 +24,6 @@ function LeftMenu({ }) {
     <div className="left-menu">
       <ul className="list-group">
         <h1>HemiTube</h1>
-
-
         <li className="list-group-item d-flex align-items-center">
           <i className="bi bi-house-fill"></i>
           <span className="w-100 m-1 ms-3">Home</span>
@@ -75,19 +73,13 @@ function LeftMenu({ }) {
           </button>
         </Link>
       </div>
-      
       <div>{(jwt !== 'null') && (
-
         <Link to="/profile">
           <button type="button" className="btn btn-outline-danger list-group-item d-flex align-items-center">
             Profile
           </button>
         </Link>
       )}</div>
-
-      
-     
-
       <div>{(jwt != 'null') && (
         <button
           type="button"
@@ -96,20 +88,6 @@ function LeftMenu({ }) {
           Log Out
         </button>
       )}</div>
-
-
-
-<div>{(jwt != 'null') && (
-        <Link to={`/${username}`} className="w-100 m-1 ms-3">
-        <button type="button" className="btn btn-outline-danger list-group-item d-flex align-items-center">
-          My Videos
-        </button>
-      </Link>
-      )}</div>
-      
-
-      
-
       <div className="user-list mt-4 list-group-item d-flex align-items-center">
         <h4>Hello, {(!jwt || jwt === 'undefined' || jwt === 'null') ? "Guest" : localStorage.getItem("username")}</h4>
       </div>
