@@ -13,7 +13,6 @@ function MyVideos() {
 
   useEffect(() => {
     const fetchTopVideos = async () => {
-      //console.log(username);
       try {
         const response = await fetch(`${serverAddress}/api/videos`);
         // if (!response.ok) {

@@ -65,7 +65,6 @@ export async function fetchVideoById(videoId) {
 
 export async function createVideo(formData) {
     try {
-        console.log("Form data:");
         for (let [key, value] of formData.entries()) {
             console.log(`${key}: ${value}`);
         }

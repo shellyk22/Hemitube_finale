@@ -46,6 +46,7 @@ function AddVideo({ currentUser, videoList, setVideoList }) {
             console.log('Video created successfully:', newVideo);
             setVideoList([...videoList, newVideo]);
             navigate('/');
+            window.location.reload();
         } catch (error) {
             console.log('Adding the video failed:', error);
         }

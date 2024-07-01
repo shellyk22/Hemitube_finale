@@ -91,7 +91,12 @@ function VideoView({
         </div>
         <div className="video-details">
           <p>Description: {video.description}</p>
-          <p>Publisher: {video.publisher.username}</p>
+          <p>
+          Publisher:
+          <Link to={`/${video.publisher.username}`} className="w-100 m-1 ms-3">
+           {video.publisher.username}
+          </Link>
+          </p>
           <p>Views: {video.__v}</p>
           <p>Uploade date: {new Date(video.uploadDate).toLocaleDateString()}</p>
         </div>

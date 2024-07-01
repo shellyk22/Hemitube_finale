@@ -12,7 +12,6 @@ function MyVideos() {
 
   useEffect(() => {
     const fetchUserVideos = async () => {
-      console.log(username);
       try {
         const response = await fetch(`${serverAddress}/api/users/${username}/videos`);
         // if (!response.ok) {
