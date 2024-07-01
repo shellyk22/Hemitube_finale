@@ -9,7 +9,7 @@ To run the HemiTube website locally, follow these steps:
 
 3. Run the server using npm test, (or export NODE_ENV=test && node app.js for macOS/Linux, set NODE_ENV=test && node app.js for Windows). The server should be running.
 
-4. Open your browser and visit http://localhost:5001 to access the Babble website.
+4. Open your browser and visit http://localhost:5001 to access the HemiTube website.
 
 # API Functionality:
 The HemiTube website incorporates the following API endpoints and functionalities:
