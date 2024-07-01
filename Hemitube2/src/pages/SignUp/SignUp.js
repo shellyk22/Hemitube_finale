@@ -73,10 +73,10 @@ function SignUp(userslist, setUsersList) {
       if (result === 'success') {
         return true;
       } else {
+        alert("invalid username");
         return false;
       }
     } catch (error) {
-      alert(error);
       return false;
     }
   };
