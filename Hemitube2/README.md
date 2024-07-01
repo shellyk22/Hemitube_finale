@@ -10,9 +10,11 @@ To run the HemiTube website locally, follow these steps:
 
 2. Make sure that you have installed all required dependencies: npm i express cors body-parser mongoose custom-env path htpp multer
 
-3. Run the server using npm test, (or export NODE_ENV=test && node app.js for macOS/Linux, set NODE_ENV=test && node app.js for Windows). The server should be running.
+3. in the terminal, type "cd server" so you can run the server itself
 
-4. Open your browser and visit http://localhost:5001 to access the HemiTube website.
+4. Run the server using npm test, (or export NODE_ENV=test && node app.js for macOS/Linux, set NODE_ENV=test && node app.js for Windows). The server should be running.
+
+5. Open your browser and visit http://localhost:5001 to access the HemiTube website.
 
 # API Functionality:
 The HemiTube website incorporates the following API endpoints and functionalities:
