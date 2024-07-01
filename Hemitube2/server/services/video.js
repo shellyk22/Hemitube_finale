@@ -8,8 +8,6 @@ const createVideo = async (title, description, publisher, file_name, file_data, 
         const comments = [
             
         ];
-
-        console.log(comments);
         const video = new Video({ title, description, publisher, comments, file_name, file_data, thumbnail_name, thumbnail_data });
         await video.save();
         return video.toObject();

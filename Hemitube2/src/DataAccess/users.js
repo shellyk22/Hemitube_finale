@@ -155,7 +155,6 @@ export async function loginUser(username, password) {
         if (res.status === 200) {
             const resData = await res.json();
 
-            console.log(resData);
 
             
             const userJWT = resData.token; //save the user's token.
@@ -166,9 +165,7 @@ export async function loginUser(username, password) {
             localStorage.setItem('nickName', resData.nickName);
             localStorage.setItem('profilePic', resData.profilePic);
 
-            console.log(localStorage.getItem)
             
-            console.log({ userJWT, id: resData._id });
             return await getUserDetails(resData.username);
         } else {
             throw new Error (res.status === 404 ? 'Username or password does not match.' :
