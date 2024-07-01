@@ -4,14 +4,13 @@ import Search from '../../components/search/Search';
 import NotFound from '../NotFound/NotFound';
 import VideoListResults from '../../components/VideoViewVidResults/VideoViewVidResults';
 import CommentSection from '../../components/CommentSection/CommentSection';
-import { deleteVideo, updateVideo } from '../../DataAccess/videos';
+import { deleteVideo, updateVideo } from '../../DataAccess/videos'
 import './VideoView.css';
 import logo from '../../components/hemitubeLogoForC.jpeg';
-
 export const serverAddress = 'http://localhost:5001';
 
 function VideoView({
-  doSearch, videoList, filteredVideoList, updateComments, likedVideos, toggleLike, setVideoList
+  doSearch, videoList, filteredVideoList, updateComments, likedVideos, toggleLike
 }) {
   const { id } = useParams();
   const [video, setVideo] = useState(null);
@@ -24,6 +23,7 @@ function VideoView({
   useEffect(() => {
     const fetchVideo = () => {
       const foundVideo = videoList.find(v => v._id === id);
+      console.log(videoList.find(v => v._id === id))
       setVideo(foundVideo);
       if (foundVideo) {
         setEditedTitle(foundVideo.title);
@@ -38,43 +38,33 @@ function VideoView({
   }
 
   const handleDeleteVideo = () => {
-    if (video.publisher._id === localStorage.getItem("userId")) {
+    if (video.publisher._id == localStorage.getItem("userId")) {
       deleteVideo(video._id, video.publisher._id);
       navigate('/');
-    } else {
-      alert("Only the publisher of the video can delete it!");
+    }
+    else {
+      alert("only publisher of the video can delete it!")
     }
   };
 
   const handleEditVideo = () => {
-    if (video.publisher._id === localStorage.getItem("userId")) {
+    if (video.publisher._id == localStorage.getItem("userId")) {
       setIsEditing(true);
-    } else {
-      alert("Only the publisher of the video can edit the video details!");
+    }
+    else {
+      alert("only the publisher of the video can edit the video details!")
     }
   };
 
-  const handleSaveChanges = async () => {
+  const handleSaveChanges = () => {
     const updateData = {
       title: editedTitle,
       description: editedDescription
     };
 
-    try {
-      const result = await updateVideo(video._id, video.publisher.username, updateData);
-      if (result.error) {
-        alert(result.error);
-      } else {
-        setVideo(result);
-        setIsEditing(false);
-        const updatedVideoList = videoList.map(v => v._id === result._id ? result : v);
-        setVideoList(updatedVideoList);
-        alert("Video updated successfully!");
-      }
-    } catch (error) {
-      console.error('Error updating video:', error);
-      alert("An error occurred while updating the video.");
-    }
+    updateVideo(video._id, video.publisher.username, updateData);
+    setIsEditing(false);
+    window.location.reload();
   };
 
   const handleToggleLike = () => {
@@ -108,8 +98,9 @@ function VideoView({
             </Link>
           </p>
           <p>Views: {video.__v}</p>
-          <p>Uploaded date: {new Date(video.uploadDate).toLocaleDateString()}</p>
+          <p>Uploade date: {new Date(video.uploadDate).toLocaleDateString()}</p>
         </div>
+
 
         <div className="video-actions">
           <div className="action-buttons d-flex flex-wrap">
