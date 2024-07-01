@@ -113,7 +113,7 @@ function CommentSection({ videoList }) {
       <h1>Comments:</h1>
       <div className="unique-comment-container">
         <div className="unique-comment-body">
-          {localStorage.getItem("username") && (
+          {(localStorage.getItem("JWT") !== 'null') && (
             <div className="unique-form-outline">
               <input
                 type="text"
@@ -132,7 +132,7 @@ function CommentSection({ videoList }) {
                   <p className="small mb-0 ms-2"><strong>{comment.author.username}</strong></p>
                 </div>
                 <p>{comment.content}</p>
-                {localStorage.getItem("username") && (
+                { (localStorage.getItem("username") == comment.author.username) && (
                   <div className="unique-comment-actions">
                     <button className="btn btn-outline-secondary rounded-pill" onClick={() => handleDeleteComment(comment._id)}>Delete</button>
                     <button className="btn btn-outline-secondary rounded-pill" onClick={() => {
