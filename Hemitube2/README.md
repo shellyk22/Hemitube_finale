@@ -43,7 +43,8 @@ Comments:
 
 Notice that we expanded the required API, but we ensured that the core functionalities remained intact.
 
-some examples of how our app works:
+# some explenations about our app functionality and about what you can do in it
+
 - in the signUp page, you will get an alert if you try to sign-up with an existing useranme ("invalid useranme" and 409 from the server),
    you will get a different alert if the fields are not filled properly.
 - in the login page, you will get an alert if your password or username are incorrect.
@@ -53,7 +54,7 @@ some examples of how our app works:
 - also, you will have the ability to add video (link to add video page from the home page as well), delete your videos and to comment on existing videos.
 - pay attention, when you delete a user, all of its videos and comments are deleted as well
 
-
+# some examples of how our app works:
 
 ![alt text](<Screenshot 2024-07-01 195110.png>) ![alt text](<Screenshot 2024-07-01 173437.png>) ![alt text](<Screenshot 2024-07-01 193542.png>) ![alt text](<Screenshot 2024-07-01 193633.png>) ![alt text](<Screenshot 2024-07-01 193700.png>) ![alt text](<Screenshot 2024-07-01 193712.png>) ![alt text](<Screenshot 2024-07-01 193746.png>) ![alt text](<Screenshot 2024-07-01 193759.png>) ![alt text](<Screenshot 2024-07-01 193822.png>) ![alt text](<Screenshot 2024-07-01 194203.png>) ![alt text](<Screenshot 2024-07-01 194215.png>) ![alt text](<Screenshot 2024-07-01 194226.png>) ![alt text](<Screenshot 2024-07-01 194305.png>) ![alt text](<Screenshot 2024-07-01 194333.png>) ![alt text](<Screenshot 2024-07-01 194359.png>) ![alt text](<Screenshot 2024-07-01 194415.png>) ![alt text](<Screenshot 2024-07-01 194435.png>) ![alt text](<Screenshot 2024-07-01 194446.png>) ![alt text](<Screenshot 2024-07-01 194517.png>) ![alt text](<Screenshot 2024-07-01 194530.png>) ![alt text](<Screenshot 2024-07-01 194632.png>) ![alt text](<Screenshot 2024-07-01 194646.png>) ![alt text](<Screenshot 2024-07-01 194700.png>) ![alt text](<Screenshot 2024-07-01 194716.png>) ![alt text](<Screenshot 2024-07-01 194743.png>) ![alt text](<Screenshot 2024-07-01 194758.png>) ![alt text](<Screenshot 2024-07-01 194819.png>) ![alt text](<Screenshot 2024-07-01 194830.png>) ![alt text](<Screenshot 2024-07-01 194841.png>) ![alt text](<Screenshot 2024-07-01 194953.png>) ![alt text](<Screenshot 2024-07-01 195031.png>) ![alt text](<Screenshot 2024-07-01 195052.png>)
 
