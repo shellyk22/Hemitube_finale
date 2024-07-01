@@ -170,5 +170,52 @@ const getTopVids = async (req, res) => {
     }
 };
 
+
+///////////////////////
+
+const getCommentFromVideo = async (req, res) => {
+    try {
+        const { vid, cid } = req.params;
+        if (!vid || !cid) {
+            return res.status(400).json({ errors: ['Video ID and comment ID are required'] });
+        }
+        const comment = await videoService.getCommentFromVideo(vid, cid);
+        res.status(200).json(comment);
+    } catch (error) {
+        res.status(500).json({ errors: [error.message] });
+    }
+};
+
+const updateComment = async (req, res) => {
+    try {
+        const { vid, cid } = req.params;
+        const { content } = req.body;
+        if (!vid || !cid || !content) {
+            return res.status(400).json({ errors: ['Video ID, comment ID, and content are required'] });
+        }
+        const updatedComment = await videoService.updateComment(vid, cid, content);
+        res.status(200).json(updatedComment);
+    } catch (error) {
+        res.status(500).json({ errors: [error.message] });
+    }
+};
+
+const deleteComment = async (req, res) => {
+    try {
+        const { vid, cid } = req.params;
+        if (!vid || !cid) {
+            return res.status(400).json({ errors: ['Video ID and comment ID are required'] });
+        }
+        const result = await videoService.deleteComment(vid, cid);
+        res.status(200).json(result);
+    } catch (error) {
+        res.status(500).json({ errors: [error.message] });
+    }
+};
+
+
+
+
 module.exports = { createVideo, getVideos, getVideo, updateVideo, deleteVideo,  getTopVids,
-    addCommentToVideo, isLoggedIn , getVideosByUsername, getAllCommentsByVideoId, deleteVideosByUsername};
+    addCommentToVideo, isLoggedIn , getVideosByUsername, getAllCommentsByVideoId, deleteVideosByUsername, 
+    deleteComment, updateComment, getCommentFromVideo};

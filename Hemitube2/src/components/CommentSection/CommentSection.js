@@ -62,6 +62,10 @@ function CommentSection({ videoList }) {
     try {
       const response = await fetch(`${serverAddress}/api/users/${video.publisher._id}/videos/${id}/comments/${commentId}`, {
         method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json',
+          'authorization': 'Bearer ' + localStorage.getItem('JWT'),
+      }
       });
       if (!response.ok) {
         throw new Error('Failed to delete comment');
@@ -72,24 +76,33 @@ function CommentSection({ videoList }) {
     }
   };
 
-  const handleEditComment = async (commentId, newText) => {
-    try {
-      const response = await fetch(`${serverAddress}/api/users/${video.publisher._id}/videos/${id}/comments/${commentId}`, {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ text: newText })
-      });
-      if (!response.ok) {
-        throw new Error('Failed to edit comment');
+  const handleEditComment = async (commentId, updatedText) => {
+    if (localStorage.getItem("username") && updatedText.trim()) {
+      const updatedComment = {
+        content: updatedText
+      };
+
+      try {
+        const response = await fetch(`${serverAddress}/api/users/${video.publisher._id}/videos/${id}/comments/${commentId}`, {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(updatedComment)
+        });
+        if (!response.ok) {
+          throw new Error('Failed to update comment');
+        }
+        const comment = await response.json();
+        setComments((prevComments) => 
+          prevComments.map((c) => c._id === commentId ? comment : c)
+        );
+      } catch (error) {
+        console.error('Error updating comment:', error);
       }
-      const data = await response.json();
-      setComments(comments.map(comment => (comment._id === commentId ? data.comment : comment)));
-    } catch (error) {
-      console.error('Error editing comment:', error);
     }
   };
+
 
   if (!video) {
     return <div>Video not found</div>;
