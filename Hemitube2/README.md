@@ -48,7 +48,7 @@ Comments:
 
 Notice that we expanded the required API, but we ensured that the core functionalities remained intact.
 
-# some explenations about our app functionality and about what you can do in it
+# Some information about the app and how it works 
 
 - in the signUp page, you will get an alert if you try to sign-up with an existing useranme ("invalid useranme" and 409 from the server),
    you will get a different alert if the fields are not filled properly.
