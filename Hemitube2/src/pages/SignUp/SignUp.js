@@ -46,10 +46,7 @@ function SignUp(userslist, setUsersList) {
     setShowVerificationPassword(!showVerificationPassword);
   };
 
-
-  ///////////profilr pic upload etc
   const ThumbnailInputRef = useRef(null); // Ref for file input
-  //const [selectedThumbnail, setSelectedThumbnail] = useState(null);
   const handleThumbnailUpload = (event) => {
     const selectedThumbnailFile = event.target.files[0];
     if (selectedThumbnailFile) {
@@ -61,34 +58,38 @@ function SignUp(userslist, setUsersList) {
     }
   };
 
-  const handleSignUp = async () => {
+  const navigate = useNavigate();
 
-    if (!isPasswordValid || !doPasswordsMatch
-      || username.length < 1 || nickname.length < 1) {
+  const handleSignUp = async () => {
+    if (!isPasswordValid || !doPasswordsMatch || username.length < 1 || nickname.length < 1) {
       console.log("oh no");
-      return;
+      alert("you must fill all fields properly");
+      return false;
     }
 
     try {
-
       const result = await registerUser(username, password, nickname, profilePhoto);
       
       if (result === 'success') {
         return true;
-      }
-      else {
+      } else {
         return false;
       }
     } catch (error) {
       alert(error);
       return false;
     }
-  }
+  };
 
-
-
-  const navigate = useNavigate();
-
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    const success = await handleSignUp();
+    if (success) {
+      navigate('/SignIn');
+    } else {
+      console.log('Sign-up failed. Staying on current page.');
+    }
+  };
 
   return (
     <section className="text-center text-lg-start">
@@ -128,9 +129,8 @@ function SignUp(userslist, setUsersList) {
                 </button>
                 {(!isPasswordValid) && (
                   <div className="invalid-password-message">The password must contain at least 8 characters including a number,
-                    a lowercase letter and an uppercase letter .</div>
+                    a lowercase letter and an uppercase letter.</div>
                 )}
-
               </div>
               <div className={`input-group mb-3 ${doPasswordsMatch ? '' : 'invalid'}`}>
                 <input
@@ -171,21 +171,13 @@ function SignUp(userslist, setUsersList) {
                   ref={ThumbnailInputRef}
                 />
               </div>
-
-              <Link to="/SignIn" onClick={(event) => {
-                event.preventDefault(); // Prevent the default link behavior
-                if (handleSignUp()) {
-                  navigate('/SignIn'); //sign-up is successful
-                } else {
-                  console.log('Sign-up failed. Staying on current page.');
-                }
-              }}>
-                <button
-                  type="button"
-                  className="btn btn-outline-danger">
-                  Sign Up
-                </button>
-              </Link>
+              <button
+                type="button"
+                className="btn btn-outline-danger"
+                onClick={handleSubmit}
+              >
+                Sign Up
+              </button>
               <Link to="/">
                 <button type="button" className="btn btn-outline-danger list-group-item d-flex align-items-center">
                   Back to Home Page
