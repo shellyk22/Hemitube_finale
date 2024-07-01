@@ -44,6 +44,14 @@ Comments:
 Notice that we expanded the required API, but we ensured that the core functionalities remained intact.
 
 some examples of how our app works:
+- in the signUp page, you will get an alert if you try to sign-up with an existing useranme ("invalid useranme" and 409 from the server),
+   you will get a different alert if the fields are not filled properly.
+- in the login page, you will get an alert if your password or username are incorrect.
+- as a guest, you will have access to the videos and comments, without a possibility to edit or delete them.
+- also, you can go to user videos page if you press on the name of a publisher in an existing video, in this page, you can see all of this user videos.
+- as a registered user, you will have access to your profile page (where you can edit your profile photo and nickName)
+- also, you will have the ability to add video (link to add video page from the home page as well), delete your videos and to comment on existing videos.
+- pay attention, when you delete a user, all of its videos and comments are deleted as well
 
 
 
