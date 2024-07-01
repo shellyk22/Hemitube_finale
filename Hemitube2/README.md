@@ -1,6 +1,17 @@
 # HemiTube2
 
-API Functionality:
+# Getting started:
+To run the HemiTube website locally, follow these steps:
+
+1. Clone the repository
+
+2. Make sure that you have installed all required dependencies: npm i express cors body-parser mongoose custom-env path htpp multer
+
+3. Run the server using npm test, (or export NODE_ENV=test && node app.js for macOS/Linux, set NODE_ENV=test && node app.js for Windows). The server should be running.
+
+4. Open your browser and visit http://localhost:5001 to access the Babble website.
+
+# API Functionality:
 The HemiTube website incorporates the following API endpoints and functionalities:
 
 User:
