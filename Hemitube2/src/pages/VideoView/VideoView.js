@@ -92,49 +92,55 @@ function VideoView({
         <div className="video-details">
           <p>Description: {video.description}</p>
           <p>
-          Publisher:
-          <Link to={`/${video.publisher.username}`} className="w-100 m-1 ms-3">
-           {video.publisher.username}
-          </Link>
+            Publisher:
+            <Link to={`/${video.publisher.username}`} className="w-100 m-1 ms-3">
+              {video.publisher.username}
+            </Link>
           </p>
           <p>Views: {video.__v}</p>
           <p>Uploade date: {new Date(video.uploadDate).toLocaleDateString()}</p>
         </div>
 
-        {localStorage.getItem("username") && (
-          <div className="video-actions">
-            <div className="action-buttons d-flex flex-wrap">
-              <div className="dropdown">
-                <button className="btn btn-outline-secondary rounded-pill dropdown-toggle" type="button" id="dropdownShareButton" data-bs-toggle="dropdown" aria-expanded="false">
-                  Share
-                </button>
-                <ul className="dropdown-menu" aria-labelledby="dropdownShareButton">
-                  <li>
-                    <a className="dropdown-item" href="#">
-                      <i className="bi bi-envelope me-2"></i> Email
-                    </a>
-                  </li>
-                  <li>
-                    <a className="dropdown-item" href="#">
-                      <i className="bi bi-whatsapp me-2"></i> WhatsApp
-                    </a>
-                  </li>
-                  <li>
-                    <a className="dropdown-item" href="#">
-                      <i className="bi bi-images me-2"></i> Gallery
-                    </a>
-                  </li>
-                </ul>
-              </div>
-              <button className="btn btn-outline-secondary rounded-pill">Subscribe</button>
-              <button className="btn btn-outline-secondary rounded-pill" onClick={handleDeleteVideo}>Delete Video</button>
-              <button className="btn btn-outline-secondary rounded-pill" onClick={handleEditVideo}>Edit Video</button>
-              <button className="btn btn-outline-secondary rounded-pill" onClick={handleToggleLike}>
-                {isLiked ? 'Unlike' : 'Like'}
+
+        <div className="video-actions">
+          <div className="action-buttons d-flex flex-wrap">
+            <div className="dropdown">
+              <button className="btn btn-outline-secondary rounded-pill dropdown-toggle" type="button" id="dropdownShareButton" data-bs-toggle="dropdown" aria-expanded="false">
+                Share
               </button>
+              <ul className="dropdown-menu" aria-labelledby="dropdownShareButton">
+                <li>
+                  <a className="dropdown-item" href="#">
+                    <i className="bi bi-envelope me-2"></i> Email
+                  </a>
+                </li>
+                <li>
+                  <a className="dropdown-item" href="#">
+                    <i className="bi bi-whatsapp me-2"></i> WhatsApp
+                  </a>
+                </li>
+                <li>
+                  <a className="dropdown-item" href="#">
+                    <i className="bi bi-images me-2"></i> Gallery
+                  </a>
+                </li>
+              </ul>
             </div>
+            <button className="btn btn-outline-secondary rounded-pill">Subscribe</button>
+            <div>
+              {localStorage.getItem("username") === video.publisher.username && (
+                <>
+                  <button className="btn btn-outline-secondary rounded-pill" onClick={handleDeleteVideo}>Delete Video</button>
+                  <button className="btn btn-outline-secondary rounded-pill" onClick={handleEditVideo}>Edit Video</button>
+                </>
+              )}
+            </div>
+            <button className="btn btn-outline-secondary rounded-pill" onClick={handleToggleLike}>
+              {isLiked ? 'Unlike' : 'Like'}
+            </button>
           </div>
-        )}
+        </div>
+
         {isEditing && (
           <div className="edit-section">
             <input
