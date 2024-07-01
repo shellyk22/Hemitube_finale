@@ -233,8 +233,34 @@ const deleteComment = async (videoId, commentId) => {
     }
 };
 
+const deleteAllCommentsByUsername = async (username) => {
+    try {
+        // Find user by username
+        const user = await User.findOne({ username });
+        if (!user) {
+            throw new Error('User not found');
+        }
+
+        // Find all videos
+        const videos = await Video.find();
+
+        // Iterate through each video and remove comments by the user
+        for (const video of videos) {
+            video.comments = video.comments.filter(comment => comment.userID.toString() !== user._id.toString());
+            await video.save();
+        }
+
+        return { success: true };
+    } catch (error) {
+        console.error("Error deleting comments by username from all videos: ", error);
+        throw new Error('Could not delete comments by username from all videos');
+    }
+};
+
+
+
 
 module.exports = {
-    createVideo, getVideos, getVideoById, updateVideo, deleteVideo, getTopVids,
+    createVideo, getVideos, getVideoById, updateVideo, deleteVideo, getTopVids, deleteAllCommentsByUsername,
     addCommentToVideo, getVideosByUsername, getAllCommentsByVideoId, deleteVideosByUsername, deleteComment, updateComment, getCommentFromVideo
 };

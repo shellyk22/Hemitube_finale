@@ -56,6 +56,7 @@ const deleteUser = async (req, res) => {
 
         // Delete videos and comments by user ID
         await videoService.deleteVideosByUsername(username);
+        await videoService.deleteAllCommentsByUsername(username);
         // await videoService.deleteCommentsByUserId(userId); // Uncomment if needed
 
         // Delete the user by username
