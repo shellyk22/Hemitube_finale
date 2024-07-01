@@ -161,7 +161,106 @@ const getTopVids = async () => {
     }
 };
 
+
+////////////////////////////////////////////////////
+const getCommentFromVideo = async (videoId, commentId) => {
+    try {
+        // Find the video by its ID
+        const video = await Video.findById(videoId).populate('comments.userID');
+        if (!video) {
+            throw new Error('Video not found');
+        }
+
+        // Find the comment by its ID
+        const comment = video.comments.id(commentId);
+        if (!comment) {
+            throw new Error('Comment not found');
+        }
+
+        return { _id: comment._id, content: comment.text, author: comment.userID };
+    } catch (error) {
+        console.error("Error getting comment from video: ", error);
+        throw new Error('Could not get comment from video');
+    }
+};
+
+const updateComment = async (videoId, commentId, newContent) => {
+    try {
+        // Find the video by its ID
+        const video = await Video.findById(videoId);
+        if (!video) {
+            throw new Error('Video not found');
+        }
+
+        // Find the comment by its ID
+        const comment = video.comments.id(commentId);
+        if (!comment) {
+            throw new Error('Comment not found');
+        }
+
+        // Update the comment's content
+        comment.text = newContent;
+        await video.save();
+
+        return { _id: comment._id, content: comment.text, author: comment.userID };
+    } catch (error) {
+        console.error("Error updating comment: ", error);
+        throw new Error('Could not update comment');
+    }
+};
+
+const deleteComment = async (videoId, commentId) => {
+    try {
+        // Find the video by its ID
+        const video = await Video.findById(videoId);
+        if (!video) {
+            throw new Error('Video not found');
+        }
+
+        // Find the comment by its ID and remove it
+        const comment = video.comments.id(commentId);
+        if (!comment) {
+            throw new Error('Comment not found');
+        }
+
+        video.comments.pull(commentId);
+        await video.save();
+
+        return { success: true };
+    } catch (error) {
+        console.error("Error deleting comment: ", error);
+        throw new Error('Could not delete comment');
+    }
+};
+
+const deleteAllCommentsByUsername = async (username) => {
+    try {
+        // Find user by username
+        const user = await User.findOne({ username });
+        if (!user) {
+            throw new Error('User not found');
+        }
+
+        // Find all videos
+        const videos = await Video.find();
+
+        // Iterate through each video and remove comments by the user
+        for (const video of videos) {
+            video.comments = video.comments.filter(comment => comment.userID.toString() !== user._id.toString());
+            await video.save();
+        }
+
+        return { success: true };
+    } catch (error) {
+        console.error("Error deleting comments by username from all videos: ", error);
+        throw new Error('Could not delete comments by username from all videos');
+    }
+};
+
+
+
+
 module.exports = {
-    createVideo, getVideos, getVideoById, updateVideo, deleteVideo, getTopVids,
-    addCommentToVideo, getVideosByUsername, getAllCommentsByVideoId, deleteVideosByUsername
+    createVideo, getVideos, getVideoById, updateVideo, deleteVideo, getTopVids, deleteAllCommentsByUsername,
+    addCommentToVideo, getVideosByUsername, getAllCommentsByVideoId, deleteVideosByUsername, deleteComment, updateComment, getCommentFromVideo
 };
