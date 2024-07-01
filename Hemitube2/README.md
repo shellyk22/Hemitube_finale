@@ -21,7 +21,7 @@ Videos:
 - Get /api/videosHemi Retrieve the list of all the videos in the app.
 
 Comments:
-- DELETE /api/users/:id/videos/:pid
+
 - GET /api/users/:id/videos/:pid/comments Retrieve the list of comments in a specific video.
 - POST /api/users/:id/videos/:pid/comments Adds a comment to specific video
 - GET /api/users/:id/videos/:pid/comments/:cid Gets a specific comment from a video
