@@ -52,6 +52,46 @@ const createVideo = async (req, res) => {
     }
 };
 
+
+const addDefaultVideo = async (req, res) => {
+    try {
+
+
+        console.log(req.body);
+
+        var title = req.body.title; 
+        var description = req.body.description;
+        var publisher = req.body.publisher
+        var file_name = req.body.file_name;
+        var file_data = req.body.file_name;
+        var thumbnail_name = req.body.thumbnail_name;
+        var thumbnail_data = req.body.thumbnail_data;
+
+
+        const newVideo = await videoService.createVideo(
+            title,
+            description,
+            publisher, 
+            file_name,
+            file_data,
+            thumbnail_name,
+            thumbnail_data
+        );
+
+        res.status(201).json(newVideo);
+    } catch (error) {
+        console.log("Detailed Error: ", error);
+        res.status(500).json({ errors: [error.message] });
+    }
+};
+
+
+
+
+
+
+
+
 const getVideos = async (req, res) => {
     try {
 
@@ -218,4 +258,4 @@ const deleteComment = async (req, res) => {
 
 module.exports = { createVideo, getVideos, getVideo, updateVideo, deleteVideo,  getTopVids,
     addCommentToVideo, isLoggedIn , getVideosByUsername, getAllCommentsByVideoId, deleteVideosByUsername, 
-    deleteComment, updateComment, getCommentFromVideo};
+    deleteComment, updateComment, getCommentFromVideo, addDefaultVideo};

@@ -65,7 +65,7 @@ export async function fetchVideoById(videoId) {
 
 export async function createVideo(formData) {
     try {
-        for (let [key, value] of formData.entries()) {
+        for (let [key, value] of Object.entries(formData)) {
             console.log(`${key}: ${value}`);
         }
 
@@ -82,14 +82,50 @@ export async function createVideo(formData) {
         } else {
             const errorText = await res.text();
             console.log("Error response text:", errorText);
-            throw new Error("Error creating video");        }
+            throw new Error("Error creating video");
+        }
     } catch (error) {
         console.log('Error creating video:', error);
         throw error; // Re-throw the error to be caught in the calling function
     }
 }
 
-export async function updateVideo(videoId,username, updateData) {
+
+export async function addDefaultVideo(formData) {
+    try {
+        for (let [key, value] of Object.entries(formData)) {
+            console.log(`${key}: ${value}`);
+        }
+
+        const res = await fetch(`${serverAddress}/api/addDefaultVideo`, {
+            method: 'post',
+            headers: {
+                
+            },
+            body: formData,
+        });
+
+        if (res.status === 201) {
+            return await res.json();
+        } else {
+            const errorText = await res.text();
+            console.log("Error response text:", errorText);
+            throw new Error("Error creating default video");
+        }
+    } catch (error) {
+        console.log('Error creating default video:', error);
+        throw error; // Re-throw the error to be caught in the calling function
+    }
+}
+
+
+
+
+
+
+
+
+export async function updateVideo(videoId, username, updateData) {
     try {
         const res = await fetch(`${serverAddress}/api/users/${username}/videos/${videoId}`, {
             method: 'put',
@@ -111,7 +147,7 @@ export async function updateVideo(videoId,username, updateData) {
     }
 }
 
-export async function deleteVideo(videoId,username) {
+export async function deleteVideo(videoId, username) {
     try {
         const res = await fetch(`${serverAddress}/api/users/${username}/videos/${videoId}`, {
             method: 'delete',

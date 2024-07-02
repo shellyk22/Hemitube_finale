@@ -14,8 +14,8 @@ import AddVideo from './pages/AddVideo/Addvideo';
 import DarkModeToggle from './components/darkmode/Darkmode'
 import ProfilePage from './pages/ProfilePage/ProfilePage'; // Import ProfilePage
 import MyVideos from './pages/MyVideos/MyVideos';
-import {fetchVideos} from './DataAccess/videos';
-import {fetchUsers} from './DataAccess/users';
+import { fetchVideos } from './DataAccess/videos';
+import { addDeafault, fetchUsers, registerUser } from './DataAccess/users';
 
 export const serverAddress = 'http://localhost:5001';
 
@@ -31,42 +31,42 @@ function App() {
   const [currentUser, setCurrentUser] = useState("");
   //const [usersVideos, setUsersVideos] = useState([]); 
   const [likedVideos, setLikedVideos] = useState([]);
- 
+
+
 
   useEffect(() => {
     //setFilteredVideoList(videoList);
+    addDeafault();
 
     const fetchVideos = async () => {
-
-      try{
-            const response = await fetch(`${serverAddress}/api/videosHemi`,{ 
-              method: 'get',
-              headers: {
-                  'Content-Type': 'application/json',
-                  'authorization': 'Bearer ' + localStorage.getItem('JWT'),
-              }});    
-
-              console.log("Videos Fetch Response:")
-              console.log(response);
-              
-              if (!response.ok){
-                throw new Error("Coudn't fetch any videos");
-              }
-              
-              const data = await response.json();
-              setFilteredVideoList(data)
-              setVideoList(data)
-              
+      try {
+        const response = await fetch(`${serverAddress}/api/videosHemi`, {
+          method: 'get',
+          headers: {
+            'Content-Type': 'application/json',
+            'authorization': 'Bearer ' + localStorage.getItem('JWT'),
           }
+        });
 
-          catch (error)
-          {
-            return "Ooopss! We've run into a problem :(\nPlease try again later";
-          }
+        console.log("Videos Fetch Response:")
+        console.log(response);
+
+        if (!response.ok) {
+          throw new Error("Coudn't fetch any videos");
         }
 
-        fetchVideos();
+        const data = await response.json();
+        setFilteredVideoList(data)
+        setVideoList(data)
 
+      }
+
+      catch (error) {
+        return "Ooopss! We've run into a problem :(\nPlease try again later";
+      }
+    }
+
+    fetchVideos();
   }, []);
 
 
@@ -124,7 +124,7 @@ function App() {
         <DarkModeToggle isDarkMode={isDarkMode} toggleDarkMode={toggleDarkMode} />
         <Routes>
           <Route path="/" element={<HomePage doSearch={doSearch} filteredVideoList={filteredVideoList} currentUser={currentUser}
-            setCurrentUser={setCurrentUser} videoList={videoList}/>} />
+            setCurrentUser={setCurrentUser} videoList={videoList} />} />
           <Route path="/video/:id" element={<VideoView doSearch={doSearch} filteredVideoList={filteredVideoList}
             videoList={videoList} deleteVideo={deleteVideo} updateVideoDetails={updateVideoDetails}
             toggleLike={toggleLike} likedVideos={likedVideos} />} />
@@ -134,10 +134,10 @@ function App() {
             videoList={videoList} setVideoList={setVideoList} currentUser={currentUser} />} />
           <Route
             path="/profile"
-            element={<ProfilePage currentUser={currentUser} setCurrentUser={setCurrentUser}/>}
+            element={<ProfilePage currentUser={currentUser} setCurrentUser={setCurrentUser} />}
           />
           <Route path="/:username" element={<MyVideos />} />
-        <Route path="/TopVids" element={<TopVids />} />
+          <Route path="/TopVids" element={<TopVids />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
 
