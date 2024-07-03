@@ -12,7 +12,7 @@ router.route('/:id/videos')
 
 router.route('/:id/videos/:pid')
     .get(videoController.getVideo) // Get details of a video by video ID (:pid)
-    .put(userController.isLoggedIn, videoController.updateVideo) // Update a video by video ID (:pid)
-    .delete(userController.isLoggedIn, videoController.deleteVideo); // Delete a video by video ID (:pid)
+    .put(videoController.updateVideo) // Update a video by video ID (:pid)
+    .delete(videoController.deleteVideo); // Delete a video by video ID (:pid)
 
 module.exports = router;
