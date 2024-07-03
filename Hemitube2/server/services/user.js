@@ -3,7 +3,6 @@ const User = require('../models/user');
 //const { deleteCommentsByUserId } = require('../services/comment');
 
 const createUser = async (username, password, nickName, profilePic) => {
-    console.log("in create user")
     try {
         const user = new User({
             username: username,

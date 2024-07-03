@@ -9,26 +9,10 @@ const key = "secret key foo foo foo bar";
 const createVideo = async (req, res) => {
     try {
 
-        console.log("Create Video function - request log :")
-        console.log(req.body)
-        console.log(req.files.file[0])
-        console.log(req.files.thumbnail[0])
-
         var title = req.body.title; 
         var description = req.body.description;
         var publisher = req.body.publisher
-        var file = req.files.file;
-        var thumb = req.files.thumbnail;
 
-        /*if (!title) {
-            return res.status(400).json({ errors: ['Title is required'] });
-        }*/
-
-        let fileDoc = null;
-       /* if (file) {
-            fileDoc = new VidFile({ name: file.filename, data: file.path, attachedVid: null });
-            await fileDoc.save();
-        }*/
 
         const newVideo = await videoService.createVideo(
             title,
@@ -40,10 +24,6 @@ const createVideo = async (req, res) => {
             req.files.thumbnail[0].path
         );
 
-       /* if (fileDoc) {
-            fileDoc.attachedVid = newVideo._id;
-            await fileDoc.save();
-        }*/
 
         res.status(201).json(newVideo);
     } catch (error) {
@@ -51,6 +31,43 @@ const createVideo = async (req, res) => {
         res.status(500).json({ errors: [error.message] });
     }
 };
+
+
+const addDefaultVideo = async (req, res) => {
+    try {
+
+        var title = req.body.title; 
+        var description = req.body.description;
+        var publisher = req.body.publisher
+        var file_name = req.body.file_name;
+        var file_data = req.body.file_name;
+        var thumbnail_name = req.body.thumbnail_name;
+        var thumbnail_data = req.body.thumbnail_data;
+
+
+        const newVideo = await videoService.createVideo(
+            title,
+            description,
+            publisher, 
+            file_name,
+            file_data,
+            thumbnail_name,
+            thumbnail_data
+        );
+
+        res.status(201).json(newVideo);
+    } catch (error) {
+        console.log("Detailed Error: ", error);
+        res.status(500).json({ errors: [error.message] });
+    }
+};
+
+
+
+
+
+
+
 
 const getVideos = async (req, res) => {
     try {
@@ -131,7 +148,6 @@ const isLoggedIn = (req, res, next) => {
 const getVideosByUsername = async (req, res) => {
     try {
         const username = req.params.id;
-        console.log(username);
         const videos = await videoService.getVideosByUsername(username);
         res.status(200).json(videos);
     } catch (error) {
@@ -218,4 +234,4 @@ const deleteComment = async (req, res) => {
 
 module.exports = { createVideo, getVideos, getVideo, updateVideo, deleteVideo,  getTopVids,
     addCommentToVideo, isLoggedIn , getVideosByUsername, getAllCommentsByVideoId, deleteVideosByUsername, 
-    deleteComment, updateComment, getCommentFromVideo};
+    deleteComment, updateComment, getCommentFromVideo, addDefaultVideo};

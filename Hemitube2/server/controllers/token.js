@@ -5,8 +5,6 @@ async function login(req, res) {
     // Check login 
     const {password, username} = req.body;
 
-    console.log("username:", username, "passowrd:", password)
-
     const user = await authService.getUserByUsername(username);
 
     if (!user || user.password !== password) {

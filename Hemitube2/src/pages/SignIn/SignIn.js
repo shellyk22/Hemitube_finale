@@ -18,7 +18,6 @@ function SignIn() {
     try {
       const userLoginData = await loginUser(signInUsername, signInPassword);
       localStorage.setItem('username', signInUsername);
-      console.log({ userLoginData });
       return true;
     } catch {
       return false;
