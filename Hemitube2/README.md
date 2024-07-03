@@ -68,13 +68,21 @@ Notice that we expanded the required API, but we ensured that the core functiona
 
 # some examples of how our app works:
 
+trying to login with an unexisting username:
 ![Screenshot 2024-07-01 173437](https://github.com/ArielGolanski/HemiTube2/assets/129782728/2bc8a2a3-0aa9-4e72-958b-5b679f3e3f2b)
+the home-page you see as a logged-in registered user :
 ![Screenshot 2024-07-01 193542](https://github.com/ArielGolanski/HemiTube2/assets/129782728/30887f32-c067-47cd-bab2-68f3aa4bfefa)
+using the search-bar:
 ![Screenshot 2024-07-01 193633](https://github.com/ArielGolanski/HemiTube2/assets/129782728/c0cdcfd1-b91b-47ad-8df7-00b08a57c52b)
+clicking on a video: (video-View page)
 ![Screenshot 2024-07-01 193700](https://github.com/ArielGolanski/HemiTube2/assets/129782728/0559a189-ca7a-42a1-a964-b4b56914f180)
+this is a video shelly1 uploaded, shelly1 is logged in so she can delete and esit the video (as well as add comments, like any logged0in user)
 ![Screenshot 2024-07-01 193712](https://github.com/ArielGolanski/HemiTube2/assets/129782728/eb4ab7c3-a582-4bde-9048-2c3b174d6dcd)
+after adding comments, you can see them, delete and edit them:
 ![Screenshot 2024-07-01 193746](https://github.com/ArielGolanski/HemiTube2/assets/129782728/4ff8bcfd-dcca-4a15-92ea-b572612dcccc)
+example of a user editing her video:
 ![Screenshot 2024-07-01 193759](https://github.com/ArielGolanski/HemiTube2/assets/129782728/91192f21-d1f4-448e-bba8-f6e29c8db5ea)
+you can see the description of the video changed (both in display and in the data base) after pushing the save changes button:
 ![Screenshot 2024-07-01 193822](https://github.com/ArielGolanski/HemiTube2/assets/129782728/7ae991c8-161c-4b88-86fe-2ab47df4aa0a)
 ![Screenshot 2024-07-01 194203](https://github.com/ArielGolanski/HemiTube2/assets/129782728/dc6b5ec7-9a6a-4d50-a944-c32218a6df25)
 ![Screenshot 2024-07-01 194215](https://github.com/ArielGolanski/HemiTube2/assets/129782728/9453bda5-abfb-49ae-b221-8714d7c7a3b2)
