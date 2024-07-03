@@ -68,44 +68,84 @@ Notice that we expanded the required API, but we ensured that the core functiona
 
 # some examples of how our app works:
 
-trying to login with an unexisting username:
-![Screenshot 2024-07-01 173437](https://github.com/ArielGolanski/HemiTube2/assets/129782728/2bc8a2a3-0aa9-4e72-958b-5b679f3e3f2b)
-the home-page you see as a logged-in registered user :
+- the home-page you see as a logged-in registered user :
 ![Screenshot 2024-07-01 193542](https://github.com/ArielGolanski/HemiTube2/assets/129782728/30887f32-c067-47cd-bab2-68f3aa4bfefa)
-using the search-bar:
+
+- using the search-bar:
 ![Screenshot 2024-07-01 193633](https://github.com/ArielGolanski/HemiTube2/assets/129782728/c0cdcfd1-b91b-47ad-8df7-00b08a57c52b)
-clicking on a video: (video-View page)
+
+- clicking on a video: (video-View page)
 ![Screenshot 2024-07-01 193700](https://github.com/ArielGolanski/HemiTube2/assets/129782728/0559a189-ca7a-42a1-a964-b4b56914f180)
-this is a video shelly1 uploaded, shelly1 is logged in so she can delete and esit the video (as well as add comments, like any logged0in user)
+
+- this is a video shelly1 uploaded, shelly1 is logged in so she can delete and esit the video (as well as add comments, like any logged0in user)
 ![Screenshot 2024-07-01 193712](https://github.com/ArielGolanski/HemiTube2/assets/129782728/eb4ab7c3-a582-4bde-9048-2c3b174d6dcd)
-after adding comments, you can see them, delete and edit them:
+
+- after adding comments, you can see them, delete and edit them:
 ![Screenshot 2024-07-01 193746](https://github.com/ArielGolanski/HemiTube2/assets/129782728/4ff8bcfd-dcca-4a15-92ea-b572612dcccc)
-example of a user editing her video:
-![Screenshot 2024-07-01 193759](https://github.com/ArielGolanski/HemiTube2/assets/129782728/91192f21-d1f4-448e-bba8-f6e29c8db5ea)
-you can see the description of the video changed (both in display and in the data base) after pushing the save changes button:
+
+- example of a user editing her video:
 ![Screenshot 2024-07-01 193822](https://github.com/ArielGolanski/HemiTube2/assets/129782728/7ae991c8-161c-4b88-86fe-2ab47df4aa0a)
+
+- you can see the description of the video changed (both in display and in the data base) after pushing the save changes button:
 ![Screenshot 2024-07-01 194203](https://github.com/ArielGolanski/HemiTube2/assets/129782728/dc6b5ec7-9a6a-4d50-a944-c32218a6df25)
+
+- example of a user editing her comment
 ![Screenshot 2024-07-01 194215](https://github.com/ArielGolanski/HemiTube2/assets/129782728/9453bda5-abfb-49ae-b221-8714d7c7a3b2)
 ![Screenshot 2024-07-01 194226](https://github.com/ArielGolanski/HemiTube2/assets/129782728/09332a7f-eb2f-4d50-9f88-b8a0a90e39a3)
+
+- the new comment, after the edit is complated
 ![Screenshot 2024-07-01 194305](https://github.com/ArielGolanski/HemiTube2/assets/129782728/b941c0e2-7699-4d0a-8374-b6418d2eedb3)
+
+- the profile page of a user:
 ![Screenshot 2024-07-01 194333](https://github.com/ArielGolanski/HemiTube2/assets/129782728/a734d091-7043-4c46-b63d-ecd44dc466a1)
+
+- user editing the profile page and changing the personal nickname:
 ![Screenshot 2024-07-01 194359](https://github.com/ArielGolanski/HemiTube2/assets/129782728/7eef0fcf-dc88-49e2-93f3-8b857b6a3356)
+
+- profile page after the edit is complated
 ![Screenshot 2024-07-01 194415](https://github.com/ArielGolanski/HemiTube2/assets/129782728/048add80-ae41-4984-9381-ca4b240d56df)
-![Screenshot 2024-07-01 194435](https://github.com/ArielGolanski/HemiTube2/assets/129782728/a25de1af-0457-4d52-b2d0-789c0db3cfe7)
+
+- user in the add video page
 ![Screenshot 2024-07-01 194446](https://github.com/ArielGolanski/HemiTube2/assets/129782728/9fc39492-cb85-4730-b966-7b492e2b936a)
+
+- user filling the add video form
 ![Screenshot 2024-07-01 194517](https://github.com/ArielGolanski/HemiTube2/assets/129782728/cda37b12-edde-4159-a3a4-3841742bdeae)
+
+- the home page, after submiting the add video form (the video is in the data base, therefor shown in the home page with all the other videos on the app
 ![Screenshot 2024-07-01 194530](https://github.com/ArielGolanski/HemiTube2/assets/129782728/cfe999cc-3dd6-4811-be5c-80e825cfe08b)
+
+- entering someone elses video (as you can see, you dont have an edit or delete buttons):
 ![Screenshot 2024-07-01 194632](https://github.com/ArielGolanski/HemiTube2/assets/129782728/873909d2-3cca-4129-a4fe-3a44d9eb59e9)
+
+-user about to log out:
+![Screenshot 2024-07-01 194435](https://github.com/ArielGolanski/HemiTube2/assets/129782728/a25de1af-0457-4d52-b2d0-789c0db3cfe7)
+
+- the home page you see as a guest (you dont have add video or log out buttons, but you do have now sign in and sign up):
 ![Screenshot 2024-07-01 194646](https://github.com/ArielGolanski/HemiTube2/assets/129782728/8085dc8c-e03c-4605-bb98-9c3a511f9e5b)
+
+- when you enter a video as a guest, you can see the comments and thir author, but you can edit them:
 ![Screenshot 2024-07-01 194700](https://github.com/ArielGolanski/HemiTube2/assets/129782728/d942e8e7-90cd-449a-aac7-29b51dbdc78b)
+
+- using the search bar in the video-view page:
 ![Screenshot 2024-07-01 194716](https://github.com/ArielGolanski/HemiTube2/assets/129782728/1beebe95-0a40-440d-bcc2-a7dd3580ae61)
+
+- top videos page (in this example we only have 8 videos, so all the videos are shown. when there are more than 20, only the top 20 videos will be displayed):
 ![Screenshot 2024-07-01 194743](https://github.com/ArielGolanski/HemiTube2/assets/129782728/d53115f8-e4c2-4812-aeab-d8142d0bf1b4)
+
+- our sighin page
 ![Screenshot 2024-07-01 194758](https://github.com/ArielGolanski/HemiTube2/assets/129782728/b2f3595e-e274-4f49-8c9d-843cfc54f4ec)
+
+- you can choose to hide or display you password
 ![Screenshot 2024-07-01 194819](https://github.com/ArielGolanski/HemiTube2/assets/129782728/4582af46-7607-4b1c-bbf3-635ac56bd10f)
 ![Screenshot 2024-07-01 194830](https://github.com/ArielGolanski/HemiTube2/assets/129782728/31a2eb15-9f5e-4ec2-a369-ef44ff31209d)
+
+- trying to login with an unexisting username:
 ![Screenshot 2024-07-01 194841](https://github.com/ArielGolanski/HemiTube2/assets/129782728/00e96c72-24f6-420f-a865-1a9151f245a5)
+
+- signup page
 ![Screenshot 2024-07-01 194953](https://github.com/ArielGolanski/HemiTube2/assets/129782728/318426d3-f14b-449c-b03e-dd213914b712)
-![Screenshot 2024-07-01 195031](https://github.com/ArielGolanski/HemiTube2/assets/129782728/5ca210e8-752d-4442-86f5-f6fecb39cd0d)
+
+- the alerts you get when not filling all fiels properly
 ![Screenshot 2024-07-01 195052](https://github.com/ArielGolanski/HemiTube2/assets/129782728/d9360d23-388a-4cb2-ad9e-a75fa0b24b2d)
 ![Screenshot 2024-07-01 195110](https://github.com/ArielGolanski/HemiTube2/assets/129782728/667fa18c-c93c-44db-950e-4198c62c8a30)
 
