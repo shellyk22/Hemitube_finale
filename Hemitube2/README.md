@@ -1,5 +1,5 @@
 # HemiTube2
-our self-made logo:
+our self-made logo: as you can see, this is hemi, holding the YouTube sign
 ![HemitubeLogoHorizontal](https://github.com/ArielGolanski/HemiTube2/assets/170665000/815d8c61-4e42-4ad7-9559-4309ca1bc596)
 
 
@@ -57,11 +57,14 @@ Notice that we expanded the required API, but we ensured that the core functiona
 - in the signUp page, you will get an alert if you try to sign-up with an existing useranme ("invalid useranme" and 409 from the server),
    you will get a different alert if the fields are not filled properly.
 - in the login page, you will get an alert if your password or username are incorrect.
-- as a guest, you will have access to the videos and comments, without a possibility to edit or delete them.
-- also, you can go to user videos page if you press on the name of a publisher in an existing video, in this page, you can see all of this user videos.
+- if the login worked (you filled a valid username and password), we will generate you a JWT, that will be used to monitor your access to things (like adding videos, comments, editing things etc')
+- as a guest, you will have access to the videos and comments, without a possibility to edit or delete them. This way, we can protect the information etch user uploads.
+- you can search videos (by their title) using the search bar in the top of the page.
+- also, you can go to user videos page if you press the link in the name of a publisher of an existing video, in this page, you can see all of this user videos, and entern them.
 - as a registered user, you will have access to your profile page (where you can edit your profile photo and nickName)
 - also, you will have the ability to add video (link to add video page from the home page as well), delete your videos and to comment on existing videos.
-- pay attention, when you delete a user, all of its videos and comments are deleted as well
+- pay attention, when you delete a user, all of its videos and comments are deleted as well.
+- when you add a user, video or a comment, it will be added to the data base. so if you refresh a page or even run the app all over again, you will see all of the things you uploaded.
 
 # some examples of how our app works:
 
