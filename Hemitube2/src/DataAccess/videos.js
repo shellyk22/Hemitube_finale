@@ -65,10 +65,6 @@ export async function fetchVideoById(videoId) {
 
 export async function createVideo(formData) {
     try {
-        for (let [key, value] of Object.entries(formData)) {
-            console.log(`${key}: ${value}`);
-        }
-
         const res = await fetch(`${serverAddress}/api/users/${localStorage.getItem("username")}/videos`, {
             method: 'post',
             headers: {
@@ -91,18 +87,15 @@ export async function createVideo(formData) {
 }
 
 
-export async function addDefaultVideo(formData) {
+export async function addDefaultVideo(videoData) {
     try {
-        for (let [key, value] of Object.entries(formData)) {
-            console.log(`${key}: ${value}`);
-        }
 
         const res = await fetch(`${serverAddress}/api/addDefaultVideo`, {
             method: 'post',
             headers: {
-                
+                'Content-Type': 'application/json'
             },
-            body: formData,
+            body: JSON.stringify(videoData),
         });
 
         if (res.status === 201) {

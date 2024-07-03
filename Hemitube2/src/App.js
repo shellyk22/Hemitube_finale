@@ -15,7 +15,7 @@ import DarkModeToggle from './components/darkmode/Darkmode'
 import ProfilePage from './pages/ProfilePage/ProfilePage'; // Import ProfilePage
 import MyVideos from './pages/MyVideos/MyVideos';
 import { fetchVideos } from './DataAccess/videos';
-import { addDeafault, fetchUsers, registerUser } from './DataAccess/users';
+import { addDeafault, addDeafaultUser, fetchUsers, registerUser } from './DataAccess/users';
 
 export const serverAddress = 'http://localhost:5001';
 
@@ -36,7 +36,7 @@ function App() {
 
   useEffect(() => {
     //setFilteredVideoList(videoList);
-    addDeafault();
+    addDeafaultUser();
 
     const fetchVideos = async () => {
       try {
@@ -47,9 +47,6 @@ function App() {
             'authorization': 'Bearer ' + localStorage.getItem('JWT'),
           }
         });
-
-        console.log("Videos Fetch Response:")
-        console.log(response);
 
         if (!response.ok) {
           throw new Error("Coudn't fetch any videos");

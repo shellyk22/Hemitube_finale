@@ -72,28 +72,42 @@ async function getUserDetails(username) {
 }
 
 
-export async function addDeafault() {
+export async function addDeafaultUser() {
+
+    var flag = false;
+
     const defaultUsers = [
         { username: 'Israel', password: 'Israel1948', nickName: 'Israel', profilePic: 'data:image/jpeg;base64,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' },
         //{ username: 'Hemi', password: 'Hemi2024', nickName: 'Hemi', profilePic: 'data:image/jpeg;base64,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' }
     ];
 
-    defaultUsers.forEach(async (userData) => {
+    for (const userData of defaultUsers) {
         try {
             const existingUser = await getUserDetails(userData.username);
-            if (existingUser === null) {
-                await registerUser(userData.username, userData.password, userData.nickName, userData.profilePic)
+            if (!existingUser) {
+                await registerUser(userData.username, userData.password, userData.nickName, userData.profilePic);
+                console.log('Default user added:', userData.username);
+                flag = true;
             }
-            console.log('Deafault user added')
+        } catch (error) {
+            console.error('Error adding default user:', error);
         }
-        catch (error) {
-            console.error('Error adding default user');
-        }
-    });
+    }
+
+
+    addDeafaultVideos(flag)
+
+}
+
+
+
+export async function addDeafaultVideos(flag) {
+
 
     const { id } = await getUserDetails("Israel");
     //const HemiData = await getUserDetails("Hemi");
-    console.log(id);
+
+
 
     const defaultVideos = [
         {
@@ -101,125 +115,127 @@ export async function addDeafault() {
             description: "vid 1",
             publisher: id,
             uploadDate: new Date(),
-            file_name: "vidTest.mp4",
-            thumbnail_name: "img4.jpg",
-            file_data: "public/videos/5227413-uhd_3840_2160_24fps.mp4",
-            thumbnail_data: "public/images/ingdogs2.jpg",
+            file_name: "sample-4.mp4",
+            thumbnail_name: "img1.jpeg",
+            file_data: "server/uploads/sample-4.mp4",
+            thumbnail_data: "server/uploads/img1.jpeg",
             commentsArr: []
-        }/*,
+        },
+        {
+            title: "Bar",
+            description: "vid 2",
+            publisher: id,
+            uploadDate: new Date(),
+            file_name: "sample-4.mp4",
+            thumbnail_name: "img2.jpg",
+            file_data: "server/uploads/sample-4.mp4",
+            thumbnail_data: "server/uploads/img2.jpg",
+            commentsArr: []
+        },
         {
             title: "Amazing",
-            description: "vid 2",
-            publisher: IsraelData._id,
-            uploadDate: new Date,
-            file_name: "vidTest.mp4",
-            thumbnail_name: "img4.jpg",
-            file_data: "/videos/5227413-uhd_3840_2160_24fps.mp4",
-            thumbnail_data: "/images/ingdogs2.jpg",
-            commentsArr: []
-        },
-        {
-            title: "Niceeee",
             description: "vid 3",
-            publisher: IsraelData._id,
-            uploadDate: new Date,
-            file_name: "vidTest.mp4",
-            thumbnail_name: "img4.jpg",
-            file_data: "/videos/5227413-uhd_3840_2160_24fps.mp4",
-            thumbnail_data: "/images/ingdogs2.jpg",
+            publisher: id,
+            uploadDate: new Date(),
+            file_name: "sample-4.mp4",
+            thumbnail_name: "img3.jpg",
+            file_data: "server/uploads/sample-4.mp4",
+            thumbnail_data: "server/uploads/img3.jpg",
             commentsArr: []
         },
         {
-            title: "Foo",
+            title: "Nice Video",
             description: "vid 4",
-            publisher: HemiData._id,
-            uploadDate: new Date,
-            file_name: "vidTest.mp4",
+            publisher: id,
+            uploadDate: new Date(),
+            file_name: "sample-4.mp4",
             thumbnail_name: "img4.jpg",
-            file_data: "/videos/5227413-uhd_3840_2160_24fps.mp4",
-            thumbnail_data: "/images/ingdogs2.jpg",
+            file_data: "server/uploads/sample-4.mp4",
+            thumbnail_data: "server/uploads/img4.jpg",
             commentsArr: []
         },
         {
-            title: "Bar",
+            title: "Classic",
             description: "vid 5",
-            publisher: IsraelData._id,
-            uploadDate: new Date,
-            file_name: "vidTest.mp4",
-            thumbnail_name: "img4.jpg",
-            file_data: "/videos/5227413-uhd_3840_2160_24fps.mp4",
-            thumbnail_data: "/images/ingdogs2.jpg",
+            publisher: id,
+            uploadDate: new Date(),
+            file_name: "2796080-uhd_3840_2160_25fps.mp4",
+            thumbnail_name: "imgdogs9.jpg",
+            file_data: "server/uploads/2796080-uhd_3840_2160_25fps.mp4",
+            thumbnail_data: "server/uploads/imgdogs9.jpg",
             commentsArr: []
         },
         {
-            title: "Bar",
+            title: "Classic",
             description: "vid 6",
-            publisher: IsraelData._id,
-            uploadDate: new Date,
-            file_name: "vidTest.mp4",
-            thumbnail_name: "img4.jpg",
-            file_data: "/videos/5227413-uhd_3840_2160_24fps.mp4",
-            thumbnail_data: "/images/ingdogs2.jpg",
+            publisher: id,
+            uploadDate: new Date(),
+            file_name: "2796083-uhd_3840_2160_25fps.mp4",
+            thumbnail_name: "imgdogs10.jpg",
+            file_data: "server/uploads/2796083-uhd_3840_2160_25fps.mp4",
+            thumbnail_data: "server/uploads/imgdogs10.jpg",
             commentsArr: []
         },
         {
-            title: "Bar",
+            title: "The Most Foo Video",
             description: "vid 7",
-            publisher: HemiData._id,
-            uploadDate: new Date,
-            file_name: "vidTest.mp4",
-            thumbnail_name: "img4.jpg",
-            file_data: "/videos/5227413-uhd_3840_2160_24fps.mp4",
-            thumbnail_data: "/images/ingdogs2.jpg",
+            publisher: id,
+            uploadDate: new Date(),
+            file_name: "2796084-uhd_3840_2160_25fps.mp4",
+            thumbnail_name: "imgdogs8.jpg",
+            file_data: "server/uploads/2796084-uhd_3840_2160_25fps.mp4",
+            thumbnail_data: "server/uploads/imgdogs8.jpg",
             commentsArr: []
         },
         {
-            title: "Bar",
+            title: "The Most Amazing Video",
             description: "vid 8",
-            publisher: IsraelData._id,
-            uploadDate: new Date,
-            file_name: "vidTest.mp4",
-            thumbnail_name: "img4.jpg",
-            file_data: "/videos/5227413-uhd_3840_2160_24fps.mp4",
-            thumbnail_data: "/images/ingdogs2.jpg",
+            publisher: id,
+            uploadDate: new Date(),
+            file_name: "2796080-uhd_3840_2160_25fps.mp4",
+            thumbnail_name: "img1.jpeg",
+            file_data: "server/uploads/2796080-uhd_3840_2160_25fps.mp4",
+            thumbnail_data: "server/uploads/img1.jpeg",
             commentsArr: []
         },
         {
-            title: "Bar",
+            title: "Sports Video",
             description: "vid 9",
-            publisher: HemiData._id,
-            uploadDate: new Date,
-            file_name: "vidTest.mp4",
-            thumbnail_name: "img4.jpg",
-            file_data: "/videos/5227413-uhd_3840_2160_24fps.mp4",
-            thumbnail_data: "/images/ingdogs2.jpg",
+            publisher: id,
+            uploadDate: new Date(),
+            file_name: "sample-4.mp4",
+            thumbnail_name: "imgdogs8.jpg",
+            file_data: "server/uploads/sample-4.mp4",
+            thumbnail_data: "server/uploads/imgdogs8.jpg",
             commentsArr: []
         },
         {
-            title: "BarBar",
+            title: "Who Let The Dogs out",
             description: "vid 10",
-            publisher: IsraelData._id,
-            uploadDate: new Date,
-            file_name: "vidTest.mp4",
-            thumbnail_name: "img4.jpg",
-            file_data: "/videos/5227413-uhd_3840_2160_24fps.mp4",
-            thumbnail_data: "/images/ingdogs2.jpg",
+            publisher: id,
+            uploadDate: new Date(),
+            file_name: "2796080-uhd_3840_2160_25fps.mp4",
+            thumbnail_name: "imgdogs10.jpg",
+            file_data: "server/uploads/2796080-uhd_3840_2160_25fps.mp4",
+            thumbnail_data: "server/uploads/imgdogs10.jpg",
             commentsArr: []
-        }*/
+        }
     ]
 
+
+    if(flag){
     defaultVideos.forEach(async (videoData) => {
-        const formData = new FormData();
-        formData.append('publisher', videoData.publisher);
-        formData.append('title', videoData.title);
-        formData.append('description', videoData.description);
-        formData.append('file_name', videoData.file_name);
-        formData.append('file_data', videoData.file_data);
-        formData.append('thumbnail_name', videoData.thumbnail_name);
-        formData.append('thumbnail_data', videoData.thumbnail_data);
-        await addDefaultVideo(formData);
+        console.log("videoData:", videoData);  // Step 1: Verify videoData
+
+        try {
+            const newVideo = await addDefaultVideo(videoData);
+            console.log('default Video created successfully:', newVideo);
+        } catch (error) {
+            console.error('Error adding default video:', error);
+        }
     });
-    
+    window.location.reload();
+}
 }
 
 
@@ -251,7 +267,6 @@ export async function setUserDetails(username, newPic, newnickName) {
 
 
 export async function deleteUser(username) {
-    console.log("lmao: " + username);
     try {
         const res = await fetch(serverAddress + '/api/users/' + username, {
             'method': 'delete',

@@ -23,7 +23,6 @@ function CommentSection({ videoList }) {
         throw new Error('Failed to fetch comments');
       }
       const data = await response.json();
-      console.log(data);
       setComments(data || []);
     } catch (error) {
       console.error('Error fetching comments:', error);

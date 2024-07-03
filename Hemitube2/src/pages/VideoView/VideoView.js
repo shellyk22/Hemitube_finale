@@ -23,7 +23,6 @@ function VideoView({
   useEffect(() => {
     const fetchVideo = () => {
       const foundVideo = videoList.find(v => v._id === id);
-      console.log(videoList.find(v => v._id === id))
       setVideo(foundVideo);
       if (foundVideo) {
         setEditedTitle(foundVideo.title);
