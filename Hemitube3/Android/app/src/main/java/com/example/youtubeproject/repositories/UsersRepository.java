@@ -18,6 +18,7 @@ public class UsersRepository {
 
     public void registerUser(User user, MutableLiveData<User> userLiveData) {
         Call<User> call = apiService.registerUser(user);
+
         Log.d("TAG", "Request URL: " + call.request().url());
         call.enqueue(new Callback<User>() {
             @Override

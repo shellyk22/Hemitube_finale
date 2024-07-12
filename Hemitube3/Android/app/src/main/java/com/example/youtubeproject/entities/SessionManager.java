@@ -12,7 +12,6 @@ public class SessionManager {
     private static SessionManager ourInstance;
 
     public SessionManager() {
-
     }
 
     private boolean isNightModeOn = false;
