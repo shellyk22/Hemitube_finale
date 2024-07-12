@@ -24,6 +24,9 @@ public class SessionManager {
     private User loggedUser;
 
     List<Video> videos;
+    private String token;
+
+
 
 
     public static SessionManager getInstance() {
@@ -34,6 +37,17 @@ public class SessionManager {
 
         return ourInstance;
     }
+
+    ///////token////
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
+        Log.d("SessionManager", "Token set: " + token);
+    }
+    ///////
 
     public User getLoggedUser() {
         return loggedUser;

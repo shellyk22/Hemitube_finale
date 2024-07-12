@@ -46,6 +46,16 @@ public class UsersRepository {
             public void onResponse(Call<User> call, Response<User> response) {
                 if (response.isSuccessful()) {
                     userLiveData.setValue(response.body());
+                    //////token///
+                    User loggedInUser = response.body();
+                    if (loggedInUser != null) {
+                        // Extract the token from the response and set it in the User object
+                        String token = response.headers().get("secret key foo foo foo bar"); // Or whatever the token header key is
+                        Log.d("UserRepository", "Token set: " + token);
+                        //loggedInUser.setToken(token);
+                    }
+                    userLiveData.setValue(loggedInUser);
+                    /////
                 } else {
                     Log.e("TAG", "Error in loginUser: " + response.message() + " - " + response.code());
                     userLiveData.setValue(null);
