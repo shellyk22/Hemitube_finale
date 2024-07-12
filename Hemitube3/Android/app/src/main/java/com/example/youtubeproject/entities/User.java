@@ -1,6 +1,8 @@
 package com.example.youtubeproject.entities;
 
 
+import android.util.Log;
+
 import java.io.Serializable;
 
 
@@ -9,6 +11,7 @@ public class User implements Serializable {
     private String nickName;
     private String password;
     private String profilePic;
+    private String token;
 
     public User(String username, String nickName, String password, String profilePic) {
         this.username = username;
@@ -55,6 +58,15 @@ public class User implements Serializable {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+    ///------------token------------
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
+        Log.d("User", "Setting token in User: " + token);
     }
 
 }
