@@ -1,28 +1,27 @@
 package com.example.youtubeproject.entities;
 
-import android.net.Uri;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.io.Serializable;
 
-public class User {
 
-    private static final User ourInstance = new User();
+public class User implements Serializable {
     private String username;
-
+    private String nickName;
     private String password;
+    private String profilePic;
 
-    private String nickname;
-
-    private Uri imageUri;
-    private final SessionManager sessionManager = SessionManager.getInstance();
-
-
-    public static User getInstance() {
-        return ourInstance;
+    public User(String username, String nickName, String password, String profilePic) {
+        this.username = username;
+        this.nickName = nickName;
+        this.password = password;
+        this.profilePic = profilePic;
     }
 
-    public User() {
+
+    // Constructor for login
+    public User(String username, String password) {
+        this.username = username;
+        this.password = password;
     }
 
 
@@ -34,20 +33,20 @@ public class User {
         this.username = username;
     }
 
-    public Uri getImageUri() {
-        return imageUri;
+    public String getProfilePic() {
+        return profilePic;
     }
 
-    public void setImageUri(Uri imageUri) {
-        this.imageUri = imageUri;
+    public void setProfilePic(String profilePic) {
+        this.profilePic = profilePic;
     }
 
     public String getNickname() {
-        return nickname;
+        return nickName;
     }
 
-    public void setNickname(String nickname) {
-        this.nickname = nickname;
+    public void setNickname(String nickName) {
+        this.nickName = nickName;
     }
 
     public String getPassword() {
@@ -56,17 +55,6 @@ public class User {
 
     public void setPassword(String password) {
         this.password = password;
-    }
-
-    public List<Video> getMyVideos() {
-        List<Video> videos = sessionManager.getVideos();
-        List<Video> newList = new ArrayList<>();
-        for(int i = 0; i < videos.size(); i++){
-            if(videos.get(i).getUploader().equals(this.getUsername())){
-                newList.add(videos.get(i));
-            }
-        }
-        return newList;
     }
 
 }

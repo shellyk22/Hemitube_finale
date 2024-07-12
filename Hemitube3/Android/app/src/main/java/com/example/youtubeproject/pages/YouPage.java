@@ -92,9 +92,9 @@ public class YouPage extends AppCompatActivity {
             textViewMyVideos.setVisibility(View.VISIBLE);
             uploadButton.setVisibility(View.VISIBLE);
             profilePic.setVisibility(View.VISIBLE);
-            profilePic.setImageURI(sessionManager.getLoggedUser().getImageUri());
-            List<Video> videos = SessionManager.getInstance().getLoggedUser().getMyVideos();
-            adapter.setVideos(videos);
+            //profilePic.setImageURI(sessionManager.getLoggedUser().getImageUri());
+            //List<Video> videos = SessionManager.getInstance().getLoggedUser().getMyVideos();
+            //adapter.setVideos(videos);
         }
         else {
             logOutButton.setVisibility(View.GONE);
