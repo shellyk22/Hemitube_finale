@@ -30,6 +30,8 @@ public class LogInPage extends AppCompatActivity {
         editTextUsername = findViewById(R.id.editTextLogInUsername);
         editTextPassword = findViewById(R.id.editTextLogInPassword);
         Button btnLogIn = findViewById(R.id.btnLogIn);
+        Button btnLogUp = findViewById(R.id.btnJoin);
+
 
         userViewModel = new ViewModelProvider(this).get(UserViewModel.class);
 
@@ -37,6 +39,11 @@ public class LogInPage extends AppCompatActivity {
             if (validateInput()) {
                 loginUser();
             }
+        });
+
+        btnLogUp.setOnClickListener(v -> {
+            Intent i = new Intent(this, RegistrationPage.class);
+            startActivity(i);
         });
 
         userViewModel.getUserLiveData().observe(this, new Observer<User>() {

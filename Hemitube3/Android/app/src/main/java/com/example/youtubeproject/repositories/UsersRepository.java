@@ -59,4 +59,23 @@ public class UsersRepository {
             }
         });
     }
+
+
+    public void getUser(String username, MutableLiveData<User> userLiveData) {
+        Call<User> call = apiService.getUser(username);
+        call.enqueue(new Callback<User>() {
+            @Override
+            public void onResponse(Call<User> call, Response<User> response) {
+                if (response.isSuccessful()) {
+                    userLiveData.setValue(response.body());
+                } else {
+                    userLiveData.setValue(null);
+                }
+            }
+            @Override
+            public void onFailure(Call<User> call, Throwable t) {
+                userLiveData.setValue(null);
+            }
+        });
+    }
 }
