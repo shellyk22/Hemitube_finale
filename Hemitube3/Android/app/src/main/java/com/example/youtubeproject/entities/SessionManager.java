@@ -19,8 +19,6 @@ public class SessionManager {
 
     private boolean isLogedIn = false;
 
-    private List<User> usersList = new ArrayList<>();
-
     private User loggedUser;
 
     List<Video> videos;
@@ -32,7 +30,6 @@ public class SessionManager {
     public static SessionManager getInstance() {
         if (ourInstance == null) {
             ourInstance = new SessionManager();
-            ourInstance.resetVideos();
         }
 
         return ourInstance;
@@ -67,30 +64,12 @@ public class SessionManager {
         isLogedIn = logedIn;
     }
 
-    public List<User> getUsersList() {
-        return usersList;
-    }
-
-    public void addUser(User user) {
-        this.usersList.add(user);
-    }
-
     public boolean isNightModeOn() {
         return isNightModeOn;
     }
 
     public void setNightModeOn(boolean nightModeOn) {
         isNightModeOn = nightModeOn;
-    }
-
-
-    public User isUserExists(String username) {
-        for (int i = 0; i < this.usersList.size(); i++) {
-            if (username.equals(this.usersList.get(i).getUsername())) {
-                return usersList.get(i);
-            }
-        }
-        return null;
     }
 
     public List<Video> getVideos() {
@@ -108,22 +87,6 @@ public class SessionManager {
 
     private Uri getResourceImageUri(int rawImage) {
         return Uri.parse("android.resource://com.example.youtubeproject" + "/" + rawImage);
-//        Log.i("i", this.context.getResources().toString());
-
-    }
-
-    private void resetVideos() {
-        videos = new ArrayList<>();
-        videos.add(new Video("1", "Finding the most Dangerous Secret", "Alice", "Cool Vid", "74k", "3 days", getResourceImageUri(R.drawable.img6), getResourceVideoUri(R.raw.sample_vid)));
-        videos.add(new Video("2", "Searching for the most Expensive diamond", "Foo", "Cool Vid2", "999", "1 month", getResourceImageUri(R.drawable.img5), getResourceVideoUri(R.raw.sample_vid2)));
-        videos.add(new Video("3", "24 hours in one room with 100 people", "Bar", "Cool Vid3", "1M", "10 months", getResourceImageUri(R.drawable.img4), getResourceVideoUri(R.raw.sample_vid3)));
-        videos.add(new Video("4", "Finding the most Dangerous Secret", "Alice", "Cool Vid", "74k", "3 days", getResourceImageUri(R.drawable.img3), getResourceVideoUri(R.raw.sample_vid2)));
-        videos.add(new Video("5", "Flying to the world cup final", "Foo", "Cool Vid2", "999", "1 month", getResourceImageUri(R.drawable.img2), getResourceVideoUri(R.raw.sample_vid)));
-        videos.add(new Video("6", "100 days challenge", "Bar", "Cool Vid3", "1M", "10 months", getResourceImageUri(R.drawable.img6), getResourceVideoUri(R.raw.sample_vid3)));
-        videos.add(new Video("7", "Finding the most Dangerous Secret", "Alice", "Cool Vid", "74k", "3 days", getResourceImageUri(R.drawable.img6), getResourceVideoUri(R.raw.sample_vid2)));
-        videos.add(new Video("8", "Finding the most Dangerous Secret2", "Foo", "Cool Vid2", "999", "1 month", getResourceImageUri(R.drawable.img5), getResourceVideoUri(R.raw.sample_vid)));
-        videos.add(new Video("9", "Finding the most Dangerous Secret3", "Bar", "Cool Vid3", "1M", "10 months", getResourceImageUri(R.drawable.img2), getResourceVideoUri(R.raw.sample_vid2)));
-        videos.add(new Video("10", "Finding the most Dangerous Secret3", "Bar", "Cool Vid3", "1M", "10 months", getResourceImageUri(R.drawable.img4), getResourceVideoUri(R.raw.sample_vid3)));
     }
 
     public void setVideos(List<Video> videos) {

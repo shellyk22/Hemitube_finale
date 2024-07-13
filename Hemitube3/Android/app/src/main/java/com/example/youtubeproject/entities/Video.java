@@ -6,43 +6,76 @@ import android.net.Uri;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
-import java.util.ArrayList;
+import com.google.gson.annotations.SerializedName;
+
 import java.util.List;
 
 @Entity
 
 public class Video {
 
-    @PrimaryKey(autoGenerate = true)
+    @SerializedName("_id")
     private String id;
 
-    private String title;
+    @SerializedName("publisher")
+    private User publisher;
 
-    private String uploader;
-
-    private String views;
-
-    private String timePassedFromUpload;
-    private String content;
-
-    private Uri picUri;
-    private Uri resourceUri;
-
+    @SerializedName("comments")
     private List<Comment> comments;
 
+    @SerializedName("title")
+    private String title;
 
-    public Video(String id, String title, String uploader, String content, String views,
-                 String timePassedFromUpload, Uri picUri, Uri resourceUri) {
-        this.id = id;
+    @SerializedName("description")
+    private String description;
+
+    @SerializedName("thumbnail_name")
+    private String thumbnailName;
+
+    @SerializedName("thumbnail_data")
+    private String thumbnailData;
+
+    @SerializedName("file_name")
+    private String fileName;
+
+    @SerializedName("file_data")
+    private String fileData;
+
+    @SerializedName("uploadDate")
+    private String uploadDate;
+
+    @SerializedName("__v")
+    private int __v;
+
+
+    public Video(User publisher, List<Comment> comments, String title, String description, String thumbnailName, String thumbnailData, String fileName, String fileData, String uploadDate, int __v) {
+        this.publisher = publisher;
+        this.comments = comments;
         this.title = title;
-        this.content = content;
-        this.uploader = uploader;
-        this.views = views;
-        this.timePassedFromUpload = timePassedFromUpload;
-        this.picUri = picUri;
-        this.resourceUri = resourceUri;
-        this.comments = new ArrayList<>();
+        this.description = description;
+        this.thumbnailName = thumbnailName;
+        this.thumbnailData = thumbnailData;
+        this.fileName = fileName;
+        this.fileData = fileData;
+        this.uploadDate = uploadDate;
+        this.__v = __v;
     }
+
+
+    // Constructor
+    public Video(User publisher, List<Comment> comments, String title, String description, String thumbnailName, String thumbnailData, String fileName, String fileData, String uploadDate) {
+        this.publisher = publisher;
+        this.comments = comments;
+        this.title = title;
+        this.description = description;
+        this.thumbnailName = thumbnailName;
+        this.thumbnailData = thumbnailData;
+        this.fileName = fileName;
+        this.fileData = fileData;
+        this.uploadDate = uploadDate;
+        this.__v = 0;
+    }
+
 
     public String getId() {
         return id;
@@ -52,36 +85,36 @@ public class Video {
         this.id = id;
     }
 
-    public String getUploader() {
-        return uploader;
+    public User getPublisher() {
+        return publisher;
     }
 
-    public void setUploader(String uploader) {
-        this.uploader = uploader;
+    public void setPublisher(User publisher) {
+        this.publisher = publisher;
     }
 
-    public Uri getPicUri() {
-        return picUri;
+    public String getThumbnailName() {
+        return thumbnailName;
     }
 
-    public void setPicUri(Uri picUri) {
-        this.picUri = picUri;
+    public void setThumbnailName(String thumbnailName) {
+        this.thumbnailName = thumbnailName;
     }
 
-    public String getViews() {
-        return views;
+    public String getThumbnailData() {
+        return thumbnailData;
     }
 
-    public void setViews(String views) {
-        this.views = views;
+    public void setThumbnailData(String thumbnailData) {
+        this.thumbnailData = thumbnailData;
     }
 
-    public String getTimePassedFromUpload() {
-        return timePassedFromUpload;
+    public String getUploadDate() {
+        return uploadDate;
     }
 
-    public void setTimePassedFromUpload(String timePassedFromUpload) {
-        this.timePassedFromUpload = timePassedFromUpload;
+    public void setUploadDate(String uploadDate) {
+        this.uploadDate = uploadDate;
     }
 
     public String getTitle() {
@@ -92,20 +125,36 @@ public class Video {
         this.title = title;
     }
 
-    public void setContent(String content) {
-        this.content = content;
+    public void setDescription(String content) {
+        this.description = content;
     }
 
-    public String getContent() {
-        return content;
+    public String getDescription() {
+        return description;
     }
 
-    public Uri getResourceUri() {
-        return this.resourceUri;
+    public String getFileName() {
+        return fileName;
     }
 
-    public void setResourceUri(Uri resourceUri) {
-        this.resourceUri = resourceUri;
+    public void setFileName(String fileName) {
+        this.fileName = fileName;
+    }
+
+    public String getFileData() {
+        return fileData;
+    }
+
+    public void setFileData(String fileData) {
+        this.fileData = fileData;
+    }
+
+    public int get__v() {
+        return __v;
+    }
+
+    public void set__v(int __v) {
+        this.__v = __v;
     }
 
     public void setComments(List<Comment> comments) {
@@ -119,4 +168,5 @@ public class Video {
     public void addComment(Comment comment) {
         this.comments.add(comment);
     }
+
 }
