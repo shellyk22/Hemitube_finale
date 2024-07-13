@@ -18,6 +18,7 @@ public class UsersRepository {
 
     public void registerUser(User user, MutableLiveData<User> userLiveData) {
         Call<User> call = apiService.registerUser(user);
+
         Log.d("TAG", "Request URL: " + call.request().url());
         call.enqueue(new Callback<User>() {
             @Override
@@ -46,6 +47,16 @@ public class UsersRepository {
             public void onResponse(Call<User> call, Response<User> response) {
                 if (response.isSuccessful()) {
                     userLiveData.setValue(response.body());
+                    //////token///
+                    User loggedInUser = response.body();
+                    if (loggedInUser != null) {
+                        // Extract the token from the response and set it in the User object
+                        String token = response.headers().get("secret key foo foo foo bar"); // Or whatever the token header key is
+                        Log.d("UserRepository", "Token set: " + token);
+                        //loggedInUser.setToken(token);
+                    }
+                    userLiveData.setValue(loggedInUser);
+                    /////
                 } else {
                     Log.e("TAG", "Error in loginUser: " + response.message() + " - " + response.code());
                     userLiveData.setValue(null);
@@ -78,4 +89,43 @@ public class UsersRepository {
             }
         });
     }
+
+    public void updateUser(String username, User user, MutableLiveData<User> userLiveData) {
+        Call<User> call = apiService.updateUser(username, user);
+        call.enqueue(new Callback<User>() {
+            @Override
+            public void onResponse(Call<User> call, Response<User> response) {
+                if (response.isSuccessful()) {
+                    userLiveData.setValue(response.body());
+                } else {
+                    userLiveData.setValue(null);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<User> call, Throwable t) {
+                userLiveData.setValue(null);
+            }
+        });
+    }
+
+    public void deleteUser(String username, MutableLiveData<Boolean> successLiveData) {
+        Call<Void> call = apiService.deleteUser(username);
+        call.enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(Call<Void> call, Response<Void> response) {
+                if (response.isSuccessful()) {
+                    successLiveData.setValue(true);
+                } else {
+                    successLiveData.setValue(false);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Void> call, Throwable t) {
+                successLiveData.setValue(false);
+            }
+        });
+    }
+
 }
