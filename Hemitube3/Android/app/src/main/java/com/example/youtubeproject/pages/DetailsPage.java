@@ -32,7 +32,6 @@ public class DetailsPage extends AppCompatActivity {
         profilePic = findViewById(R.id.profilePic);
         usernameTextView = findViewById(R.id.username);
         nicknameTextView = findViewById(R.id.nickname);
-        passwordTextView = findViewById(R.id.password);
 
         if (sessionManager.isLogedIn()) {
             Log.d(TAG, "User is logged in");
@@ -51,12 +50,7 @@ public class DetailsPage extends AppCompatActivity {
             }
             usernameTextView.setText(loggedUser.getUsername());
             nicknameTextView.setText(loggedUser.getNickname());
-            passwordTextView.setText(loggedUser.getPassword());
-        } else {
-            Log.d(TAG, "User is not logged in");
-            usernameTextView.setText("");
-            nicknameTextView.setText("");
-            passwordTextView.setText("");
         }
     }
 }
+

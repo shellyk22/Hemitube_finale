@@ -1,5 +1,6 @@
 package com.example.youtubeproject.repositories;
 
+import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import com.example.youtubeproject.api.ApiService;
 import com.example.youtubeproject.api.RetrofitClient;
@@ -61,7 +62,9 @@ public class UsersRepository {
     }
 
 
-    public void getUser(String username, MutableLiveData<User> userLiveData) {
+    public LiveData<User> getUser(String username) {
+        MutableLiveData<User> userLiveData = new MutableLiveData<>();
+
         Call<User> call = apiService.getUser(username);
         call.enqueue(new Callback<User>() {
             @Override
@@ -72,10 +75,54 @@ public class UsersRepository {
                     userLiveData.setValue(null);
                 }
             }
+
+            @Override
+            public void onFailure(Call<User> call, Throwable t) {
+                userLiveData.setValue(null);
+            }
+        });
+
+        return userLiveData;
+    }
+
+
+
+    public void updateUser(String username, User user, MutableLiveData<User> userLiveData) {
+        Call<User> call = apiService.updateUser(username, user);
+        call.enqueue(new Callback<User>() {
+            @Override
+            public void onResponse(Call<User> call, Response<User> response) {
+                if (response.isSuccessful()) {
+                    userLiveData.setValue(response.body());
+                } else {
+                    userLiveData.setValue(null);
+                }
+            }
+
             @Override
             public void onFailure(Call<User> call, Throwable t) {
                 userLiveData.setValue(null);
             }
         });
     }
+
+    public void deleteUser(String username, MutableLiveData<Boolean> successLiveData) {
+        Call<Void> call = apiService.deleteUser(username);
+        call.enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(Call<Void> call, Response<Void> response) {
+                if (response.isSuccessful()) {
+                    successLiveData.setValue(true);
+                } else {
+                    successLiveData.setValue(false);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Void> call, Throwable t) {
+                successLiveData.setValue(false);
+            }
+        });
+    }
 }
+

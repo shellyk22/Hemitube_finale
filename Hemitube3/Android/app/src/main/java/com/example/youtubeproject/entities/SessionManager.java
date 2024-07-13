@@ -2,6 +2,7 @@ package com.example.youtubeproject.entities;
 
 import android.net.Uri;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.example.youtubeproject.R;
 
@@ -137,5 +138,11 @@ public class SessionManager {
             videos.remove(oldVideo);
             videos.add(video);
         }
+//        public void logout(){
+//            this.setLogedIn(false);
+//            this.setLoggedUser(null);
+//        //    this.setToken(null);
+//        }
+
 
 }

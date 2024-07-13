@@ -23,9 +23,10 @@ public class UserViewModel extends ViewModel {
         userRepository.loginUser(user, userLiveData);
     }
 
-    public void getUser(String username) {
-        userRepository.getUser(username, userLiveData);
+    public LiveData<User> getUser(String username) {
+        return userRepository.getUser(username);
     }
+
 
     public LiveData<User> getUserLiveData() {
         return userLiveData;
