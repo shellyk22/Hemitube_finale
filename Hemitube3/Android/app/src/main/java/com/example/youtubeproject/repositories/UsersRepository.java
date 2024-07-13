@@ -1,5 +1,6 @@
 package com.example.youtubeproject.repositories;
 
+import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import com.example.youtubeproject.api.ApiService;
 import com.example.youtubeproject.api.RetrofitClient;
@@ -18,7 +19,6 @@ public class UsersRepository {
 
     public void registerUser(User user, MutableLiveData<User> userLiveData) {
         Call<User> call = apiService.registerUser(user);
-
         Log.d("TAG", "Request URL: " + call.request().url());
         call.enqueue(new Callback<User>() {
             @Override
@@ -47,16 +47,6 @@ public class UsersRepository {
             public void onResponse(Call<User> call, Response<User> response) {
                 if (response.isSuccessful()) {
                     userLiveData.setValue(response.body());
-                    //////token///
-                    User loggedInUser = response.body();
-                    if (loggedInUser != null) {
-                        // Extract the token from the response and set it in the User object
-                        String token = response.headers().get("secret key foo foo foo bar"); // Or whatever the token header key is
-                        Log.d("UserRepository", "Token set: " + token);
-                        //loggedInUser.setToken(token);
-                    }
-                    userLiveData.setValue(loggedInUser);
-                    /////
                 } else {
                     Log.e("TAG", "Error in loginUser: " + response.message() + " - " + response.code());
                     userLiveData.setValue(null);
@@ -72,7 +62,9 @@ public class UsersRepository {
     }
 
 
-    public void getUser(String username, MutableLiveData<User> userLiveData) {
+    public LiveData<User> getUser(String username) {
+        MutableLiveData<User> userLiveData = new MutableLiveData<>();
+
         Call<User> call = apiService.getUser(username);
         call.enqueue(new Callback<User>() {
             @Override
@@ -83,12 +75,17 @@ public class UsersRepository {
                     userLiveData.setValue(null);
                 }
             }
+
             @Override
             public void onFailure(Call<User> call, Throwable t) {
                 userLiveData.setValue(null);
             }
         });
+
+        return userLiveData;
     }
+
+
 
     public void updateUser(String username, User user, MutableLiveData<User> userLiveData) {
         Call<User> call = apiService.updateUser(username, user);
@@ -127,5 +124,5 @@ public class UsersRepository {
             }
         });
     }
-
 }
+

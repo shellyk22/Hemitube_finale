@@ -91,7 +91,17 @@ public class LogInPage extends AppCompatActivity {
 
         User user = new User(username, password);
         userViewModel.loginUser(user);
-        SessionManager.getInstance().setLogedIn(true);
-        SessionManager.getInstance().setLoggedUser(user);
+        userViewModel.getUser(username).observe(this, new Observer<User>() {
+            @Override
+            public void onChanged(User user) {
+                if (user != null) {
+                    SessionManager.getInstance().setLogedIn(true);
+                    SessionManager.getInstance().setLoggedUser(user);
+                } else {
+                    System.exit(1);
+                }
+            }
+        });
     }
+
 }
