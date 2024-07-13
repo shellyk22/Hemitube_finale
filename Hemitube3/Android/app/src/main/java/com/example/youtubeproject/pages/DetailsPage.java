@@ -2,16 +2,20 @@ package com.example.youtubeproject.pages;
 
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.bumptech.glide.Glide;
 import com.example.youtubeproject.R;
 import com.example.youtubeproject.entities.SessionManager;
 import com.example.youtubeproject.entities.User;
 
 public class DetailsPage extends AppCompatActivity {
+
+    private static final String TAG = "DetailsPage";
 
     private ImageView profilePic;
     private TextView usernameTextView;
@@ -31,11 +35,28 @@ public class DetailsPage extends AppCompatActivity {
         passwordTextView = findViewById(R.id.password);
 
         if (sessionManager.isLogedIn()) {
+            Log.d(TAG, "User is logged in");
             User loggedUser = sessionManager.getLoggedUser();
-            profilePic.setImageURI(Uri.parse(loggedUser.getProfilePic()));
-            usernameTextView.setText("Username: " + loggedUser.getUsername());
-            nicknameTextView.setText("Nickname: " + loggedUser.getNickname());
-            passwordTextView.setText("Password: " + loggedUser.getPassword());
+            if (loggedUser.getProfilePic() != null && !loggedUser.getProfilePic().isEmpty()) {
+                Uri profilePicUri = Uri.parse(loggedUser.getProfilePic());
+                Log.d(TAG, "Profile picture URI: " + profilePicUri.toString());
+                Glide.with(this)
+                        .load(profilePicUri)
+                        .placeholder(R.drawable.ic_logo)
+                        .error(R.drawable.ic_logo)
+                        .into(profilePic);
+            } else {
+                Log.d(TAG, "Profile picture URL is null or empty, showing placeholder");
+                profilePic.setImageResource(R.drawable.ic_logo);
+            }
+            usernameTextView.setText(loggedUser.getUsername());
+            nicknameTextView.setText(loggedUser.getNickname());
+            passwordTextView.setText(loggedUser.getPassword());
+        } else {
+            Log.d(TAG, "User is not logged in");
+            usernameTextView.setText("");
+            nicknameTextView.setText("");
+            passwordTextView.setText("");
         }
     }
 }

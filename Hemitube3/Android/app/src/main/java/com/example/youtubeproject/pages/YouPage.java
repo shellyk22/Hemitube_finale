@@ -25,7 +25,7 @@ public class YouPage extends AppCompatActivity {
     private Button uploadButton;
     private Button logOutButton;
     private Button btnSignIn;
-     // private Button btnDetails;
+    private Button btnDetails;
     private ImageView profilePic;
     private final SessionManager sessionManager = SessionManager.getInstance();
 
@@ -37,7 +37,7 @@ public class YouPage extends AppCompatActivity {
         textViewMyVideos = findViewById(R.id.userVideos);
         uploadButton = findViewById(R.id.btnAddVideo);
         logOutButton = findViewById(R.id.btnLogOut);
-       // btnDetails = findViewById(R.id.btnDetails);
+       btnDetails = findViewById(R.id.btnDetails);
         btnSignIn = findViewById(R.id.btnSignIn);
         profilePic = findViewById(R.id.profilePic);
 
@@ -51,10 +51,12 @@ public class YouPage extends AppCompatActivity {
             startActivity(i);
         });
 
-//        btnDetails.setOnClickListener(v -> {
-//            Intent i = new Intent(this, DetailsPage.class);
-//            startActivity(i);
-//        });
+
+
+        btnDetails.setOnClickListener(v -> {
+            Intent i = new Intent(this, DetailsPage.class);
+            startActivity(i);
+        });
 
         logOutButton.setOnClickListener(v -> {
             sessionManager.setLogedIn(false);
@@ -80,7 +82,8 @@ public class YouPage extends AppCompatActivity {
             textViewMyVideos.setVisibility(View.VISIBLE);
             uploadButton.setVisibility(View.VISIBLE);
             profilePic.setVisibility(View.VISIBLE);
-            // btnDetails.setVisibility(View.VISIBLE);
+             btnDetails.setVisibility(View.VISIBLE);
+
 
             // Set user profile picture and videos if available
             // profilePic.setImageURI(sessionManager.getLoggedUser().getImageUri());
@@ -92,7 +95,8 @@ public class YouPage extends AppCompatActivity {
             textViewMyVideos.setVisibility(View.GONE);
             uploadButton.setVisibility(View.GONE);
             profilePic.setVisibility(View.GONE);
-             // btnDetails.setVisibility(View.GONE);
+             btnDetails.setVisibility(View.GONE);
+
         }
 
         ImageButton btnHome = findViewById(R.id.btnHome);

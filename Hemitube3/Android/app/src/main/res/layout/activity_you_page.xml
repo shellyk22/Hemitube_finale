@@ -24,12 +24,12 @@
             android:backgroundTint="@color/red"
             android:text="@string/upload" />
 
-<!--        <Button-->
-<!--            android:id="@+id/btnDetails"-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="40dp"-->
-<!--            android:backgroundTint="@color/red"-->
-<!--            android:text="Details" />-->
+        <Button
+            android:id="@+id/btnDetails"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:backgroundTint="@color/red"
+            android:text="Details" />
 
         <LinearLayout
             android:layout_width="wrap_content"
