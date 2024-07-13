@@ -3,6 +3,7 @@ package com.example.youtubeproject.pages;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -50,6 +51,13 @@ public class LogInPage extends AppCompatActivity {
             @Override
             public void onChanged(User user) {
                 if (user != null) {
+                    // Save token to SessionManager
+                    String token = user.getToken();
+                    Log.d("LogInPage", "Setting token in SessionManager: " + token);
+                    SessionManager.getInstance().setToken(token);
+                    user.setToken(token);
+
+                      ///
                     Toast.makeText(LogInPage.this, "Login Successful", Toast.LENGTH_SHORT).show();
                     Intent i = new Intent(LogInPage.this, MainActivity.class);
                     startActivity(i);

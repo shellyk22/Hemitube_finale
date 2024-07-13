@@ -61,6 +61,7 @@ public class YouPage extends AppCompatActivity {
         logOutButton.setOnClickListener(v -> {
             sessionManager.setLogedIn(false);
             sessionManager.setLoggedUser(null);
+            sessionManager.setToken(null);
             Toast.makeText(this, "Logged out successfully", Toast.LENGTH_SHORT).show();
             Intent i = new Intent(this, MainActivity.class);
             startActivity(i);
