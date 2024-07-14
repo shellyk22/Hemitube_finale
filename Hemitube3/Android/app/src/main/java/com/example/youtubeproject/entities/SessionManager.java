@@ -48,7 +48,7 @@ public class SessionManager {
         return userId;
     }
 
-    public void setUserId(String userId) { // Add this setter
+    public void setUserId(String userId) {
         this.userId = userId;
         Log.d("SessionManager", "UserId set: " + userId);
     }

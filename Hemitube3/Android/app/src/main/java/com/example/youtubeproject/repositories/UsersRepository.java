@@ -10,11 +10,26 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import android.util.Log;
 
+import java.util.concurrent.CompletableFuture;
+
 public class UsersRepository {
+    private static UsersRepository instance;
+
     private ApiService apiService;
+    private MutableLiveData<User> userLiveData;
+
 
     public UsersRepository() {
+
         apiService = RetrofitClient.getClient().create(ApiService.class);
+        userLiveData = new MutableLiveData<>();
+    }
+
+    public static synchronized UsersRepository getInstance() {
+        if (instance == null) {
+            instance = new UsersRepository();
+        }
+        return instance;
     }
 
     public void registerUser(User user, MutableLiveData<User> userLiveData) {
@@ -87,42 +102,46 @@ public class UsersRepository {
 
 
 
-    public void updateUser(String username, User user, MutableLiveData<User> userLiveData) {
-        Call<User> call = apiService.updateUser(username, user);
-        call.enqueue(new Callback<User>() {
+    public void updateUser(String username, String nickname, String profilePic) {
+        User user = new User(null, null, null, null, null);
+        user.setNickname(nickname);
+        user.setProfilePic(profilePic);
+
+        apiService.updateUser(username, user).enqueue(new Callback<User>() {
             @Override
             public void onResponse(Call<User> call, Response<User> response) {
-                if (response.isSuccessful()) {
+                if (response.isSuccessful() && response.body() != null) {
                     userLiveData.setValue(response.body());
+                    Log.d("UsersRepository", "User updated successfully.");
                 } else {
-                    userLiveData.setValue(null);
+                    Log.d("UsersRepository", "Failed to update user.");
                 }
             }
 
             @Override
             public void onFailure(Call<User> call, Throwable t) {
-                userLiveData.setValue(null);
+                Log.d("UsersRepository", "Failed to update user: " + t.getMessage());
             }
         });
     }
 
-    public void deleteUser(String username, MutableLiveData<Boolean> successLiveData) {
-        Call<Void> call = apiService.deleteUser(username);
-        call.enqueue(new Callback<Void>() {
+    public CompletableFuture<Boolean> deleteUser(String username, String token) {
+        CompletableFuture<Boolean> future = new CompletableFuture<>();
+        apiService.deleteUser(username, "Bearer " + token).enqueue(new Callback<Void>() {
             @Override
             public void onResponse(Call<Void> call, Response<Void> response) {
-                if (response.isSuccessful()) {
-                    successLiveData.setValue(true);
-                } else {
-                    successLiveData.setValue(false);
-                }
+                future.complete(response.isSuccessful());
             }
 
             @Override
             public void onFailure(Call<Void> call, Throwable t) {
-                successLiveData.setValue(false);
+                future.completeExceptionally(t);
             }
         });
+        return future;
     }
+
+
 }
+
 

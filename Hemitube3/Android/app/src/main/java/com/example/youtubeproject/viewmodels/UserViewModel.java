@@ -6,6 +6,8 @@ import androidx.lifecycle.ViewModel;
 import com.example.youtubeproject.entities.User;
 import com.example.youtubeproject.repositories.UsersRepository;
 
+import java.util.concurrent.CompletableFuture;
+
 public class UserViewModel extends ViewModel {
     private UsersRepository userRepository;
 
@@ -31,5 +33,14 @@ public class UserViewModel extends ViewModel {
 
     public LiveData<User> getUserLiveData() {
         return userLiveData;
+    }
+
+    public void updateUser(String username, String nickname, String profilePic) {
+        userRepository.updateUser(username, nickname, profilePic);
+    }
+
+
+    public CompletableFuture<Boolean> deleteUser(String username, String token) {
+        return userRepository.deleteUser(username, token);
     }
 }
