@@ -15,7 +15,7 @@ public class User implements Serializable {
     private String token;
 
     public User(String id, String username, String nickName, String password, String profilePic) {
-        this.id = id;
+        this._id = id;
         this.username = username;
         this.nickName = nickName;
         this.password = password;
