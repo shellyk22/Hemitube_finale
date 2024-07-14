@@ -15,8 +15,6 @@ import com.example.youtubeproject.entities.User;
 
 public class DetailsPage extends AppCompatActivity {
 
-    private static final String TAG = "DetailsPage";
-
     private ImageView profilePic;
     private TextView usernameTextView;
     private TextView nicknameTextView;
@@ -35,22 +33,21 @@ public class DetailsPage extends AppCompatActivity {
         userIdTextView = findViewById(R.id.userId);
 
         if (sessionManager.isLogedIn()) {
-            Log.d(TAG, "User is logged in");
+            Log.d("TAG", "User is logged in");
             User loggedUser = sessionManager.getLoggedUser();
             if (loggedUser.getProfilePic() != null && !loggedUser.getProfilePic().isEmpty()) {
                 Uri profilePicUri = Uri.parse(loggedUser.getProfilePic());
-                Log.d(TAG, "Profile picture URI: " + profilePicUri.toString());
                 Glide.with(this)
                         .load(profilePicUri)
                         .placeholder(R.drawable.ic_logo)
                         .error(R.drawable.ic_logo)
                         .into(profilePic);
             } else {
-                Log.d(TAG, "Profile picture URL is null or empty, showing placeholder");
+                Log.d("TAG", "Profile picture URL is null or empty, showing placeholder");
                 profilePic.setImageResource(R.drawable.ic_logo);
             }
             usernameTextView.setText(loggedUser.getUsername());
-            nicknameTextView.setText(loggedUser.getNickname());
+            nicknameTextView.setText(loggedUser.getNickName());
             userIdTextView.setText(loggedUser.getId());
         }
     }

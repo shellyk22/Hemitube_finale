@@ -28,7 +28,6 @@ public class UserViewModel extends ViewModel {
         return userRepository.getUser(username);
     }
 
-
     public LiveData<User> getUserLiveData() {
         return userLiveData;
     }

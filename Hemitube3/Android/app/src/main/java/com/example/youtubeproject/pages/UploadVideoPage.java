@@ -23,6 +23,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.example.youtubeproject.MainActivity;
 import com.example.youtubeproject.R;
 import com.example.youtubeproject.entities.SessionManager;
 import com.example.youtubeproject.viewmodels.VideoViewModel;
@@ -142,11 +143,13 @@ public class UploadVideoPage extends AppCompatActivity {
     private void uploadVideo() {
         String title = videoTitle.getText().toString();
         String description = videoDescription.getText().toString();
-        String username = SessionManager.getInstance().getLoggedUser().getUsername(); // Assuming this method retrieves the publisher ID
+        String publisher = SessionManager.getInstance().getLoggedUser().getId(); // Assuming this method retrieves the publisher ID
 
         if (videoUri != null && thumbnailUri != null) {
-            Log.d("TAG", "Starting upload: " + title + ", " + description + ", " + username);
-            videoViewModel.uploadVideo(videoUri, thumbnailUri, title, description, username, this);
+            Log.d("TAG", "Starting upload: " + title + ", " + description + ", " + publisher);
+            videoViewModel.uploadVideo(videoUri, thumbnailUri, title, description, publisher, this);
+            Intent i = new Intent(UploadVideoPage.this, YouPage.class);
+            startActivity(i);
         } else {
             Toast.makeText(this, "Please select both video and thumbnail", Toast.LENGTH_SHORT).show();
         }
