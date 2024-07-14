@@ -20,7 +20,7 @@ public class DetailsPage extends AppCompatActivity {
     private ImageView profilePic;
     private TextView usernameTextView;
     private TextView nicknameTextView;
-    private TextView passwordTextView;
+    private TextView userIdTextView;
 
     private final SessionManager sessionManager = SessionManager.getInstance();
 
@@ -32,6 +32,7 @@ public class DetailsPage extends AppCompatActivity {
         profilePic = findViewById(R.id.profilePic);
         usernameTextView = findViewById(R.id.username);
         nicknameTextView = findViewById(R.id.nickname);
+        userIdTextView = findViewById(R.id.userId);
 
         if (sessionManager.isLogedIn()) {
             Log.d(TAG, "User is logged in");
@@ -50,6 +51,7 @@ public class DetailsPage extends AppCompatActivity {
             }
             usernameTextView.setText(loggedUser.getUsername());
             nicknameTextView.setText(loggedUser.getNickname());
+            userIdTextView.setText(loggedUser.getId());
         }
     }
 }

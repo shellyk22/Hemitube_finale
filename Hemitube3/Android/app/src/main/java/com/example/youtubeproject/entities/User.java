@@ -14,7 +14,8 @@ public class User implements Serializable {
     private String profilePic;
     private String token;
 
-    public User(String username, String nickName, String password, String profilePic) {
+    public User(String id, String username, String nickName, String password, String profilePic) {
+        this.id = id;
         this.username = username;
         this.nickName = nickName;
         this.password = password;
@@ -22,19 +23,13 @@ public class User implements Serializable {
     }
 
 
-    // Constructor for login
     public User(String username, String password) {
         this.username = username;
         this.password = password;
     }
 
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
+    public String getId() { return id; }
+    public void setId(String id) { this.id = id; }
 
     public String getUsername() {
         return username;
@@ -67,7 +62,8 @@ public class User implements Serializable {
     public void setPassword(String password) {
         this.password = password;
     }
-    ///------------token------------
+
+
     public String getToken() {
         return token;
     }
