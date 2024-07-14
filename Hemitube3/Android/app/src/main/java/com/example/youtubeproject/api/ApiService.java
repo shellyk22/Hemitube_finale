@@ -1,6 +1,5 @@
 package com.example.youtubeproject.api;
 
-
 import com.example.youtubeproject.entities.User;
 
 import okhttp3.MultipartBody;
@@ -20,7 +19,6 @@ public interface ApiService {
 
     @POST("/api/users")
     Call<User> registerUser(@Body User user);
-
 
     @POST("/api/tokens")
     Call<User> loginUser(@Body User user);

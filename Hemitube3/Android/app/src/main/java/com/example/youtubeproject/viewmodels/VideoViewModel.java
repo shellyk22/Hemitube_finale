@@ -32,10 +32,10 @@ public class VideoViewModel extends AndroidViewModel {
         return uploadResult;
     }
 
-    public void uploadVideo(Uri videoUri, Uri thumbnailUri, String title, String description, String username, Context context) {
+    public void uploadVideo(Uri videoUri, Uri thumbnailUri, String title, String description, String publisher, Context context) {
         isLoading.setValue(true);
         Log.d("TAG", "amazinggggggg");
-        LiveData<String> result = videosRepository.uploadVideo(videoUri, thumbnailUri, title, description, username, context);
+        LiveData<String> result = videosRepository.uploadVideo(videoUri, thumbnailUri, title, description, publisher, context);
         result.observeForever(uploadResult::setValue);
         isLoading.setValue(false);
         Log.d("TAG", "Upload video initiated");

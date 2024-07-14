@@ -1,13 +1,12 @@
 package com.example.youtubeproject.entities;
 
-
-import android.util.Log;
+import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
 
-
 public class User implements Serializable {
-    private String _id;
+    @SerializedName("_id")
+    private String id;
     private String username;
     private String nickName;
     private String password;
@@ -15,13 +14,12 @@ public class User implements Serializable {
     private String token;
 
     public User(String id, String username, String nickName, String password, String profilePic) {
-        this._id = id;
+        this.id = id;
         this.username = username;
         this.nickName = nickName;
         this.password = password;
         this.profilePic = profilePic;
     }
-
 
     public User(String username, String password) {
         this.username = username;
@@ -29,11 +27,11 @@ public class User implements Serializable {
     }
 
     public String getId() {
-        return _id;
+        return id;
     }
 
     public void setId(String id) {
-        this._id = id;
+        this.id = id;
     }
 
     public String getUsername() {
@@ -52,11 +50,11 @@ public class User implements Serializable {
         this.profilePic = profilePic;
     }
 
-    public String getNickname() {
+    public String getNickName() {
         return nickName;
     }
 
-    public void setNickname(String nickName) {
+    public void setNickName(String nickName) {
         this.nickName = nickName;
     }
 
@@ -68,14 +66,22 @@ public class User implements Serializable {
         this.password = password;
     }
 
-
     public String getToken() {
         return token;
     }
 
     public void setToken(String token) {
         this.token = token;
-        Log.d("User", "Setting token in User: " + token);
     }
-
+    @Override
+    public String toString() {
+        return "User{" +
+                "id='" + id + '\'' +
+                ", username='" + username + '\'' +
+                ", nickName='" + nickName + '\'' +
+                ", password='" + password + '\'' +
+                ", profilePic='" + profilePic + '\'' +
+                ", token='" + token + '\'' +
+                '}';
+    }
 }
