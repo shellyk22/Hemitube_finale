@@ -2,6 +2,7 @@ package com.example.youtubeproject.adapters;
 
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -59,10 +60,10 @@ public class VideosListAdapter extends RecyclerView.Adapter<VideosListAdapter.Vi
         if(videos != null){
             final Video current = videos.get(position);
             holder.title.setText(current.getTitle());
-            holder.uploader.setText(current.getUploader() + " . ");
-            holder.views.setText(current.getViews() + " views. ");
-            holder.timePassed.setText(current.getTimePassedFromUpload() + " ago");
-            holder.videoPic.setImageURI(current.getPicUri());
+            holder.uploader.setText(current.getPublisher().getUsername() + " . ");
+            holder.views.setText(current.get__v() + " views. ");
+            holder.timePassed.setText(current.getUploadDate());
+            holder.videoPic.setImageURI(Uri.parse(current.getThumbnailData()));
             holder.videoPic.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

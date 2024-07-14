@@ -57,17 +57,17 @@ public class VideoViewPage extends AppCompatActivity {
         TextView timePassed = findViewById(R.id.videoPassedTime);
 
         title.setText(video.getTitle());
-        content.setText(video.getContent());
-        uploader.setText(video.getUploader() + " . ");
-        views.setText(video.getViews() + " views . ");
-        timePassed.setText(video.getTimePassedFromUpload() + " ago");
+        content.setText(video.getDescription());
+        uploader.setText(video.getPublisher().getUsername() + " . ");
+        views.setText(video.get__v() + " views . ");
+        timePassed.setText(video.getUploadDate());
 
 
         videoView = findViewById(R.id.videoPlayer);
         MediaController mediaController = new MediaController(this);
         mediaController.setMediaPlayer(videoView);
         videoView.setMediaController(mediaController);
-        videoView.setVideoURI(video.getResourceUri());
+        videoView.setVideoPath(video.getFileData());
         videoView.start();
 
 
@@ -93,7 +93,7 @@ public class VideoViewPage extends AppCompatActivity {
         Button btnDelete = findViewById(R.id.videoDeleteBtn);
         btnDelete.setOnClickListener(v -> {
             if (sessionManager.isLogedIn()) {
-                if (sessionManager.getLoggedUser().getUsername().equals(video.getUploader())) {
+                if (sessionManager.getLoggedUser().getUsername().equals(video.getPublisher().getUsername())) {
                     List<Video> videos = sessionManager.getVideos();
                     videos.remove(video);
                     sessionManager.setVideos(videos);
@@ -110,7 +110,7 @@ public class VideoViewPage extends AppCompatActivity {
 
         Button btnEdit = findViewById(R.id.videoEditBtn);
         btnEdit.setOnClickListener(v -> {
-            if (sessionManager.getLoggedUser().getUsername().equals(video.getUploader())) {
+            if (sessionManager.getLoggedUser().getUsername().equals(video.getPublisher().getUsername())) {
                 showEditDialog();
             } else {
                 Toast.makeText(this, "In Order To Edit Video you must be his uploader", Toast.LENGTH_SHORT).show();
@@ -150,7 +150,7 @@ public class VideoViewPage extends AppCompatActivity {
 
 
         if (sessionManager.isLogedIn()) {
-            if (sessionManager.getLoggedUser().getUsername().equals(video.getUploader())) {
+            if (sessionManager.getLoggedUser().getUsername().equals(video.getPublisher().getUsername())) {
                 btnDelete.setVisibility(View.VISIBLE);
                 btnEdit.setVisibility(View.VISIBLE);
             } else {
@@ -228,7 +228,7 @@ public class VideoViewPage extends AppCompatActivity {
     private void changeVideoDetails(String titleText, String cotentText) {
         Video oldVideo = video;
         video.setTitle(titleText);
-        video.setContent(cotentText);
+        video.setDescription(cotentText);
         sessionManager.replaceVideo(oldVideo, video);
         TextView title = findViewById(R.id.videoTitle);
         title.setText(titleText);
