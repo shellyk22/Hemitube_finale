@@ -51,11 +51,16 @@ public class LogInPage extends AppCompatActivity {
             @Override
             public void onChanged(User user) {
                 if (user != null) {
-                    // Save token to SessionManager
+                    String userId = user.getId();
                     String token = user.getToken();
+                    Log.d("LogInPage", "Setting id in SessionManager: " + userId);
+                    SessionManager.getInstance().setUserId(userId);
                     Log.d("LogInPage", "Setting token in SessionManager: " + token);
                     SessionManager.getInstance().setToken(token);
                     user.setToken(token);
+
+
+
 
                       ///
                     Toast.makeText(LogInPage.this, "Login Successful", Toast.LENGTH_SHORT).show();

@@ -23,7 +23,7 @@ public class SessionManager {
 
     List<Video> videos;
     private String token;
-
+    private String userId;
 
 
 
@@ -35,7 +35,6 @@ public class SessionManager {
         return ourInstance;
     }
 
-    ///////token////
     public String getToken() {
         return token;
     }
@@ -44,7 +43,15 @@ public class SessionManager {
         this.token = token;
         Log.d("SessionManager", "Token set: " + token);
     }
-    ///////
+
+    public String getUserId() { // Add this getter
+        return userId;
+    }
+
+    public void setUserId(String userId) { // Add this setter
+        this.userId = userId;
+        Log.d("SessionManager", "UserId set: " + userId);
+    }
 
     public User getLoggedUser() {
         return loggedUser;

@@ -19,6 +19,7 @@ import androidx.lifecycle.ViewModelProvider;
 import com.example.youtubeproject.R;
 import com.example.youtubeproject.entities.User;
 import com.example.youtubeproject.viewmodels.UserViewModel;
+import com.example.youtubeproject.entities.SessionManager;
 
 import java.io.ByteArrayOutputStream;
 
@@ -58,6 +59,11 @@ public class RegistrationPage extends AppCompatActivity {
             @Override
             public void onChanged(User user) {
                 if (user != null) {
+                    // Save user ID and token to SessionManager
+                    SessionManager.getInstance().setUserId(user.getId());
+                    SessionManager.getInstance().setToken(user.getToken());
+                    SessionManager.getInstance().setLoggedUser(user);
+
                     Toast.makeText(RegistrationPage.this, "Registration Successful", Toast.LENGTH_SHORT).show();
                     Intent i = new Intent(RegistrationPage.this, LogInPage.class);
                     startActivity(i);
@@ -124,8 +130,9 @@ public class RegistrationPage extends AppCompatActivity {
         String password = editTextPassword.getText().toString().trim();
         String nickName = editTextNickname.getText().toString().trim();
         String profilePicBase64 = convertImageViewToBase64WithPrefix(imageViewProfilePicture);
+        String tempId = "";
 
-        User user = new User(username, nickName, password, profilePicBase64);
+        User user = new User(tempId, username, nickName, password, profilePicBase64);
         userViewModel.registerUser(user);
     }
 
