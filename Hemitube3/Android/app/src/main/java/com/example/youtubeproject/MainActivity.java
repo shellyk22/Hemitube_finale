@@ -62,8 +62,7 @@ public class MainActivity extends AppCompatActivity {
         final VideosListAdapter adapter = new VideosListAdapter(this);
         lstVideos.setAdapter(adapter);
         lstVideos.setLayoutManager(new LinearLayoutManager(this));
-        videos = sessionManager.getVideos();
-        filteredVideos = new ArrayList<>(videos);
+        filteredVideos = new ArrayList<>();
         adapter.setVideos(filteredVideos);
 
         ImageButton btnYou = findViewById(R.id.btnYou);
@@ -109,7 +108,7 @@ public class MainActivity extends AppCompatActivity {
         } else {
             String lowerCaseQuery = query.toLowerCase();
             for (Video video : videos) {
-                if (video.getTitle().toLowerCase().contains(lowerCaseQuery) || video.getUploader().toLowerCase().contains(lowerCaseQuery)) {
+                if (video.getTitle().toLowerCase().contains(lowerCaseQuery) || video.getPublisher().getUsername().toLowerCase().contains(lowerCaseQuery)) {
                     filteredVideos.add(video);
                 }
             }

@@ -77,18 +77,6 @@ public class SessionManager {
     }
 
 
-    public void addVideo(Video video) {
-        videos.add(video);
-    }
-
-    private Uri getResourceVideoUri(int rawVideo) {
-        return Uri.parse("android.resource://com.example.youtubeproject" + "/" + rawVideo);
-    }
-
-    private Uri getResourceImageUri(int rawImage) {
-        return Uri.parse("android.resource://com.example.youtubeproject" + "/" + rawImage);
-    }
-
     public void setVideos(List<Video> videos) {
         this.videos = videos;
     }
@@ -114,11 +102,6 @@ public class SessionManager {
             videos.remove(oldVideo);
             videos.add(video);
         }
-//        public void logout(){
-//            this.setLogedIn(false);
-//            this.setLoggedUser(null);
-//        //    this.setToken(null);
-//        }
 
 
 }

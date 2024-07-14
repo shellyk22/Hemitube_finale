@@ -4,7 +4,8 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
-
+import okhttp3.logging.HttpLoggingInterceptor;
+import java.util.concurrent.TimeUnit;
 
 public class RetrofitClient {
     private static final String BASE_URL = "http://10.0.2.2:5001/api/";
@@ -25,6 +26,9 @@ public class RetrofitClient {
     }
 
     public static ApiService getAuthenticatedApiService(String token) {
+        HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
+        logging.setLevel(HttpLoggingInterceptor.Level.BODY);
+
         OkHttpClient okHttpClient = new OkHttpClient.Builder()
                 .addInterceptor(chain -> {
                     Request original = chain.request();
@@ -34,6 +38,10 @@ public class RetrofitClient {
                     Request request = requestBuilder.build();
                     return chain.proceed(request);
                 })
+                .addInterceptor(logging)
+                .connectTimeout(60, TimeUnit.SECONDS)
+                .readTimeout(60, TimeUnit.SECONDS)
+                .writeTimeout(60, TimeUnit.SECONDS)
                 .build();
 
         Retrofit retrofit = new Retrofit.Builder()
@@ -45,6 +53,7 @@ public class RetrofitClient {
         return retrofit.create(ApiService.class);
     }
 }
+
 
 
 

@@ -1,12 +1,15 @@
 package com.example.youtubeproject.pages;
 
-import android.annotation.SuppressLint;
+import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -15,21 +18,21 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 import android.widget.VideoView;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.youtubeproject.R;
 import com.example.youtubeproject.entities.SessionManager;
-import com.example.youtubeproject.entities.User;
 import com.example.youtubeproject.viewmodels.VideoViewModel;
 
 import java.io.IOException;
 
 public class UploadVideoPage extends AppCompatActivity {
-
     private static final int PICK_VIDEO_REQUEST = 1;
     private static final int PICK_THUMBNAIL_REQUEST = 2;
+    private static final int REQUEST_PERMISSIONS = 123;
 
     private EditText videoTitle, videoDescription;
     private Button selectVideoButton, selectThumbnailButton, uploadButton, backButton;
@@ -66,7 +69,37 @@ public class UploadVideoPage extends AppCompatActivity {
 
         videoViewModel.getUploadResult().observe(this, result -> {
             Toast.makeText(this, result, Toast.LENGTH_SHORT).show();
+            Log.d("TAG", "Upload result: " + result);
         });
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            requestPermissions();
+        }
+    }
+
+    private void requestPermissions() {
+        if (checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED ||
+                checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+            requestPermissions(new String[]{
+                    Manifest.permission.READ_EXTERNAL_STORAGE,
+                    Manifest.permission.WRITE_EXTERNAL_STORAGE
+            }, REQUEST_PERMISSIONS);
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == REQUEST_PERMISSIONS) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                // Permissions granted
+                Log.d("TAG", "Permissions granted");
+            } else {
+                // Permissions denied
+                Log.d("TAG", "Permissions denied");
+                Toast.makeText(this, "Permissions denied. App cannot function without the required permissions.", Toast.LENGTH_LONG).show();
+            }
+        }
     }
 
     private void openVideoChooser() {
@@ -86,20 +119,21 @@ public class UploadVideoPage extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-
         if (resultCode == Activity.RESULT_OK && data != null) {
             if (requestCode == PICK_VIDEO_REQUEST) {
                 videoUri = data.getData();
                 VideoView videoView = findViewById(R.id.videoViewVideo);
                 videoView.setVideoURI(videoUri);
                 videoView.start();
+                Log.d("TAG", "Video selected: " + videoUri.toString());
             } else if (requestCode == PICK_THUMBNAIL_REQUEST) {
                 thumbnailUri = data.getData();
                 try {
                     Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), thumbnailUri);
                     thumbnailPreview.setImageBitmap(bitmap);
+                    Log.d("TAG", "Thumbnail selected: " + thumbnailUri.toString());
                 } catch (IOException e) {
-                    e.printStackTrace();
+                    Log.e("TAG", "Error loading thumbnail", e);
                 }
             }
         }
@@ -108,12 +142,15 @@ public class UploadVideoPage extends AppCompatActivity {
     private void uploadVideo() {
         String title = videoTitle.getText().toString();
         String description = videoDescription.getText().toString();
-        String publisher = SessionManager.getInstance().getLoggedUser().getId(); // Assuming this method retrieves the publisher ID
+        String username = SessionManager.getInstance().getLoggedUser().getUsername(); // Assuming this method retrieves the publisher ID
 
         if (videoUri != null && thumbnailUri != null) {
-            videoViewModel.uploadVideo(videoUri, thumbnailUri, title, description, publisher, this);
+            Log.d("TAG", "Starting upload: " + title + ", " + description + ", " + username);
+            videoViewModel.uploadVideo(videoUri, thumbnailUri, title, description, username, this);
         } else {
             Toast.makeText(this, "Please select both video and thumbnail", Toast.LENGTH_SHORT).show();
         }
     }
 }
+
+
