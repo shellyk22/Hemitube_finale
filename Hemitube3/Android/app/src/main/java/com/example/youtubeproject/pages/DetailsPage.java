@@ -38,7 +38,7 @@ public class DetailsPage extends AppCompatActivity {
     private TextView usernameTextView;
     private EditText nicknameEditText;
     private TextView userIdTextView;
-    private Button updateButton, deleteButton;
+    private Button updateButton, deleteButton , backButton;
     private Uri profilePicUri;
 
     private UserViewModel userViewModel;
@@ -55,6 +55,7 @@ public class DetailsPage extends AppCompatActivity {
         userIdTextView = findViewById(R.id.userId);
         updateButton = findViewById(R.id.updateButton);
         deleteButton = findViewById(R.id.deleteButton);
+        backButton = findViewById(R.id.backButton);
 
         userViewModel = new ViewModelProvider(this).get(UserViewModel.class);
 
@@ -82,11 +83,17 @@ public class DetailsPage extends AppCompatActivity {
 
         profilePic.setOnClickListener(view -> openImagePicker());
 
+        backButton.setOnClickListener(v -> {
+            Intent i = new Intent(this, YouPage.class);
+            startActivity(i);
+        });
         updateButton.setOnClickListener(view -> {
             String username = sessionManager.getLoggedUser().getUsername();
             String nickname = nicknameEditText.getText().toString();
             Log.d("TAG", "(details)Captured nickname: " + nickname);
             String profilePicBase64 = convertImageViewToBase64WithPrefix(profilePic);
+            sessionManager.setProfilepic(profilePicBase64);
+            sessionManager.setNickname(nickname);
             Log.d("TAG", "(details)Converted profile pic to Base64: " + profilePicBase64);
 
             userViewModel.updateUser(username, profilePicBase64, nickname).observe(DetailsPage.this, new Observer<Void>() {
