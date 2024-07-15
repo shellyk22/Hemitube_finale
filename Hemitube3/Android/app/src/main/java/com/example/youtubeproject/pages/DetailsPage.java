@@ -80,22 +80,23 @@ public class DetailsPage extends AppCompatActivity {
 
         profilePic.setOnClickListener(view -> openImagePicker());
 
+        profilePic.setOnClickListener(view -> openImagePicker());
+
         updateButton.setOnClickListener(view -> {
             String username = sessionManager.getLoggedUser().getUsername();
             String nickname = nicknameEditText.getText().toString();
-            Log.d("TAG", "(details page)Captured nickname: " + nickname);
+            Log.d("TAG", "(details)Captured nickname: " + nickname);
             String profilePicBase64 = convertImageViewToBase64WithPrefix(profilePic);
-            Log.d("TAG", "(details page)Converted profile pic to Base64: " + profilePicBase64);
+            Log.d("TAG", "(details)Converted profile pic to Base64: " + profilePicBase64);
 
             userViewModel.updateUser(username, profilePicBase64, nickname).observe(DetailsPage.this, new Observer<Void>() {
                 @Override
                 public void onChanged(Void aVoid) {
-                    Log.d("TAG", "(details page)User update response received");
+                    Log.d("TAG", "(details)User update response received");
                     Toast.makeText(DetailsPage.this, "User updated successfully", Toast.LENGTH_SHORT).show();
                 }
             });
         });
-
         deleteButton.setOnClickListener(view -> {
             String username = sessionManager.getLoggedUser().getUsername();
             String token = sessionManager.getToken();

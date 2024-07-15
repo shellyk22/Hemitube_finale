@@ -117,10 +117,12 @@ public class UsersRepository {
                     data.setValue(null); // Indicate success
                 } else {
                     Log.d("TAG", "(repository)Failed to update user: " + response.message());
-                    Log.e("TAG", "(repo)Error in registerUser: " + response.message() + " - " + response.code());
-                    Log.d("TAG", "(repo)Failed to update user: " + response.message());
-                    Log.d("TAG", "(repo)Response code: " + response.code());
-                    Log.d("TAG", "(repo)Response body: " + response.errorBody());
+                    Log.e("TAG", "(repo)Error in updateUser: " + response.message() + " - " + response.code());
+                    try {
+                        Log.d("TAG", "(repo)Response body string: " + response.errorBody().string());
+                    } catch (Exception e) {
+                        Log.e("TAG", "(repo)Error reading response body", e);
+                    }
                     data.setValue(null); // Indicate failure
                 }
             }
