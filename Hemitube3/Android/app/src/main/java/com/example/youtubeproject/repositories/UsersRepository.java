@@ -4,11 +4,14 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import com.example.youtubeproject.api.ApiService;
 import com.example.youtubeproject.api.RetrofitClient;
+import com.example.youtubeproject.api.UpdateUserRequest;
 import com.example.youtubeproject.entities.User;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import android.util.Log;
+
+import com.example.youtubeproject.entities.SessionManager;
 
 import java.util.concurrent.CompletableFuture;
 
@@ -17,6 +20,7 @@ public class UsersRepository {
 
     private ApiService apiService;
     private MutableLiveData<User> userLiveData;
+    private final SessionManager sessionManager = SessionManager.getInstance();
 
 
     public UsersRepository() {
@@ -100,30 +104,38 @@ public class UsersRepository {
         return userLiveData;
     }
 
+    public CompletableFuture<Boolean> updateUser(String username, String newNickName, String newProfilePic) {
+        CompletableFuture<Boolean> future = new CompletableFuture<>();
+        UpdateUserRequest updateUserRequest = new UpdateUserRequest(newNickName, newProfilePic);
 
-
-    public void updateUser(String username, String nickname, String profilePic) {
-        User user = new User(null, null, null, null, null);
-        user.setNickname(nickname);
-        user.setProfilePic(profilePic);
-
-        apiService.updateUser(username, user).enqueue(new Callback<User>() {
+        String token = sessionManager.getToken();
+        Log.d("TAG", "Updating user with username: " + username +  " nickname " + newNickName);
+        Log.d("TAG", "Updating user with nickname: " + updateUserRequest.getNickname());
+        apiService.updateUser(username, "Bearer " + token, updateUserRequest).enqueue(new Callback<Void>() {
             @Override
-            public void onResponse(Call<User> call, Response<User> response) {
-                if (response.isSuccessful() && response.body() != null) {
-                    userLiveData.setValue(response.body());
-                    Log.d("UsersRepository", "User updated successfully.");
+            public void onResponse(Call<Void> call, Response<Void> response) {
+                if (response.isSuccessful()) {
+                    Log.d("Repository", "User updated successfully");
+                    future.complete(true);
+                    LiveData<com.example.youtubeproject.entities.User> shellyUser = getUser(username);
+                    Log.d("Repository", "my user" + shellyUser.toString());
+
                 } else {
-                    Log.d("UsersRepository", "Failed to update user.");
+                    Log.e("Repository", "Failed to update user: " + response.message());
+                    future.complete(false);
                 }
             }
 
             @Override
-            public void onFailure(Call<User> call, Throwable t) {
-                Log.d("UsersRepository", "Failed to update user: " + t.getMessage());
+            public void onFailure(Call<Void> call, Throwable t) {
+                Log.e("Repository", "Error updating user: " + t.getMessage());
+                future.completeExceptionally(t);
             }
         });
+        return future;
     }
+
+
 
     public CompletableFuture<Boolean> deleteUser(String username, String token) {
         CompletableFuture<Boolean> future = new CompletableFuture<>();

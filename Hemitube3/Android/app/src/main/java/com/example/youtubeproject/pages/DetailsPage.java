@@ -2,6 +2,7 @@ package com.example.youtubeproject.pages;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Base64;
@@ -12,6 +13,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 
@@ -23,11 +25,13 @@ import com.example.youtubeproject.entities.User;
 import com.example.youtubeproject.viewmodels.UserViewModel;
 
 import java.io.ByteArrayOutputStream;
+import java.io.InputStream;
 import java.util.concurrent.CompletableFuture;
 
 public class DetailsPage extends AppCompatActivity {
 
     private static final String TAG = "DetailsPage";
+    private static final int PICK_IMAGE_REQUEST = 1;
 
     private ImageView profilePic;
     private TextView usernameTextView;
@@ -73,13 +77,21 @@ public class DetailsPage extends AppCompatActivity {
             userIdTextView.setText(loggedUser.getId());
         }
 
+        profilePic.setOnClickListener(view -> openImagePicker());
+
         updateButton.setOnClickListener(view -> {
             String username = sessionManager.getLoggedUser().getUsername();
             String nickname = nicknameEditText.getText().toString();
-            String profilePicBase64 = convertImageViewToBase64WithPrefix(profilePic);
+            Log.d(TAG, "Captured nickname: " + nickname);
+            String profilePicBase64 = (sessionManager.getLoggedUser().getProfilePic());
 
-            userViewModel.updateUser(username, nickname, profilePicBase64);
-            Toast.makeText(this, "User updated", Toast.LENGTH_SHORT).show();
+            userViewModel.updateUser(username, nickname, profilePicBase64).thenAccept(success -> runOnUiThread(() -> {
+                if (success) {
+                    Toast.makeText(this, "User updated", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(this, "Failed to update user", Toast.LENGTH_SHORT).show();
+                }
+            }));
         });
 
         deleteButton.setOnClickListener(view -> {
@@ -89,7 +101,7 @@ public class DetailsPage extends AppCompatActivity {
 
             deleteFuture.thenAccept(success -> runOnUiThread(() -> {
                 if (success) {
-Log.d(TAG, "USER DELETED");
+                    Log.d(TAG, "USER DELETED");
                     Toast.makeText(this, "User deleted", Toast.LENGTH_SHORT).show();
                     sessionManager.setLogedIn(false);
                     sessionManager.setToken(null);
@@ -104,7 +116,6 @@ Log.d(TAG, "USER DELETED");
             }));
         });
 
-
         userViewModel.getUserLiveData().observe(this, user -> {
             if (user != null) {
                 sessionManager.setLoggedUser(user);
@@ -113,6 +124,28 @@ Log.d(TAG, "USER DELETED");
                 Toast.makeText(this, "User update failed", Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    private void openImagePicker() {
+        Intent intent = new Intent();
+        intent.setType("image/*");
+        intent.setAction(Intent.ACTION_GET_CONTENT);
+        startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_IMAGE_REQUEST);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null) {
+            profilePicUri = data.getData();
+            try {
+                InputStream inputStream = getContentResolver().openInputStream(profilePicUri);
+                Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
+                profilePic.setImageBitmap(bitmap);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     private String convertImageViewToBase64WithPrefix(ImageView imageView) {

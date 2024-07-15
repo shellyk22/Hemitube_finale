@@ -35,12 +35,12 @@ public class UserViewModel extends ViewModel {
         return userLiveData;
     }
 
-    public void updateUser(String username, String nickname, String profilePic) {
-        userRepository.updateUser(username, nickname, profilePic);
-    }
-
-
     public CompletableFuture<Boolean> deleteUser(String username, String token) {
         return userRepository.deleteUser(username, token);
     }
+
+    public CompletableFuture<Boolean> updateUser(String username, String newNickName, String newProfilePic) {
+        return userRepository.updateUser(username, newNickName, newProfilePic);
+    }
+
 }
