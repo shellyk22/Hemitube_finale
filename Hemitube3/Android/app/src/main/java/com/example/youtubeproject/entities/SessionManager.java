@@ -48,7 +48,7 @@ public class SessionManager {
         return userId;
     }
 
-    public void setUserId(String userId) { // Add this setter
+    public void setUserId(String userId) {
         this.userId = userId;
         Log.d("SessionManager", "UserId set: " + userId);
     }
@@ -61,6 +61,9 @@ public class SessionManager {
     public void setLoggedUser(User loggedUser) {
         this.loggedUser = loggedUser;
     }
+
+    public void setNickname(String nickname){ this.loggedUser.setNickname(nickname);}
+    public void setProfilepic(String pic){ this.loggedUser.setProfilePic(pic);}
 
 
     public boolean isLogedIn() {

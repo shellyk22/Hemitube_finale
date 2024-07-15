@@ -5,6 +5,8 @@ import com.example.youtubeproject.entities.Video;
 
 import java.util.List;
 
+import java.util.Map;
+
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 import retrofit2.Call;
@@ -29,11 +31,12 @@ public interface ApiService {
     @GET("/api/users/{username}")
     Call<User> getUser(@Path("username") String username);
 
-    @PUT("/api/users/{username}")
-    Call<User> updateUser(@Path("username") String username, @Body User user);
 
     @DELETE("/api/users/{username}")
-    Call<Void> deleteUser(@Path("username") String username);
+    Call<Void> deleteUser(@Path("username") String username, @Header("Authorization") String token);
+
+    @PUT("users/{username}")
+    Call<Void> updateUser(@Header("Authorization") String token, @Path("username") String username, @Body UserUpdateRequest updateRequest);
 
     @Multipart
     @POST("/api/users/{username}/videos")
