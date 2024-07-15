@@ -18,7 +18,7 @@ public class Video {
     private String id;
 
     @SerializedName("publisher")
-    private User publisher;
+    private User publisher; // Assuming publisher is a string ID
 
     @SerializedName("comments")
     private List<Comment> comments;
