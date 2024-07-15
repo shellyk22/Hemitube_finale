@@ -34,9 +34,9 @@ public interface ApiService {
     @DELETE("/api/users/{username}")
     Call<Void> deleteUser(@Path("username") String username, @Header("Authorization") String token);
 
+    @PUT("api/users/{username}")
+    Call<Void> updateUser(@Header("Authorization") String token, @Path("username") String username, @Body UserUpdateRequest updateRequest);
 
-    @PUT("/api/users/{username}")
-    Call<Void> updateUser(@Path("username") String username, @Header("Authorization") String token, @Body UpdateUserRequest updateUserRequest);
     @Multipart
     @POST("/api/users/{username}/videos")
     Call<Void> uploadVideo(

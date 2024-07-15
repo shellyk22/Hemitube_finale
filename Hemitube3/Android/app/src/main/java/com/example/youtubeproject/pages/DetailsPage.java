@@ -15,6 +15,7 @@ import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.bumptech.glide.Glide;
@@ -82,16 +83,17 @@ public class DetailsPage extends AppCompatActivity {
         updateButton.setOnClickListener(view -> {
             String username = sessionManager.getLoggedUser().getUsername();
             String nickname = nicknameEditText.getText().toString();
-            Log.d(TAG, "Captured nickname: " + nickname);
-            String profilePicBase64 = (sessionManager.getLoggedUser().getProfilePic());
+            Log.d("TAG", "(details page)Captured nickname: " + nickname);
+            String profilePicBase64 = convertImageViewToBase64WithPrefix(profilePic);
+            Log.d("TAG", "(details page)Converted profile pic to Base64: " + profilePicBase64);
 
-            userViewModel.updateUser(username, nickname, profilePicBase64).thenAccept(success -> runOnUiThread(() -> {
-                if (success) {
-                    Toast.makeText(this, "User updated", Toast.LENGTH_SHORT).show();
-                } else {
-                    Toast.makeText(this, "Failed to update user", Toast.LENGTH_SHORT).show();
+            userViewModel.updateUser(username, profilePicBase64, nickname).observe(DetailsPage.this, new Observer<Void>() {
+                @Override
+                public void onChanged(Void aVoid) {
+                    Log.d("TAG", "(details page)User update response received");
+                    Toast.makeText(DetailsPage.this, "User updated successfully", Toast.LENGTH_SHORT).show();
                 }
-            }));
+            });
         });
 
         deleteButton.setOnClickListener(view -> {

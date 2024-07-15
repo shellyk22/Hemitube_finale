@@ -1,8 +1,12 @@
 package com.example.youtubeproject.viewmodels;
 
+import android.util.Log;
+
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
+
+import com.example.youtubeproject.api.UserUpdateRequest;
 import com.example.youtubeproject.entities.User;
 import com.example.youtubeproject.repositories.UsersRepository;
 
@@ -39,8 +43,10 @@ public class UserViewModel extends ViewModel {
         return userRepository.deleteUser(username, token);
     }
 
-    public CompletableFuture<Boolean> updateUser(String username, String newNickName, String newProfilePic) {
-        return userRepository.updateUser(username, newNickName, newProfilePic);
+    public LiveData<Void> updateUser(String username, String newPic, String newNickName) {
+        Log.d("TAG", "Request to update user: " + username + " with newPic: " + newPic + " and newNickName: " + newNickName);
+        UserUpdateRequest updateRequest = new UserUpdateRequest(newPic, newNickName);
+        return userRepository.updateUser(username, updateRequest);
     }
 
 }
