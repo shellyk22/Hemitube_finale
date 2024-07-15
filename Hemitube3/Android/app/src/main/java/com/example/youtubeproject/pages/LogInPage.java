@@ -101,7 +101,6 @@ public class LogInPage extends AppCompatActivity {
             public void onChanged(User user) {
                 if (user != null) {
                     SessionManager.getInstance().setLogedIn(true);
-                    SessionManager.getInstance().setLoggedUser(user);
                 } else {
                     System.exit(1);
                 }

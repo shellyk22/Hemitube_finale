@@ -1,7 +1,9 @@
 package com.example.youtubeproject.api;
 
-
 import com.example.youtubeproject.entities.User;
+import com.example.youtubeproject.entities.Video;
+
+import java.util.List;
 
 import java.util.Map;
 
@@ -22,7 +24,6 @@ public interface ApiService {
 
     @POST("/api/users")
     Call<User> registerUser(@Body User user);
-
 
     @POST("/api/tokens")
     Call<User> loginUser(@Body User user);
@@ -47,4 +48,7 @@ public interface ApiService {
             @Part("description") RequestBody description,
             @Part("publisher") RequestBody publisher
     );
+
+    @GET("/api/videosHemi")
+    Call<List<Video>> getVideos();
 }

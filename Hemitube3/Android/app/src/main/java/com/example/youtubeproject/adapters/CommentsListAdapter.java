@@ -65,19 +65,18 @@ public class CommentsListAdapter extends RecyclerView.Adapter<CommentsListAdapte
     public void onBindViewHolder(CommentViewHolder holder, int position) {
         if (commentlist != null) {
             final Comment current = commentlist.get(position);
-            holder.uploader.setText(current.getUploader() + " . ");
-            holder.timePassed.setText(current.getTimePassedFromUpload() + " ago");
-            holder.content.setText(current.getContent());
+            holder.uploader.setText(current.getUserId() + " . ");
+            holder.content.setText(current.getText());
 
             holder.btnDelete.setOnClickListener(v -> {
-                if (sessionManager.getLoggedUser().getUsername().equals(current.getUploader())) {
+                if (sessionManager.getLoggedUser().getId().equals(current.getUserId())) {
                     sessionManager.deleteComment(current, video);
                     this.notifyDataSetChanged();
                 }
             });
 
             if(sessionManager.isLogedIn()){
-                if(sessionManager.getLoggedUser().getUsername().equals(current.getUploader())){
+                if(sessionManager.getLoggedUser().getId().equals(current.getUserId())){
                     holder.btnDelete.setVisibility(View.VISIBLE);
                 }
                 else

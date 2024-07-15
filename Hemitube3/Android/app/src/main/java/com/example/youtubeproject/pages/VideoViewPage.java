@@ -219,8 +219,6 @@ public class VideoViewPage extends AppCompatActivity {
     }
 
     private void addComment(String commentText) {
-        Comment newComment = new Comment(String.valueOf(video.getComments().size()) + 1, sessionManager.getLoggedUser().getUsername(), "1 sec", commentText, video);
-        sessionManager.addComment(newComment, video);
         adapter.setComments(video.getComments());
         adapter.notifyDataSetChanged();
     }

@@ -78,12 +78,11 @@
         android:id="@+id/userId"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
         android:textColor="#000000"
         android:textSize="18sp"
-        app:layout_constraintTop_toBottomOf="@id/nickname"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"/>
+        app:layout_constraintTop_toBottomOf="@+id/userIdLabel" />
 
 
     <Button

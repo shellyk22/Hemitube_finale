@@ -3,6 +3,7 @@ package com.example.youtubeproject.adapters;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +12,7 @@ import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.example.youtubeproject.R;
 import com.example.youtubeproject.entities.Video;
 import com.example.youtubeproject.pages.VideoViewPage;
@@ -63,7 +65,11 @@ public class VideosListAdapter extends RecyclerView.Adapter<VideosListAdapter.Vi
             holder.uploader.setText(current.getPublisher().getUsername() + " . ");
             holder.views.setText(current.get__v() + " views. ");
             holder.timePassed.setText(current.getUploadDate());
-            holder.videoPic.setImageURI(Uri.parse(current.getThumbnailData()));
+            String fullThumbnailUrl = "http://10.0.2.2:5001/uploads/" + current.getThumbnailName();
+            Log.d("TAG", "Full thumbnail URL: " + fullThumbnailUrl);
+            Glide.with(holder.videoPic.getContext())
+                    .load(fullThumbnailUrl)
+                    .into(holder.videoPic);
             holder.videoPic.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

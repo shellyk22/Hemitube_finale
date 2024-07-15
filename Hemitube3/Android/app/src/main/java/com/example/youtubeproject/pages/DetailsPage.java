@@ -60,22 +60,26 @@ public class DetailsPage extends AppCompatActivity {
         userViewModel = new ViewModelProvider(this).get(UserViewModel.class);
 
         if (sessionManager.isLogedIn()) {
-            Log.d(TAG, "User is logged in");
+            Log.d("TAG", "User is logged in");
             User loggedUser = sessionManager.getLoggedUser();
             if (loggedUser.getProfilePic() != null && !loggedUser.getProfilePic().isEmpty()) {
+
                 profilePicUri = Uri.parse(loggedUser.getProfilePic());
                 Log.d(TAG, "Profile picture URI: " + profilePicUri.toString());
+
                 Glide.with(this)
                         .load(profilePicUri)
                         .placeholder(R.drawable.ic_logo)
                         .error(R.drawable.ic_logo)
                         .into(profilePic);
             } else {
-                Log.d(TAG, "Profile picture URL is null or empty, showing placeholder");
+                Log.d("TAG", "Profile picture URL is null or empty, showing placeholder");
                 profilePic.setImageResource(R.drawable.ic_logo);
             }
             usernameTextView.setText(loggedUser.getUsername());
+
             nicknameEditText.setText(loggedUser.getNickname());
+
             userIdTextView.setText(loggedUser.getId());
         }
 
