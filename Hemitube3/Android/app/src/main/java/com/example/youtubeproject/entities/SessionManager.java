@@ -62,6 +62,9 @@ public class SessionManager {
         this.loggedUser = loggedUser;
     }
 
+    public void setNickname(String nickname){ this.loggedUser.setNickname(nickname);}
+    public void setProfilepic(String pic){ this.loggedUser.setProfilePic(pic);}
+
 
     public boolean isLogedIn() {
         return isLogedIn;
