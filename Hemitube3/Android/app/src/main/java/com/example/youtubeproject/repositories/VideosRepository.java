@@ -15,8 +15,10 @@ import androidx.lifecycle.MutableLiveData;
 import com.example.youtubeproject.api.ApiService;
 import com.example.youtubeproject.api.RetrofitClient;
 import com.example.youtubeproject.entities.SessionManager;
+import com.example.youtubeproject.entities.Video;
 
 import java.io.File;
+import java.util.List;
 
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
@@ -79,6 +81,36 @@ public class VideosRepository {
         });
 
         return result;
+    }
+
+
+    public MutableLiveData<List<Video>> getVideos() {
+        MutableLiveData<List<Video>> videosData = new MutableLiveData<>();
+
+        Log.d("TAG", "amazing");
+        try {
+            apiService.getVideos().enqueue(new Callback<List<Video>>() {
+                @Override
+                public void onResponse(Call<List<Video>> call, Response<List<Video>> response) {
+                    Log.d("TAG", "amazing2");
+                    if (response.isSuccessful()) {
+                        videosData.setValue(response.body());
+                        Log.d("TAG", "Videos fetched: " + response.body().size());
+                    } else {
+                        Log.e("TAG", "Failed to fetch videos: " + response.message());
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<List<Video>> call, Throwable t) {
+                    Log.e("TAG", "Error fetching videos", t);
+                    videosData.setValue(null);
+                }
+            });
+        } catch (Exception e) {
+            Log.e("TAG", "Exception in enqueue", e);
+        }
+        return videosData;
     }
 
     private String getPathFromUri(Uri uri, Context context) {

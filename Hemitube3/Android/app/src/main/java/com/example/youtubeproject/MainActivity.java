@@ -6,11 +6,14 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.appcompat.widget.SearchView;
 import androidx.appcompat.widget.SwitchCompat;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -18,6 +21,7 @@ import com.example.youtubeproject.adapters.VideosListAdapter;
 import com.example.youtubeproject.entities.SessionManager;
 import com.example.youtubeproject.entities.Video;
 import com.example.youtubeproject.pages.YouPage;
+import com.example.youtubeproject.viewmodels.VideoViewModel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,6 +32,8 @@ public class MainActivity extends AppCompatActivity {
     private SearchView searchView;
     private List<Video> filteredVideos;
     private List<Video> videos;
+
+    private VideoViewModel videoViewModel;
 
     private final SessionManager sessionManager = SessionManager.getInstance();
 
@@ -62,8 +68,30 @@ public class MainActivity extends AppCompatActivity {
         final VideosListAdapter adapter = new VideosListAdapter(this);
         lstVideos.setAdapter(adapter);
         lstVideos.setLayoutManager(new LinearLayoutManager(this));
-        filteredVideos = new ArrayList<>();
-        adapter.setVideos(filteredVideos);
+
+
+
+        try {
+            videoViewModel = new ViewModelProvider(this).get(VideoViewModel.class);
+
+            videoViewModel.getVideos().observe(this, new Observer<List<Video>>() {
+                @Override
+                public void onChanged(List<Video> videos) {
+                    if (videos != null) {
+                        Log.d("TAG", "Videos fetched successfully: " + videos.size());
+                        adapter.setVideos(videos);
+                    } else {
+                        Log.e("TAG", "Failed to fetch videos");
+                        Toast.makeText(MainActivity.this, "Failed to fetch videos", Toast.LENGTH_SHORT).show();
+                    }
+                }
+            });
+        } catch (Exception e) {
+            Log.e("TAG", "Exception in onCreate: ", e);
+        }
+
+
+
 
         ImageButton btnYou = findViewById(R.id.btnYou);
         btnYou.setOnClickListener(v -> {

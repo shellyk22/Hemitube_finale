@@ -1,6 +1,9 @@
 package com.example.youtubeproject.api;
 
 import com.example.youtubeproject.entities.User;
+import com.example.youtubeproject.entities.Video;
+
+import java.util.List;
 
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
@@ -42,4 +45,7 @@ public interface ApiService {
             @Part("description") RequestBody description,
             @Part("publisher") RequestBody publisher
     );
+
+    @GET("/api/videosHemi")
+    Call<List<Video>> getVideos();
 }

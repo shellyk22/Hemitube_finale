@@ -1,65 +1,40 @@
 package com.example.youtubeproject.entities;
 
-import android.os.Bundle;
+import com.google.gson.annotations.SerializedName;
 
-import androidx.appcompat.app.AppCompatActivity;
+public class Comment {
 
-import com.example.youtubeproject.R;
-
-public class Comment extends AppCompatActivity {
-
+    @SerializedName("_id")
     private String id;
-    private String uploader;
-    private String timePassedFromUpload;
-    private String content;
-    private Video video;
 
+    @SerializedName("userID")
+    private String userId;
 
+    @SerializedName("text")
+    private String text;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.comment_layout);
-    }
-
-
-    public Comment(String id, String uploader, String timePassedFromUpload, String content, Video video){
-        this.id = id;
-        this.uploader = uploader;
-        this.content = content;
-        this.timePassedFromUpload = timePassedFromUpload;
-        this.video = video;
-    }
-    public void setTimePassedFromUpload(String timePassedFromUpload) {
-        this.timePassedFromUpload = timePassedFromUpload;
-    }
-
-    public String getTimePassedFromUpload() {
-        return timePassedFromUpload;
-    }
-
-    public String getContent() {
-        return content;
-    }
-
+    // Getters and Setters
     public String getId() {
         return id;
-    }
-
-    public String getUploader() {
-        return uploader;
     }
 
     public void setId(String id) {
         this.id = id;
     }
 
-    public void setContent(String content) {
-        this.content = content;
+    public String getUserId() {
+        return userId;
     }
 
-    public void setUploader(String uploader) {
-        this.uploader = uploader;
+    public void setUserId(String userId) {
+        this.userId = userId;
     }
 
+    public String getText() {
+        return text;
+    }
+
+    public void setText(String text) {
+        this.text = text;
+    }
 }
