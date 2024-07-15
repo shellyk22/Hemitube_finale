@@ -78,7 +78,7 @@ public class DetailsPage extends AppCompatActivity {
             }
             usernameTextView.setText(loggedUser.getUsername());
 
-            nicknameEditText.setText(loggedUser.getNickName());
+            nicknameEditText.setText(loggedUser.getNickname());
 
             userIdTextView.setText(loggedUser.getId());
         }
