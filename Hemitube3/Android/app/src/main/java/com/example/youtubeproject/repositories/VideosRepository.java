@@ -15,9 +15,11 @@ import androidx.lifecycle.MutableLiveData;
 import com.example.youtubeproject.api.ApiService;
 import com.example.youtubeproject.api.RetrofitClient;
 import com.example.youtubeproject.entities.SessionManager;
+import com.example.youtubeproject.entities.UserVideo;
 import com.example.youtubeproject.entities.Video;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.List;
 
 import okhttp3.MediaType;
@@ -112,6 +114,46 @@ public class VideosRepository {
         }
         return videosData;
     }
+
+    public MutableLiveData<List<UserVideo>> getUserVideos(String username) {
+        MutableLiveData<List<UserVideo>> videosData = new MutableLiveData<>();
+        Log.d("TAG", "(repo) Start fetching user videos for: " + username);
+
+        Call<List<UserVideo>> call = apiService.getUserVideos(username);
+
+        // Log the URL
+        Log.d("TAG", "(repo) Request URL: " + call.request().url());
+
+        call.enqueue(new Callback<List<UserVideo>>() {
+            @Override
+            public void onResponse(Call<List<UserVideo>> call, Response<List<UserVideo>> response) {
+                Log.d("TAG", "(repo) Response received");
+                if (response.isSuccessful() && response.body() != null) {
+                    videosData.setValue(response.body());
+                    Log.d("TAG", "(repo) User videos fetched successfully: " + response.body().size());
+                } else {
+                    videosData.setValue(null);
+                    Log.d("TAG", "(repo) Response body: " + response.body());
+                    Log.e("TAG", "(repo) Failed to get user videos: " + response.message() + " - " + response.code());
+                    try {
+                        Log.e("TAG", "(repo) Error body: " + response.errorBody().string());
+                    } catch (IOException e) {
+                        Log.e("TAG", "(repo) Error reading response body", e);
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<UserVideo>> call, Throwable t) {
+                videosData.setValue(null);
+                Log.e("TAG", "(repo) Network request failed: " + t.getMessage(), t);
+            }
+        });
+        return videosData;
+    }
+
+
+
 
     private String getPathFromUri(Uri uri, Context context) {
         Log.d("TAG", "Getting path from URI: " + uri.toString());
