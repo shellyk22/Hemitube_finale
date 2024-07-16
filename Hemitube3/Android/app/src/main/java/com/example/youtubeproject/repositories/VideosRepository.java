@@ -116,7 +116,7 @@ public class VideosRepository {
     }
 
 
-    public LiveData<UserVideo> getVideo(String username, String videoId) {
+    public MutableLiveData<UserVideo> getVideo(String username, String videoId) {
         final MutableLiveData<UserVideo> data = new MutableLiveData<>();
         Log.d("TAG", "Fetching video with username: " + username + ", videoId: " + videoId);
         Call<UserVideo> call = apiService.getVideo(username, videoId);

@@ -66,17 +66,17 @@ public class VideoViewPage extends AppCompatActivity {
                     TextView views = findViewById(R.id.videoViews);
                     TextView timePassed = findViewById(R.id.videoPassedTime);
 
-                    title.setText(video.getTitle());
-                    content.setText(video.getDescription());
-                    uploader.setText(video.getPublisher() + " . ");
-                    views.setText(video.get__v() + " views . ");
-                    timePassed.setText(video.getUploadDate());
+                    title.setText(userVideo.getTitle());
+                    content.setText(userVideo.getDescription());
+                    uploader.setText(userVideo.getPublisher() + " . ");
+                    views.setText(userVideo.get__v() + " views . ");
+                    timePassed.setText(userVideo.getUploadDate());
 
 
                     videoView = findViewById(R.id.videoPlayer);
                     mediaController.setMediaPlayer(videoView);
                     videoView.setMediaController(mediaController);
-                    videoView.setVideoPath(video.getFileData());
+                    videoView.setVideoPath(userVideo.getFileData());
                     videoView.start();
 
                 } else {
@@ -85,27 +85,27 @@ public class VideoViewPage extends AppCompatActivity {
             }
         });
 
-        RecyclerView lstComments = findViewById(R.id.lstComments);
-        adapter = new CommentsListAdapter(this, video);
+        /*RecyclerView lstComments = findViewById(R.id.lstComments);
+        adapter = new CommentsListAdapter(this, userVideo);
         lstComments.setAdapter(adapter);
         lstComments.setLayoutManager(new LinearLayoutManager(this));
-        List<Comment> comments = video.getComments();
+        List<Comment> comments = .getComments();
         Log.i("i", comments.toString());
-        adapter.setComments(comments);
+        adapter.setComments(comments);*/
 
 
 
-        ImageButton btnComment = findViewById(R.id.btnComment);
+       /* ImageButton btnComment = findViewById(R.id.btnComment);
         btnComment.setOnClickListener(v -> {
             if (sessionManager.isLogedIn()) {
                 showCommentDialog();
             } else {
                 Toast.makeText(this, "In Order To Comment You Must Log-In", Toast.LENGTH_SHORT).show();
             }
-        });
+        });*/
 
 
-        Button btnDelete = findViewById(R.id.videoDeleteBtn);
+       /* Button btnDelete = findViewById(R.id.videoDeleteBtn);
         btnDelete.setOnClickListener(v -> {
             if (sessionManager.isLogedIn()) {
                 if (sessionManager.getLoggedUser().getUsername().equals(video.getPublisher().getUsername())) {
@@ -120,17 +120,17 @@ public class VideoViewPage extends AppCompatActivity {
             } else {
                 Toast.makeText(this, "Sign In In Order To Upload/Delete Videos!", Toast.LENGTH_SHORT).show();
             }
-        });
+        });*/
 
 
-        Button btnEdit = findViewById(R.id.videoEditBtn);
+        /*Button btnEdit = findViewById(R.id.videoEditBtn);
         btnEdit.setOnClickListener(v -> {
             if (sessionManager.getLoggedUser().getUsername().equals(video.getPublisher().getUsername())) {
                 showEditDialog();
             } else {
                 Toast.makeText(this, "In Order To Edit Video you must be his uploader", Toast.LENGTH_SHORT).show();
             }
-        });
+        });*/
 
 
         ImageButton btnLike = findViewById(R.id.btnLike);
@@ -164,7 +164,7 @@ public class VideoViewPage extends AppCompatActivity {
         });
 
 
-        if (sessionManager.isLogedIn()) {
+        /*if (sessionManager.isLogedIn()) {
             if (sessionManager.getLoggedUser().getUsername().equals(video.getPublisher().getUsername())) {
                 btnDelete.setVisibility(View.VISIBLE);
                 btnEdit.setVisibility(View.VISIBLE);
@@ -176,7 +176,7 @@ public class VideoViewPage extends AppCompatActivity {
             btnDelete.setVisibility(View.GONE);
             btnEdit.setVisibility(View.GONE);
 
-        }
+        }*/
 
 
     }
@@ -194,7 +194,7 @@ public class VideoViewPage extends AppCompatActivity {
         return video;
     }
 
-    private void showCommentDialog() {
+    /*private void showCommentDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         LayoutInflater inflater = this.getLayoutInflater();
         builder.setView(inflater.inflate(R.layout.dialog_comment, null))
@@ -210,10 +210,10 @@ public class VideoViewPage extends AppCompatActivity {
                 })
                 .setNegativeButton("Cancel", (dialog, id) -> dialog.cancel());
         builder.create().show();
-    }
+    }*/
 
 
-    private void showEditDialog() {
+    /*private void showEditDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         LayoutInflater inflater = this.getLayoutInflater();
         builder.setView(inflater.inflate(R.layout.dialog_edit, null))
@@ -231,14 +231,14 @@ public class VideoViewPage extends AppCompatActivity {
                 })
                 .setNegativeButton("Cancel", (dialog, id) -> dialog.cancel());
         builder.create().show();
-    }
+    }*/
 
-    private void addComment(String commentText) {
+    /*private void addComment(String commentText) {
         adapter.setComments(video.getComments());
         adapter.notifyDataSetChanged();
-    }
+    }*/
 
-    private void changeVideoDetails(String titleText, String cotentText) {
+    /*private void changeVideoDetails(String titleText, String cotentText) {
         Video oldVideo = video;
         video.setTitle(titleText);
         video.setDescription(cotentText);
@@ -247,7 +247,7 @@ public class VideoViewPage extends AppCompatActivity {
         title.setText(titleText);
         finish();
         startActivity(getIntent());
-    }
+    }*/
 
 
 }
