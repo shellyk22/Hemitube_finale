@@ -10,8 +10,11 @@ import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
+import com.example.youtubeproject.entities.UserVideo;
 import com.example.youtubeproject.entities.Video;
 import com.example.youtubeproject.repositories.VideosRepository;
+
+import com.example.youtubeproject.viewmodels.VideoViewModel;
 
 import java.util.List;
 
@@ -20,7 +23,12 @@ public class VideoViewModel extends AndroidViewModel {
     private final MutableLiveData<String> uploadResult;
     private final VideosRepository videosRepository;
 
+
     private MutableLiveData<List<Video>> videos;
+
+
+    private MutableLiveData<List<UserVideo>> userVideos;
+
 
     public VideoViewModel(@NonNull Application application) {
         super(application);
@@ -52,7 +60,16 @@ public class VideoViewModel extends AndroidViewModel {
         }
         return videos;
     }
+
+    public MutableLiveData<List<UserVideo>> getUserVideos(String username) {
+        if (userVideos == null) {
+            userVideos = videosRepository.getUserVideos(username);
+        }
+        return userVideos;
+    }
 }
+
+
 
 
 

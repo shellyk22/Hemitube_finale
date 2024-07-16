@@ -1,6 +1,7 @@
 package com.example.youtubeproject.api;
 
 import com.example.youtubeproject.entities.User;
+import com.example.youtubeproject.entities.UserVideo;
 import com.example.youtubeproject.entities.Video;
 
 import java.util.List;
@@ -48,4 +49,7 @@ public interface ApiService {
 
     @GET("/api/videosHemi")
     Call<List<Video>> getVideos();
+
+    @GET("users/{username}/videos")
+    Call<List<UserVideo>> getUserVideos(@Path("username") String username);
 }
