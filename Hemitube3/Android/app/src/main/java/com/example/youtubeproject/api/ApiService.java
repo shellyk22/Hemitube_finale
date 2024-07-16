@@ -50,6 +50,9 @@ public interface ApiService {
     @GET("/api/videosHemi")
     Call<List<Video>> getVideos();
 
+    @GET("/api/users/{username}/videos/{pid}")
+    Call<UserVideo> getVideo(@Path("username") String username, @Path("pid") String videoId);
+
     @GET("users/{username}/videos")
     Call<List<UserVideo>> getUserVideos(@Path("username") String username);
 }

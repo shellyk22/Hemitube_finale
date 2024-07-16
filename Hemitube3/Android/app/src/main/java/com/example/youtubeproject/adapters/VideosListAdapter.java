@@ -66,7 +66,6 @@ public class VideosListAdapter extends RecyclerView.Adapter<VideosListAdapter.Vi
             holder.views.setText(current.get__v() + " views. ");
             holder.timePassed.setText(current.getUploadDate());
             String fullThumbnailUrl = "http://10.0.2.2:5001/uploads/" + current.getThumbnailName();
-            Log.d("TAG", "Full thumbnail URL: " + fullThumbnailUrl);
             Glide.with(holder.videoPic.getContext())
                     .load(fullThumbnailUrl)
                     .into(holder.videoPic);
@@ -77,7 +76,10 @@ public class VideosListAdapter extends RecyclerView.Adapter<VideosListAdapter.Vi
                     Context context = v.getContext();
                     Intent intent = new Intent(context, VideoViewPage.class);
                     // Pass additional data if needed
-                    intent.putExtra("video_id", current.getId());
+                    String [] data = new String[2];
+                    data[0] = current.getId();
+                    data[1] = current.getPublisher().getUsername();
+                    intent.putExtra("data", data);
                     context.startActivity(intent);
                 }
             });

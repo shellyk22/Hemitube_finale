@@ -16,6 +16,8 @@ import android.widget.VideoView;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -24,7 +26,9 @@ import com.example.youtubeproject.R;
 import com.example.youtubeproject.adapters.CommentsListAdapter;
 import com.example.youtubeproject.entities.Comment;
 import com.example.youtubeproject.entities.SessionManager;
+import com.example.youtubeproject.entities.UserVideo;
 import com.example.youtubeproject.entities.Video;
+import com.example.youtubeproject.viewmodels.VideoViewModel;
 
 import java.util.List;
 
@@ -33,6 +37,7 @@ public class VideoViewPage extends AppCompatActivity {
 
     private VideoView videoView;
     private CommentsListAdapter adapter;
+    private VideoViewModel videoViewModel;
 
     private Video video;
     private final SessionManager sessionManager = SessionManager.getInstance();
@@ -45,31 +50,40 @@ public class VideoViewPage extends AppCompatActivity {
         setContentView(R.layout.activity_video_view_page);
 
         Intent intent = getIntent();
-        String videoId = intent.getStringExtra("video_id");
-
-        video = findVideoById(videoId);
-
-
-        TextView title = findViewById(R.id.videoTitle);
-        TextView content = findViewById(R.id.videoContent);
-        TextView uploader = findViewById(R.id.videoUploader);
-        TextView views = findViewById(R.id.videoViews);
-        TextView timePassed = findViewById(R.id.videoPassedTime);
-
-        title.setText(video.getTitle());
-        content.setText(video.getDescription());
-        uploader.setText(video.getPublisher().getUsername() + " . ");
-        views.setText(video.get__v() + " views . ");
-        timePassed.setText(video.getUploadDate());
-
-
-        videoView = findViewById(R.id.videoPlayer);
+        String[] data = intent.getStringArrayExtra("data");
         MediaController mediaController = new MediaController(this);
-        mediaController.setMediaPlayer(videoView);
-        videoView.setMediaController(mediaController);
-        videoView.setVideoPath(video.getFileData());
-        videoView.start();
 
+
+        videoViewModel = new ViewModelProvider(this).get(VideoViewModel.class);
+        videoViewModel.getVideo(data[1], data[0]).observe(this, new Observer<UserVideo>() {
+            @Override
+            public void onChanged(UserVideo userVideo) {
+                if (userVideo != null) {
+                    Log.d("TAG", "Video data received: " + userVideo.getTitle());
+                    TextView title = findViewById(R.id.videoTitle);
+                    TextView content = findViewById(R.id.videoContent);
+                    TextView uploader = findViewById(R.id.videoUploader);
+                    TextView views = findViewById(R.id.videoViews);
+                    TextView timePassed = findViewById(R.id.videoPassedTime);
+
+                    title.setText(video.getTitle());
+                    content.setText(video.getDescription());
+                    uploader.setText(video.getPublisher() + " . ");
+                    views.setText(video.get__v() + " views . ");
+                    timePassed.setText(video.getUploadDate());
+
+
+                    videoView = findViewById(R.id.videoPlayer);
+                    mediaController.setMediaPlayer(videoView);
+                    videoView.setMediaController(mediaController);
+                    videoView.setVideoPath(video.getFileData());
+                    videoView.start();
+
+                } else {
+                    Log.e("TAG", "Failed to receive video data");
+                }
+            }
+        });
 
         RecyclerView lstComments = findViewById(R.id.lstComments);
         adapter = new CommentsListAdapter(this, video);
@@ -78,6 +92,7 @@ public class VideoViewPage extends AppCompatActivity {
         List<Comment> comments = video.getComments();
         Log.i("i", comments.toString());
         adapter.setComments(comments);
+
 
 
         ImageButton btnComment = findViewById(R.id.btnComment);
