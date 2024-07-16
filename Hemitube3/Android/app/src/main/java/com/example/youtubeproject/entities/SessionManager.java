@@ -71,6 +71,9 @@ public class SessionManager {
         isLogedIn = logedIn;
     }
 
+    public void setNickname(String nickname){ this.loggedUser.setNickName(nickname);}
+    public void setProfilepic(String pic){ this.loggedUser.setProfilePic(pic);}
+
     public boolean isNightModeOn() {
         return isNightModeOn;
     }

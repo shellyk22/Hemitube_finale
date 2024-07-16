@@ -29,11 +29,11 @@ public interface ApiService {
     @GET("/api/users/{username}")
     Call<User> getUser(@Path("username") String username);
 
-    @PUT("/api/users/{username}")
-    Call<User> updateUser(@Path("username") String username, @Body User user);
-
     @DELETE("/api/users/{username}")
-    Call<Void> deleteUser(@Path("username") String username);
+    Call<Void> deleteUser(@Path("username") String username, @Header("Authorization") String token);
+
+    @PUT("users/{username}")
+    Call<Void> updateUser(@Header("Authorization") String token, @Path("username") String username, @Body UserUpdateRequest updateRequest);
 
     @Multipart
     @POST("/api/users/{username}/videos")
