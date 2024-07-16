@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import com.example.youtubeproject.api.ApiService;
 import com.example.youtubeproject.api.RetrofitClient;
+import com.example.youtubeproject.api.UserUpdateRequest;
 import com.example.youtubeproject.entities.SessionManager;
 import com.example.youtubeproject.entities.User;
 import retrofit2.Call;
@@ -96,41 +97,57 @@ public class UsersRepository {
         return userLiveData;
     }
 
-    public void updateUser(String username, User user, MutableLiveData<User> userLiveData) {
-        Call<User> call = apiService.updateUser(username, user);
-        call.enqueue(new Callback<User>() {
-            @Override
-            public void onResponse(Call<User> call, Response<User> response) {
-                if (response.isSuccessful()) {
-                    userLiveData.setValue(response.body());
-                } else {
-                    userLiveData.setValue(null);
-                }
-            }
+    public LiveData<Void> updateUser(String username, UserUpdateRequest updateRequest) {
+        final MutableLiveData<Void> data = new MutableLiveData<>();
+        String token = "Bearer " + SessionManager.getInstance().getToken();
 
-            @Override
-            public void onFailure(Call<User> call, Throwable t) {
-                userLiveData.setValue(null);
-            }
-        });
-    }
+        Log.d("TAG", "(repository)Updating user: " + username + " with token: " + token);
+        apiService.updateUser(token, username, updateRequest).enqueue(new Callback<Void>() {
 
-    public void deleteUser(String username, MutableLiveData<Boolean> successLiveData) {
-        Call<Void> call = apiService.deleteUser(username);
-        call.enqueue(new Callback<Void>() {
             @Override
             public void onResponse(Call<Void> call, Response<Void> response) {
                 if (response.isSuccessful()) {
-                    successLiveData.setValue(true);
+                    Log.d("TAG", "(repository)User updated successfully: " + response.message());
+                    data.setValue(null); // Indicate success
                 } else {
-                    successLiveData.setValue(false);
+                    Log.d("TAG", "(repository)Failed to update user: " + response.message());
+                    Log.e("TAG", "(repo)Error in updateUser: " + response.message() + " - " + response.code());
+                    try {
+                        Log.d("TAG", "(repo)Response body string: " + response.errorBody().string());
+                    } catch (Exception e) {
+                        Log.e("TAG", "(repo)Error reading response body", e);
+                    }
+                    data.setValue(null); // Indicate failure
                 }
             }
 
             @Override
             public void onFailure(Call<Void> call, Throwable t) {
-                successLiveData.setValue(false);
+                Log.e("TAG", "Error updating user", t);
+                data.setValue(null); // Indicate error
             }
         });
+
+        return data;
+    }
+
+
+
+    public LiveData<Boolean> deleteUser(String username, String token) {
+        MutableLiveData<Boolean> deletionStatus = new MutableLiveData<>();
+
+        apiService.deleteUser(username, "Bearer " + token).enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(Call<Void> call, Response<Void> response) {
+                deletionStatus.setValue(response.isSuccessful());
+            }
+
+            @Override
+            public void onFailure(Call<Void> call, Throwable t) {
+                deletionStatus.setValue(false); // Set deletion status as false on failure
+            }
+        });
+
+        return deletionStatus;
     }
 }
