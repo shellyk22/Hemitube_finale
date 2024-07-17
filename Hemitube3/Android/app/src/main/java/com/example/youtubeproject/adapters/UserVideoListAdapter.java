@@ -86,7 +86,6 @@ public class UserVideoListAdapter extends RecyclerView.Adapter<UserVideoListAdap
                     String [] data = new String[2];
                     data[0] = current.getId();
                     data[1] = sessionManager.getUsernameInPage();
-                    sessionManager.setUsernameInPage(null);
                     intent.putExtra("data", data);
                     context.startActivity(intent);
                 }

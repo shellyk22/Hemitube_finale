@@ -86,7 +86,7 @@ public class YouPage extends AppCompatActivity {
         if (sessionManager.isLogedIn()) {
             textViewWelcome = findViewById(R.id.textViewWelcomeUser);
             String username = sessionManager.getLoggedUser().getUsername();
-            //sessionManager.setUsernameInPage(username);
+            sessionManager.setUsernameInPage(username);
             textViewWelcome.setText("Welcome, " + username + "!");
             logOutButton.setVisibility(View.VISIBLE);
             btnSignIn.setVisibility(View.GONE);
