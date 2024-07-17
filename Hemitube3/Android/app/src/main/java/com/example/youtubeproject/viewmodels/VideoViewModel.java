@@ -102,6 +102,10 @@ public class VideoViewModel extends AndroidViewModel {
         });
         return deleteResult;
     }
+
+    public LiveData<Boolean> updateVideo(String token, String username, UserVideo userVideo) {
+        return videosRepository.updateVideo(token, username, userVideo);
+    }
 }
 
 

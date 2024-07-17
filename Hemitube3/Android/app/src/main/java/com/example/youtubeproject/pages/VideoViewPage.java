@@ -137,7 +137,7 @@ public class VideoViewPage extends AppCompatActivity {
             btnEdit.setVisibility(View.VISIBLE);
 
             btnDelete.setOnClickListener(v -> deleteVideo());
-            // btnEdit.setOnClickListener(v -> editVideo());
+            btnEdit.setOnClickListener(v -> showEditDialog());
         } else {
             btnDelete.setVisibility(View.GONE);
             btnEdit.setVisibility(View.GONE);
@@ -150,25 +150,68 @@ public class VideoViewPage extends AppCompatActivity {
                 Toast.makeText(this, "Video deleted successfully", Toast.LENGTH_SHORT).show();
                 Intent i = new Intent(this, YouPage.class);
                 startActivity(i);
-            } else {
-                Toast.makeText(this, "Failed to delete video", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private void showEditDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        LayoutInflater inflater = this.getLayoutInflater();
+        View dialogView = inflater.inflate(R.layout.dialog_edit, null);
+        builder.setView(dialogView);
+
+        EditText videoTitleInput = dialogView.findViewById(R.id.editVideoTitle);
+        EditText videoContentInput = dialogView.findViewById(R.id.editVideoContent);
+
+        videoTitleInput.setText(userVideo.getTitle());
+        videoContentInput.setText(userVideo.getDescription());
+
+        builder.setPositiveButton("Edit", null);
+        builder.setNegativeButton("Cancel", (dialog, id) -> dialog.cancel());
+
+        AlertDialog dialog = builder.create();
+        dialog.setOnShowListener(dialogInterface -> {
+            Button button = dialog.getButton(AlertDialog.BUTTON_POSITIVE);
+            button.setOnClickListener(view -> {
+                String titleText = videoTitleInput.getText().toString().trim();
+                String contentText = videoContentInput.getText().toString().trim();
+
+                if (titleText.isEmpty() || contentText.isEmpty()) {
+                    Toast.makeText(this, "All fields are required", Toast.LENGTH_SHORT).show();
+                } else {
+                    updateVideoDetails(titleText, contentText);
+                    dialog.dismiss();
+                    Intent i = new Intent(this, YouPage.class);
+                    startActivity(i);
+                }
+            });
+        });
+
+        dialog.show();
+    }
+
+    private void updateVideoDetails(String titleText, String contentText) {
+        String token = sessionManager.getToken();
+        userVideo.setTitle(titleText);
+        userVideo.setDescription(contentText);
+
+        videoViewModel.updateVideo(token, userVideo.getPublisher(), userVideo).observe(this, success -> {
+            if (Boolean.TRUE.equals(success)) {
+                Toast.makeText(this, "Video updated successfully", Toast.LENGTH_SHORT).show();
+                recreate();
             }
         });
     }
 
     private String convertDate(String dateString) {
         try {
-            // Parse the input date string
             SimpleDateFormat inputFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.getDefault());
             Date date = inputFormat.parse(dateString);
 
-            // Format the date to the desired output format
             SimpleDateFormat outputFormat = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault());
             return outputFormat.format(date);
         } catch (ParseException e) {
-            // Handle the parsing error
             e.printStackTrace();
-            // Return the original date string in case of error
             return dateString;
         }
     }

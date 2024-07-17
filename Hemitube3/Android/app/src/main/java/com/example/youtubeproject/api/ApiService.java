@@ -58,5 +58,16 @@ public interface ApiService {
 
     //delete
     @DELETE("/api/users/{username}/videos/{videoId}")
-    Call<Void> deleteVideo(@Path("username") String username, @Path("videoId") String videoId, @Header("Authorization") String token);
+    Call<Void> deleteVideo(
+            @Path("username") String username,
+            @Path("videoId") String videoId,
+            @Header("Authorization") String token);
+
+    @PUT("/api/users/{username}/videos/{videoId}")
+    Call<UserVideo> updateVideo(
+            @Header("Authorization") String token,
+            @Path("username") String username,
+            @Path("videoId") String videoId,
+            @Body UserVideo userVideo
+    );
 }

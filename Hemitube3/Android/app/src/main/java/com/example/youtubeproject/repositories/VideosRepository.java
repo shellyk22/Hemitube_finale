@@ -325,6 +325,26 @@ public class VideosRepository {
 
         return result;
     }
+
+
+    public LiveData<Boolean> updateVideo(String token, String username, UserVideo userVideo) {
+        MutableLiveData<Boolean> success = new MutableLiveData<>();
+
+        Call<UserVideo> call = apiService.updateVideo("Bearer " + token, username, userVideo.getId(), userVideo);
+        call.enqueue(new Callback<UserVideo>() {
+            @Override
+            public void onResponse(Call<UserVideo> call, Response<UserVideo> response) {
+                success.setValue(response.isSuccessful());
+            }
+
+            @Override
+            public void onFailure(Call<UserVideo> call, Throwable t) {
+                success.setValue(false);
+            }
+        });
+
+        return success;
+    }
 }
 
 
