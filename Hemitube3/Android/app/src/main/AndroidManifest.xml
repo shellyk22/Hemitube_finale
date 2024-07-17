@@ -17,9 +17,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.YouTubeProject"
         tools:targetApi="31">
-        <activity
+        <!--<activity
             android:name=".pages.draftPage"
-            android:exported="false" />
+            android:exported="false" />-->
         <activity
             android:name=".pages.DetailsPage"
             android:exported="false" />
