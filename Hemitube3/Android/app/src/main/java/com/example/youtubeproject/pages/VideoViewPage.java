@@ -150,8 +150,6 @@ public class VideoViewPage extends AppCompatActivity {
                 Toast.makeText(this, "Video deleted successfully", Toast.LENGTH_SHORT).show();
                 Intent i = new Intent(this, YouPage.class);
                 startActivity(i);
-            } else {
-                Toast.makeText(this, "Failed to delete video", Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -201,8 +199,6 @@ public class VideoViewPage extends AppCompatActivity {
             if (Boolean.TRUE.equals(success)) {
                 Toast.makeText(this, "Video updated successfully", Toast.LENGTH_SHORT).show();
                 recreate();
-            } else {
-                Toast.makeText(this, "Failed to update video", Toast.LENGTH_SHORT).show();
             }
         });
     }
