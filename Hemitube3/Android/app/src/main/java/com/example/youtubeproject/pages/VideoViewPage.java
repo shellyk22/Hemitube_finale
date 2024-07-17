@@ -33,19 +33,17 @@ import com.example.youtubeproject.viewmodels.VideoViewModel;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.List;
 import java.util.Locale;
+import java.util.List;
 
 public class VideoViewPage extends AppCompatActivity {
-
 
     private VideoView videoView;
     private CommentsListAdapter adapter;
     private VideoViewModel videoViewModel;
 
-    private Video video;
+    private UserVideo userVideo;
     private final SessionManager sessionManager = SessionManager.getInstance();
-
 
     @SuppressLint("SuspiciousIndentation")
     @Override
@@ -57,12 +55,12 @@ public class VideoViewPage extends AppCompatActivity {
         String[] data = intent.getStringArrayExtra("data");
         MediaController mediaController = new MediaController(this);
 
-
         videoViewModel = new ViewModelProvider(this).get(VideoViewModel.class);
         videoViewModel.getVideo(data[1], data[0]).observe(this, new Observer<UserVideo>() {
             @Override
-            public void onChanged(UserVideo userVideo) {
-                if (userVideo != null) {
+            public void onChanged(UserVideo receivedUserVideo) {
+                if (receivedUserVideo != null) {
+                    userVideo = receivedUserVideo;
                     Log.d("TAG", "Video data received: " + userVideo.getTitle());
                     TextView title = findViewById(R.id.videoTitle);
                     TextView content = findViewById(R.id.videoContent);
@@ -94,59 +92,12 @@ public class VideoViewPage extends AppCompatActivity {
                     videoView.setVideoPath("http://10.0.2.2:5001/uploads/" + userVideo.getFileName());
                     videoView.start();
 
+                    setupButtons();
                 } else {
                     Log.e("TAG", "Failed to receive video data");
                 }
             }
         });
-
-        /*RecyclerView lstComments = findViewById(R.id.lstComments);
-        adapter = new CommentsListAdapter(this, userVideo);
-        lstComments.setAdapter(adapter);
-        lstComments.setLayoutManager(new LinearLayoutManager(this));
-        List<Comment> comments = .getComments();
-        Log.i("i", comments.toString());
-        adapter.setComments(comments);*/
-
-
-
-       /* ImageButton btnComment = findViewById(R.id.btnComment);
-        btnComment.setOnClickListener(v -> {
-            if (sessionManager.isLogedIn()) {
-                showCommentDialog();
-            } else {
-                Toast.makeText(this, "In Order To Comment You Must Log-In", Toast.LENGTH_SHORT).show();
-            }
-        });*/
-
-
-       /* Button btnDelete = findViewById(R.id.videoDeleteBtn);
-        btnDelete.setOnClickListener(v -> {
-            if (sessionManager.isLogedIn()) {
-                if (sessionManager.getLoggedUser().getUsername().equals(video.getPublisher().getUsername())) {
-                    List<Video> videos = sessionManager.getVideos();
-                    videos.remove(video);
-                    sessionManager.setVideos(videos);
-                    Intent i = new Intent(this, YouPage.class);
-                    startActivity(i);
-                } else {
-                    Toast.makeText(this, "User can Only Delete his Uploads!", Toast.LENGTH_SHORT).show();
-                }
-            } else {
-                Toast.makeText(this, "Sign In In Order To Upload/Delete Videos!", Toast.LENGTH_SHORT).show();
-            }
-        });*/
-
-
-        /*Button btnEdit = findViewById(R.id.videoEditBtn);
-        btnEdit.setOnClickListener(v -> {
-            if (sessionManager.getLoggedUser().getUsername().equals(video.getPublisher().getUsername())) {
-                showEditDialog();
-            } else {
-                Toast.makeText(this, "In Order To Edit Video you must be his uploader", Toast.LENGTH_SHORT).show();
-            }
-        });*/
-
 
         ImageButton btnLike = findViewById(R.id.btnLike);
         btnLike.setOnClickListener(v -> {
@@ -161,9 +112,7 @@ public class VideoViewPage extends AppCompatActivity {
             sharingIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "Subject Here");
             sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, shareBody);
             startActivity(Intent.createChooser(sharingIntent, "Share via"));
-
         });
-
 
         ImageButton btnYou = findViewById(R.id.btnYou);
         btnYou.setOnClickListener(v -> {
@@ -171,29 +120,40 @@ public class VideoViewPage extends AppCompatActivity {
             startActivity(i);
         });
 
-
         ImageButton btnHome = findViewById(R.id.btnHome);
         btnHome.setOnClickListener(v -> {
             Intent i = new Intent(this, MainActivity.class);
             startActivity(i);
         });
+    }
 
+    private void setupButtons() {
+        Button btnDelete = findViewById(R.id.videoDeleteBtn);
+        Button btnEdit = findViewById(R.id.videoEditBtn);
 
-        /*if (sessionManager.isLogedIn()) {
-            if (sessionManager.getLoggedUser().getUsername().equals(video.getPublisher().getUsername())) {
-                btnDelete.setVisibility(View.VISIBLE);
-                btnEdit.setVisibility(View.VISIBLE);
-            } else {
-                btnDelete.setVisibility(View.GONE);
-                btnEdit.setVisibility(View.GONE);
-            }
+        if (sessionManager.isLogedIn() && userVideo != null &&
+                sessionManager.getLoggedUser().getId().equals(userVideo.getPublisher())) {
+            btnDelete.setVisibility(View.VISIBLE);
+            btnEdit.setVisibility(View.VISIBLE);
+
+            btnDelete.setOnClickListener(v -> deleteVideo());
+            // btnEdit.setOnClickListener(v -> editVideo());
         } else {
             btnDelete.setVisibility(View.GONE);
             btnEdit.setVisibility(View.GONE);
+        }
+    }
 
-        }*/
-
-
+    private void deleteVideo() {
+        videoViewModel.deleteVideo(sessionManager.getLoggedUser().getUsername(), userVideo.getId()).observe(this, success -> {
+            if (Boolean.TRUE.equals(success)) {
+                Toast.makeText(this, "Video deleted successfully", Toast.LENGTH_SHORT).show();
+                Intent i = new Intent(this, YouPage.class);
+                startActivity(i);
+            } else {
+                Toast.makeText(this, "Failed to delete video", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     private String convertDate(String dateString) {
@@ -213,73 +173,14 @@ public class VideoViewPage extends AppCompatActivity {
         }
     }
 
-
     @SuppressLint("MissingSuperCall")
     @Override
     public void onBackPressed() {
         return;
     }
 
-
     protected Video findVideoById(String id) {
         Video video = sessionManager.getVideos().get(Integer.parseInt(id) - 1);
         return video;
     }
-
-    /*private void showCommentDialog() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        LayoutInflater inflater = this.getLayoutInflater();
-        builder.setView(inflater.inflate(R.layout.dialog_comment, null))
-                .setPositiveButton("Comment", (dialog, id) -> {
-                    AlertDialog alertDialog = (AlertDialog) dialog;
-                    EditText commentInput = alertDialog.findViewById(R.id.editComment);
-                    String commentText = commentInput.getText().toString().trim();
-                    if (!commentText.isEmpty()) {
-                        addComment(commentText);
-                    } else {
-                        Toast.makeText(this, "Comment cannot be empty", Toast.LENGTH_SHORT).show();
-                    }
-                })
-                .setNegativeButton("Cancel", (dialog, id) -> dialog.cancel());
-        builder.create().show();
-    }*/
-
-
-    /*private void showEditDialog() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        LayoutInflater inflater = this.getLayoutInflater();
-        builder.setView(inflater.inflate(R.layout.dialog_edit, null))
-                .setPositiveButton("Edit", (dialog, id) -> {
-                    AlertDialog alertDialog = (AlertDialog) dialog;
-                    EditText videoTitleInput = alertDialog.findViewById(R.id.editVideoTitle);
-                    EditText videoContentInput = alertDialog.findViewById(R.id.editVideoContent);
-                    String titleText = videoTitleInput.getText().toString().trim();
-                    String contentText = videoContentInput.getText().toString().trim();
-                    if (!titleText.isEmpty()) {
-                        changeVideoDetails(titleText, contentText);
-                    } else {
-                        Toast.makeText(this, "Title cannot be empty", Toast.LENGTH_SHORT).show();
-                    }
-                })
-                .setNegativeButton("Cancel", (dialog, id) -> dialog.cancel());
-        builder.create().show();
-    }*/
-
-    /*private void addComment(String commentText) {
-        adapter.setComments(video.getComments());
-        adapter.notifyDataSetChanged();
-    }*/
-
-    /*private void changeVideoDetails(String titleText, String cotentText) {
-        Video oldVideo = video;
-        video.setTitle(titleText);
-        video.setDescription(cotentText);
-        sessionManager.replaceVideo(oldVideo, video);
-        TextView title = findViewById(R.id.videoTitle);
-        title.setText(titleText);
-        finish();
-        startActivity(getIntent());
-    }*/
-
-
 }
