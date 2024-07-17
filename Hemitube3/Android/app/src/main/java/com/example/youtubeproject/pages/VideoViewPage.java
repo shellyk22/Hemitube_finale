@@ -30,7 +30,11 @@ import com.example.youtubeproject.entities.UserVideo;
 import com.example.youtubeproject.entities.Video;
 import com.example.youtubeproject.viewmodels.VideoViewModel;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 public class VideoViewPage extends AppCompatActivity {
 
@@ -68,15 +72,16 @@ public class VideoViewPage extends AppCompatActivity {
 
                     title.setText(userVideo.getTitle());
                     content.setText(userVideo.getDescription());
-                    uploader.setText(userVideo.getPublisher() + " . ");
+                    uploader.setText(data[1] + " . ");
                     views.setText(userVideo.get__v() + " views . ");
-                    timePassed.setText(userVideo.getUploadDate());
+                    String formattedDate = convertDate(userVideo.getUploadDate());
+                    timePassed.setText(formattedDate);
 
 
                     videoView = findViewById(R.id.videoPlayer);
                     mediaController.setMediaPlayer(videoView);
                     videoView.setMediaController(mediaController);
-                    videoView.setVideoPath(userVideo.getFileData());
+                    videoView.setVideoPath("http://10.0.2.2:5001/uploads/" + userVideo.getFileName());
                     videoView.start();
 
                 } else {
@@ -179,6 +184,23 @@ public class VideoViewPage extends AppCompatActivity {
         }*/
 
 
+    }
+
+    private String convertDate(String dateString) {
+        try {
+            // Parse the input date string
+            SimpleDateFormat inputFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.getDefault());
+            Date date = inputFormat.parse(dateString);
+
+            // Format the date to the desired output format
+            SimpleDateFormat outputFormat = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault());
+            return outputFormat.format(date);
+        } catch (ParseException e) {
+            // Handle the parsing error
+            e.printStackTrace();
+            // Return the original date string in case of error
+            return dateString;
+        }
     }
 
 

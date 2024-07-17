@@ -53,16 +53,11 @@ public class LogInPage extends AppCompatActivity {
                 if (user != null) {
                     String userId = user.getId();
                     String token = user.getToken();
-                    Log.d("LogInPage", "Setting id in SessionManager: " + userId);
                     SessionManager.getInstance().setUserId(userId);
-                    Log.d("LogInPage", "Setting token in SessionManager: " + token);
                     SessionManager.getInstance().setToken(token);
                     user.setToken(token);
 
 
-
-
-                      ///
                     Toast.makeText(LogInPage.this, "Login Successful", Toast.LENGTH_SHORT).show();
                     Intent i = new Intent(LogInPage.this, MainActivity.class);
                     startActivity(i);

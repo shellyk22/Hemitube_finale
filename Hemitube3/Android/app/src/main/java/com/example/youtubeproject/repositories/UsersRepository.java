@@ -79,7 +79,6 @@ public class UsersRepository {
             @Override
             public void onResponse(Call<User> call, Response<User> response) {
                 if (response.isSuccessful()) {
-                    Log.d("TAG", "Response body: " + response.body());
                     userLiveData.setValue(response.body());
                 } else {
                     Log.e("TAG", "Error response: " + response.message());
