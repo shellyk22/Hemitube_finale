@@ -22,6 +22,8 @@ public class VideoViewModel extends AndroidViewModel {
     private final MutableLiveData<Boolean> isLoading;
     private final MutableLiveData<String> uploadResult;
     private final VideosRepository videosRepository;
+    private final MutableLiveData<Boolean> deleteResult = new MutableLiveData<>();
+
 
     private MutableLiveData<UserVideo> video;
 
@@ -76,6 +78,21 @@ public class VideoViewModel extends AndroidViewModel {
             userVideos = videosRepository.getUserVideos(username);
         }
         return userVideos;
+    }
+
+//    // delete
+//    public LiveData<String> getDeleteResult() {
+//        return deleteResult;
+//    }
+
+    public LiveData<Boolean> deleteVideo(String username, String videoId) {
+        isLoading.setValue(true);
+        LiveData<Boolean> result = videosRepository.deleteVideo(username, videoId);
+        result.observeForever(success -> {
+            deleteResult.setValue(success);
+            isLoading.setValue(false);
+        });
+        return deleteResult;
     }
 }
 

@@ -273,6 +273,33 @@ public class VideosRepository {
     private boolean isMediaDocument(Uri uri) {
         return "com.android.providers.media.documents".equals(uri.getAuthority());
     }
+
+    public LiveData<Boolean> deleteVideo(String username, String videoId) {
+        MutableLiveData<Boolean> result = new MutableLiveData<>();
+        String token = SessionManager.getInstance().getToken();
+
+        Call<Void> call = apiService.deleteVideo(username, videoId, "Bearer " + token);
+        call.enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(Call<Void> call, Response<Void> response) {
+                if (response.isSuccessful()) {
+                    result.setValue(true);
+                    Log.d("Tag", "delete worked");
+                } else {
+                    result.setValue(false);
+                    Log.d("Tag", "delete didnt work");
+
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Void> call, Throwable t) {
+                result.setValue(false);
+            }
+        });
+
+        return result;
+    }
 }
 
 

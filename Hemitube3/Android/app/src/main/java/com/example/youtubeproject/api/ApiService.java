@@ -55,4 +55,8 @@ public interface ApiService {
 
     @GET("users/{username}/videos")
     Call<List<UserVideo>> getUserVideos(@Path("username") String username);
+
+    //delete
+    @DELETE("/api/users/{username}/videos/{videoId}")
+    Call<Void> deleteVideo(@Path("username") String username, @Path("videoId") String videoId, @Header("Authorization") String token);
 }
