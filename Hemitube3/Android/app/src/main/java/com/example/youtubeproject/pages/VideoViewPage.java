@@ -16,6 +16,8 @@ import android.widget.VideoView;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -24,15 +26,22 @@ import com.example.youtubeproject.R;
 import com.example.youtubeproject.adapters.CommentsListAdapter;
 import com.example.youtubeproject.entities.Comment;
 import com.example.youtubeproject.entities.SessionManager;
+import com.example.youtubeproject.entities.UserVideo;
 import com.example.youtubeproject.entities.Video;
+import com.example.youtubeproject.viewmodels.VideoViewModel;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 public class VideoViewPage extends AppCompatActivity {
 
 
     private VideoView videoView;
     private CommentsListAdapter adapter;
+    private VideoViewModel videoViewModel;
 
     private Video video;
     private final SessionManager sessionManager = SessionManager.getInstance();
@@ -45,52 +54,63 @@ public class VideoViewPage extends AppCompatActivity {
         setContentView(R.layout.activity_video_view_page);
 
         Intent intent = getIntent();
-        String videoId = intent.getStringExtra("video_id");
-
-        video = findVideoById(videoId);
-
-
-        TextView title = findViewById(R.id.videoTitle);
-        TextView content = findViewById(R.id.videoContent);
-        TextView uploader = findViewById(R.id.videoUploader);
-        TextView views = findViewById(R.id.videoViews);
-        TextView timePassed = findViewById(R.id.videoPassedTime);
-
-        title.setText(video.getTitle());
-        content.setText(video.getDescription());
-        uploader.setText(video.getPublisher().getUsername() + " . ");
-        views.setText(video.get__v() + " views . ");
-        timePassed.setText(video.getUploadDate());
-
-
-        videoView = findViewById(R.id.videoPlayer);
+        String[] data = intent.getStringArrayExtra("data");
         MediaController mediaController = new MediaController(this);
-        mediaController.setMediaPlayer(videoView);
-        videoView.setMediaController(mediaController);
-        videoView.setVideoPath(video.getFileData());
-        videoView.start();
 
 
-        RecyclerView lstComments = findViewById(R.id.lstComments);
-        adapter = new CommentsListAdapter(this, video);
+        videoViewModel = new ViewModelProvider(this).get(VideoViewModel.class);
+        videoViewModel.getVideo(data[1], data[0]).observe(this, new Observer<UserVideo>() {
+            @Override
+            public void onChanged(UserVideo userVideo) {
+                if (userVideo != null) {
+                    Log.d("TAG", "Video data received: " + userVideo.getTitle());
+                    TextView title = findViewById(R.id.videoTitle);
+                    TextView content = findViewById(R.id.videoContent);
+                    TextView uploader = findViewById(R.id.videoUploader);
+                    TextView views = findViewById(R.id.videoViews);
+                    TextView timePassed = findViewById(R.id.videoPassedTime);
+
+                    title.setText(userVideo.getTitle());
+                    content.setText(userVideo.getDescription());
+                    uploader.setText(data[1] + " . ");
+                    views.setText(userVideo.get__v() + " views . ");
+                    String formattedDate = convertDate(userVideo.getUploadDate());
+                    timePassed.setText(formattedDate);
+
+
+                    videoView = findViewById(R.id.videoPlayer);
+                    mediaController.setMediaPlayer(videoView);
+                    videoView.setMediaController(mediaController);
+                    videoView.setVideoPath("http://10.0.2.2:5001/uploads/" + userVideo.getFileName());
+                    videoView.start();
+
+                } else {
+                    Log.e("TAG", "Failed to receive video data");
+                }
+            }
+        });
+
+        /*RecyclerView lstComments = findViewById(R.id.lstComments);
+        adapter = new CommentsListAdapter(this, userVideo);
         lstComments.setAdapter(adapter);
         lstComments.setLayoutManager(new LinearLayoutManager(this));
-        List<Comment> comments = video.getComments();
+        List<Comment> comments = .getComments();
         Log.i("i", comments.toString());
-        adapter.setComments(comments);
+        adapter.setComments(comments);*/
 
 
-        ImageButton btnComment = findViewById(R.id.btnComment);
+
+       /* ImageButton btnComment = findViewById(R.id.btnComment);
         btnComment.setOnClickListener(v -> {
             if (sessionManager.isLogedIn()) {
                 showCommentDialog();
             } else {
                 Toast.makeText(this, "In Order To Comment You Must Log-In", Toast.LENGTH_SHORT).show();
             }
-        });
+        });*/
 
 
-        Button btnDelete = findViewById(R.id.videoDeleteBtn);
+       /* Button btnDelete = findViewById(R.id.videoDeleteBtn);
         btnDelete.setOnClickListener(v -> {
             if (sessionManager.isLogedIn()) {
                 if (sessionManager.getLoggedUser().getUsername().equals(video.getPublisher().getUsername())) {
@@ -105,17 +125,17 @@ public class VideoViewPage extends AppCompatActivity {
             } else {
                 Toast.makeText(this, "Sign In In Order To Upload/Delete Videos!", Toast.LENGTH_SHORT).show();
             }
-        });
+        });*/
 
 
-        Button btnEdit = findViewById(R.id.videoEditBtn);
+        /*Button btnEdit = findViewById(R.id.videoEditBtn);
         btnEdit.setOnClickListener(v -> {
             if (sessionManager.getLoggedUser().getUsername().equals(video.getPublisher().getUsername())) {
                 showEditDialog();
             } else {
                 Toast.makeText(this, "In Order To Edit Video you must be his uploader", Toast.LENGTH_SHORT).show();
             }
-        });
+        });*/
 
 
         ImageButton btnLike = findViewById(R.id.btnLike);
@@ -149,7 +169,7 @@ public class VideoViewPage extends AppCompatActivity {
         });
 
 
-        if (sessionManager.isLogedIn()) {
+        /*if (sessionManager.isLogedIn()) {
             if (sessionManager.getLoggedUser().getUsername().equals(video.getPublisher().getUsername())) {
                 btnDelete.setVisibility(View.VISIBLE);
                 btnEdit.setVisibility(View.VISIBLE);
@@ -161,9 +181,26 @@ public class VideoViewPage extends AppCompatActivity {
             btnDelete.setVisibility(View.GONE);
             btnEdit.setVisibility(View.GONE);
 
+        }*/
+
+
+    }
+
+    private String convertDate(String dateString) {
+        try {
+            // Parse the input date string
+            SimpleDateFormat inputFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.getDefault());
+            Date date = inputFormat.parse(dateString);
+
+            // Format the date to the desired output format
+            SimpleDateFormat outputFormat = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault());
+            return outputFormat.format(date);
+        } catch (ParseException e) {
+            // Handle the parsing error
+            e.printStackTrace();
+            // Return the original date string in case of error
+            return dateString;
         }
-
-
     }
 
 
@@ -179,7 +216,7 @@ public class VideoViewPage extends AppCompatActivity {
         return video;
     }
 
-    private void showCommentDialog() {
+    /*private void showCommentDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         LayoutInflater inflater = this.getLayoutInflater();
         builder.setView(inflater.inflate(R.layout.dialog_comment, null))
@@ -195,10 +232,10 @@ public class VideoViewPage extends AppCompatActivity {
                 })
                 .setNegativeButton("Cancel", (dialog, id) -> dialog.cancel());
         builder.create().show();
-    }
+    }*/
 
 
-    private void showEditDialog() {
+    /*private void showEditDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         LayoutInflater inflater = this.getLayoutInflater();
         builder.setView(inflater.inflate(R.layout.dialog_edit, null))
@@ -216,14 +253,14 @@ public class VideoViewPage extends AppCompatActivity {
                 })
                 .setNegativeButton("Cancel", (dialog, id) -> dialog.cancel());
         builder.create().show();
-    }
+    }*/
 
-    private void addComment(String commentText) {
+    /*private void addComment(String commentText) {
         adapter.setComments(video.getComments());
         adapter.notifyDataSetChanged();
-    }
+    }*/
 
-    private void changeVideoDetails(String titleText, String cotentText) {
+    /*private void changeVideoDetails(String titleText, String cotentText) {
         Video oldVideo = video;
         video.setTitle(titleText);
         video.setDescription(cotentText);
@@ -232,7 +269,7 @@ public class VideoViewPage extends AppCompatActivity {
         title.setText(titleText);
         finish();
         startActivity(getIntent());
-    }
+    }*/
 
 
 }

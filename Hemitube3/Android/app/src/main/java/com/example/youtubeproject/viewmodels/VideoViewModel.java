@@ -23,6 +23,8 @@ public class VideoViewModel extends AndroidViewModel {
     private final MutableLiveData<String> uploadResult;
     private final VideosRepository videosRepository;
 
+    private MutableLiveData<UserVideo> video;
+
 
     private MutableLiveData<List<Video>> videos;
 
@@ -59,6 +61,14 @@ public class VideoViewModel extends AndroidViewModel {
             videos = videosRepository.getVideos();
         }
         return videos;
+    }
+
+    public MutableLiveData<UserVideo> getVideo(String username, String videoId) {
+        if (video == null) {
+            Log.d("TAG", "Fetching video for username: " + username + ", videoId: " + videoId);
+            video = videosRepository.getVideo(username, videoId);
+        }
+        return video;
     }
 
     public MutableLiveData<List<UserVideo>> getUserVideos(String username) {

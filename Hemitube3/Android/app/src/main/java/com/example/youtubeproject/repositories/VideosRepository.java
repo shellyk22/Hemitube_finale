@@ -115,6 +115,41 @@ public class VideosRepository {
         return videosData;
     }
 
+
+    public MutableLiveData<UserVideo> getVideo(String username, String videoId) {
+        final MutableLiveData<UserVideo> data = new MutableLiveData<>();
+        Log.d("TAG", "Fetching video with username: " + username + ", videoId: " + videoId);
+        Call<UserVideo> call = apiService.getVideo(username, videoId);
+
+        // Log the URL
+        Log.d("TAG", "Request URL: " + call.request().url());
+
+        call.enqueue(new Callback<UserVideo>() {
+            @Override
+            public void onResponse(Call<UserVideo> call, Response<UserVideo> response) {
+                Log.d("TAG", "Response received");
+                if (response.isSuccessful()) {
+                    Log.d("TAG", "Video fetched successfully: " + response.body());
+                    data.setValue(response.body());
+                } else {
+                    try {
+                        Log.e("TAG", "Error fetching video: " + response.errorBody().string());
+                    } catch (IOException e) {
+                        Log.e("TAG", "Error reading error body", e);
+                    }
+                    data.setValue(null);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<UserVideo> call, Throwable t) {
+                Log.e("TAG", "Failed to fetch video", t);
+                data.setValue(null);
+            }
+        });
+        return data;
+    }
+
     public MutableLiveData<List<UserVideo>> getUserVideos(String username) {
         MutableLiveData<List<UserVideo>> videosData = new MutableLiveData<>();
         Log.d("TAG", "(repo) Start fetching user videos for: " + username);

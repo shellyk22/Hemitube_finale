@@ -30,8 +30,8 @@ public class MainActivity extends AppCompatActivity {
     private SwitchCompat switchMode;
     private boolean isNightMode;
     private SearchView searchView;
-    private List<Video> filteredVideos;
-    private List<Video> videos;
+    private List<Video> filteredVideos = new ArrayList<>(); // Initialize the list
+    private List<Video> videoslst = new ArrayList<>();
 
     private VideoViewModel videoViewModel;
 
@@ -79,7 +79,8 @@ public class MainActivity extends AppCompatActivity {
                 public void onChanged(List<Video> videos) {
                     if (videos != null) {
                         Log.d("TAG", "Videos fetched successfully: " + videos.size());
-                        adapter.setVideos(videos);
+                        videoslst = videos;
+                        adapter.setVideos(videoslst);
                     } else {
                         Log.e("TAG", "Failed to fetch videos");
                         Toast.makeText(MainActivity.this, "Failed to fetch videos", Toast.LENGTH_SHORT).show();
@@ -132,10 +133,10 @@ public class MainActivity extends AppCompatActivity {
     private void filterVideos(String query, VideosListAdapter adapter) {
         filteredVideos.clear();
         if (query.isEmpty()) {
-            filteredVideos.addAll(videos);
+            filteredVideos.addAll(videoslst);
         } else {
             String lowerCaseQuery = query.toLowerCase();
-            for (Video video : videos) {
+            for (Video video : videoslst) {
                 if (video.getTitle().toLowerCase().contains(lowerCaseQuery) || video.getPublisher().getUsername().toLowerCase().contains(lowerCaseQuery)) {
                     filteredVideos.add(video);
                 }

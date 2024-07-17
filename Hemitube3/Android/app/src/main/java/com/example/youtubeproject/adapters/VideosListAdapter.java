@@ -17,7 +17,13 @@ import com.example.youtubeproject.R;
 import com.example.youtubeproject.entities.Video;
 import com.example.youtubeproject.pages.VideoViewPage;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 public class VideosListAdapter extends RecyclerView.Adapter<VideosListAdapter.VideoViewHolder> {
 
@@ -58,15 +64,17 @@ public class VideosListAdapter extends RecyclerView.Adapter<VideosListAdapter.Vi
 
 
     @Override
-    public void onBindViewHolder(VideoViewHolder holder, int position){
-        if(videos != null){
+    public void onBindViewHolder(VideoViewHolder holder, int position) {
+        if (videos != null) {
             final Video current = videos.get(position);
             holder.title.setText(current.getTitle());
             holder.uploader.setText(current.getPublisher().getUsername() + " . ");
             holder.views.setText(current.get__v() + " views. ");
-            holder.timePassed.setText(current.getUploadDate());
+
+            String formattedDate = convertDate(current.getUploadDate());
+            holder.timePassed.setText(formattedDate);
+
             String fullThumbnailUrl = "http://10.0.2.2:5001/uploads/" + current.getThumbnailName();
-            Log.d("TAG", "Full thumbnail URL: " + fullThumbnailUrl);
             Glide.with(holder.videoPic.getContext())
                     .load(fullThumbnailUrl)
                     .into(holder.videoPic);
@@ -77,13 +85,33 @@ public class VideosListAdapter extends RecyclerView.Adapter<VideosListAdapter.Vi
                     Context context = v.getContext();
                     Intent intent = new Intent(context, VideoViewPage.class);
                     // Pass additional data if needed
-                    intent.putExtra("video_id", current.getId());
+                    String [] data = new String[2];
+                    data[0] = current.getId();
+                    data[1] = current.getPublisher().getUsername();
+                    intent.putExtra("data", data);
                     context.startActivity(intent);
                 }
             });
         }
     }
 
+
+    private String convertDate(String dateString) {
+        try {
+            // Parse the input date string
+            SimpleDateFormat inputFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.getDefault());
+            Date date = inputFormat.parse(dateString);
+
+            // Format the date to the desired output format
+            SimpleDateFormat outputFormat = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault());
+            return outputFormat.format(date);
+        } catch (ParseException e) {
+            // Handle the parsing error
+            e.printStackTrace();
+            // Return the original date string in case of error
+            return dateString;
+        }
+    }
 
 
     public void setVideos(List<Video> s){
