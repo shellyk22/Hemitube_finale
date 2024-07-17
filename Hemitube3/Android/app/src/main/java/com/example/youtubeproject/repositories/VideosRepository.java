@@ -208,9 +208,12 @@ public class VideosRepository {
                 if (id.startsWith("raw:")) {
                     path = id.replaceFirst("raw:", "");
                 } else {
-                    Uri contentUri = ContentUris.withAppendedId(
-                            Uri.parse("content://downloads/public_downloads"), Long.parseLong(id));
-                    path = getDataColumn(context, contentUri, null, null);
+                    try {
+                        path = getDownloadPath(uri, context);
+                    } catch (Exception e) {
+                        Log.e("TAG", "Error resolving download URI", e);
+                        return null;
+                    }
                 }
             } else if (isMediaDocument(uri)) {
                 String docId = DocumentsContract.getDocumentId(uri);
@@ -237,23 +240,45 @@ public class VideosRepository {
             path = uri.getPath();
         }
 
+        if (path != null && !new File(path).exists()) {
+            Log.e("TAG", "File does not exist at path: " + path);
+            return null;
+        }
+
         Log.d("TAG", "Path from URI: " + path);
+        return path;
+    }
+
+    private String getDownloadPath(Uri uri, Context context) {
+        Cursor cursor = null;
+        String path = null;
+        try {
+            String[] projection = {MediaStore.MediaColumns.DISPLAY_NAME};
+            cursor = context.getContentResolver().query(uri, projection, null, null, null);
+            if (cursor != null && cursor.moveToFirst()) {
+                String fileName = cursor.getString(0);
+                File file = new File(Environment.getExternalStorageDirectory() + "/Download/" + fileName);
+                path = file.getAbsolutePath();
+            }
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+        }
         return path;
     }
 
     private String getDataColumn(Context context, Uri uri, String selection, String[] selectionArgs) {
         Cursor cursor = null;
-        final String column = MediaStore.MediaColumns.DATA;
+        final String column = "_data";
         final String[] projection = {column};
 
         try {
             cursor = context.getContentResolver().query(uri, projection, selection, selectionArgs, null);
             if (cursor != null && cursor.moveToFirst()) {
-                final int columnIndex = cursor.getColumnIndexOrThrow(column);
-                return cursor.getString(columnIndex);
+                final int index = cursor.getColumnIndexOrThrow(column);
+                return cursor.getString(index);
             }
-        } catch (Exception e) {
-            Log.e("TAG", "Failed to get data column", e);
         } finally {
             if (cursor != null) {
                 cursor.close();

@@ -9,6 +9,7 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.Observer;
 
 import com.example.youtubeproject.entities.UserVideo;
 import com.example.youtubeproject.entities.Video;
@@ -52,8 +53,15 @@ public class VideoViewModel extends AndroidViewModel {
     public void uploadVideo(Uri videoUri, Uri thumbnailUri, String title, String description, String publisher, Context context) {
         isLoading.setValue(true);
         LiveData<String> result = videosRepository.uploadVideo(videoUri, thumbnailUri, title, description, publisher, context);
-        result.observeForever(uploadResult::setValue);
-        isLoading.setValue(false);
+        result.observeForever(new Observer<String>() {
+            @Override
+            public void onChanged(String uploadResult) {
+                Log.d("TAG", "Upload result received in ViewModel: " + uploadResult);
+                isLoading.setValue(false);
+                VideoViewModel.this.uploadResult.setValue(uploadResult);
+                result.removeObserver(this); // Ensure the observer is removed after use
+            }
+        });
         Log.d("TAG", "Upload video initiated");
     }
 

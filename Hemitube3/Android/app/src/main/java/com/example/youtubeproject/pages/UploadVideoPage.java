@@ -21,6 +21,7 @@ import android.widget.VideoView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.youtubeproject.MainActivity;
@@ -147,9 +148,30 @@ public class UploadVideoPage extends AppCompatActivity {
 
         if (videoUri != null && thumbnailUri != null) {
             Log.d("TAG", "Starting upload: " + title + ", " + description + ", " + publisher);
+
+            // Create the observer
+            Observer<String> uploadObserver = new Observer<String>() {
+                @Override
+                public void onChanged(String uploadResult) {
+                    Log.d("TAG", "Upload result: " + uploadResult);
+                    if ("Video uploaded successfully!".equals(uploadResult)) { // Match the exact string
+                        Log.d("TAG", "Navigating to YouPage");
+                        Toast.makeText(UploadVideoPage.this, "Upload successful", Toast.LENGTH_SHORT).show();
+                        Intent i = new Intent(UploadVideoPage.this, YouPage.class);
+                        startActivity(i);
+                    } else {
+                        Toast.makeText(UploadVideoPage.this, "Upload failed", Toast.LENGTH_SHORT).show();
+                    }
+                    // Remove the observer to avoid multiple triggers
+                    videoViewModel.getUploadResult().removeObserver(this);
+                }
+            };
+
+            // Observe the upload result
+            videoViewModel.getUploadResult().observe(this, uploadObserver);
+
+            // Call the upload method
             videoViewModel.uploadVideo(videoUri, thumbnailUri, title, description, publisher, this);
-            Intent i = new Intent(UploadVideoPage.this, YouPage.class);
-            startActivity(i);
         } else {
             Toast.makeText(this, "Please select both video and thumbnail", Toast.LENGTH_SHORT).show();
         }
