@@ -42,6 +42,9 @@
             android:name=".pages.YouPage"
             android:exported="false" />
         <activity
+            android:name=".pages.UserVideos"
+            android:exported="false" />
+        <activity
             android:name=".MainActivity"
             android:exported="true">
             <intent-filter>

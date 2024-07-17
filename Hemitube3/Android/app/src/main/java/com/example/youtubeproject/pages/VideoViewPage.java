@@ -77,6 +77,16 @@ public class VideoViewPage extends AppCompatActivity {
                     String formattedDate = convertDate(userVideo.getUploadDate());
                     timePassed.setText(formattedDate);
 
+                    uploader.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Intent intent = new Intent(VideoViewPage.this, UserVideos.class);
+                            intent.putExtra("username", data[1]);
+                            SessionManager.getInstance().setUsernameInPage(data[1]);
+                            startActivity(intent);
+                        }
+                    });
+
 
                     videoView = findViewById(R.id.videoPlayer);
                     mediaController.setMediaPlayer(videoView);
