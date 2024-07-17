@@ -24,6 +24,7 @@ public class SessionManager {
     List<Video> videos;
     private String token;
     private String userId;
+    private String usernameInPage;
 
 
 
@@ -42,6 +43,15 @@ public class SessionManager {
     public void setToken(String token) {
         this.token = token;
         Log.d("SessionManager", "Token set: " + token);
+    }
+
+    public String getUsernameInPage() {
+        return usernameInPage;
+    }
+
+    public void setUsernameInPage(String username) {
+        this.usernameInPage = username;
+        Log.d("TAG", "(SessionManager)usernameInPage set: " + usernameInPage);
     }
 
     public String getUserId() { // Add this getter

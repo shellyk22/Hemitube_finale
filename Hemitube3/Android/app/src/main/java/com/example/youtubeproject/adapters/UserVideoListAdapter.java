@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.youtubeproject.R;
+import com.example.youtubeproject.entities.SessionManager;
 import com.example.youtubeproject.entities.UserVideo;
 import com.example.youtubeproject.pages.VideoViewPage;
 
@@ -35,6 +36,7 @@ public class UserVideoListAdapter extends RecyclerView.Adapter<UserVideoListAdap
         private final ImageButton videoPic;
 
 
+
         private UserVideoViewHolder(View itemView){
             super(itemView);
             title = itemView.findViewById(R.id.videoTitle);
@@ -50,6 +52,8 @@ public class UserVideoListAdapter extends RecyclerView.Adapter<UserVideoListAdap
     private final LayoutInflater mInflater;
 
     private List<UserVideo> videos;
+    private final SessionManager sessionManager = SessionManager.getInstance(); //made it not finale
+
 
     public UserVideoListAdapter(Context context) {mInflater = LayoutInflater.from(context);}
 
@@ -64,7 +68,7 @@ public class UserVideoListAdapter extends RecyclerView.Adapter<UserVideoListAdap
         if(videos != null){
             final UserVideo current = videos.get(position);
             holder.title.setText(current.getTitle());
-            holder.uploader.setText(current.getPublisher() + " . ");
+            holder.uploader.setText(sessionManager.getUsernameInPage() + " . ");
             holder.views.setText(current.get__v() + " views. ");
             holder.timePassed.setText(current.getUploadDate());
             String fullThumbnailUrl = "http://10.0.2.2:5001/uploads/" + current.getThumbnailName();
@@ -79,7 +83,10 @@ public class UserVideoListAdapter extends RecyclerView.Adapter<UserVideoListAdap
                     Context context = v.getContext();
                     Intent intent = new Intent(context, VideoViewPage.class);
                     // Pass additional data if needed
-                    intent.putExtra("video_id", current.getId());
+                    String [] data = new String[2];
+                    data[0] = current.getId();
+                    data[1] = sessionManager.getUsernameInPage();
+                    intent.putExtra("data", data);
                     context.startActivity(intent);
                 }
             });

@@ -37,7 +37,7 @@ public class YouPage extends AppCompatActivity {
     private Button btnDetails;
     private ImageView profilePic;
     private VideoViewModel videoViewModel;
-    private final SessionManager sessionManager = SessionManager.getInstance();
+    private final SessionManager sessionManager = SessionManager.getInstance(); //made it not finale
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -86,6 +86,7 @@ public class YouPage extends AppCompatActivity {
         if (sessionManager.isLogedIn()) {
             textViewWelcome = findViewById(R.id.textViewWelcomeUser);
             String username = sessionManager.getLoggedUser().getUsername();
+            sessionManager.setUsernameInPage(username);
             textViewWelcome.setText("Welcome, " + username + "!");
             logOutButton.setVisibility(View.VISIBLE);
             btnSignIn.setVisibility(View.GONE);
