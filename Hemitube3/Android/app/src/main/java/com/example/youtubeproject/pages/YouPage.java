@@ -1,7 +1,10 @@
 package com.example.youtubeproject.pages;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -115,10 +118,9 @@ public class YouPage extends AppCompatActivity {
             }
 
 
-            // Set user profile picture and videos if available
-            // profilePic.setImageURI(sessionManager.getLoggedUser().getImageUri());
-            // List<Video> videos = SessionManager.getInstance().getLoggedUser().getMyVideos();
-            // adapter.setVideos(videos);
+
+             profilePic.setImageBitmap(base64ToBitmap(sessionManager.getLoggedUser().getProfilePic()));
+
         } else {
             logOutButton.setVisibility(View.GONE);
             btnSignIn.setVisibility(View.VISIBLE);
@@ -134,5 +136,27 @@ public class YouPage extends AppCompatActivity {
             Intent i = new Intent(this, MainActivity.class);
             startActivity(i);
         });
+    }
+
+    public static Bitmap base64ToBitmap(String base64String) {
+        try {
+            // Remove the prefix if present
+            if (base64String.startsWith("data:image/")) {
+                base64String = base64String.substring(base64String.indexOf(",") + 1);
+            }
+
+            // Clean the base64 string by removing any extraneous characters or whitespace
+            base64String = base64String.trim();
+            base64String = base64String.replaceAll("\n", "").replaceAll("\r", "");
+
+            // Decode the base64 string into bytes
+            byte[] decodedBytes = Base64.decode(base64String, Base64.DEFAULT);
+            // Convert the bytes into a bitmap
+            return BitmapFactory.decodeByteArray(decodedBytes, 0, decodedBytes.length);
+        } catch (IllegalArgumentException e) {
+            // Handle the case where the base64 string is invalid
+            Log.e("TAG", "Invalid base64 string", e);
+            return null;
+        }
     }
 }

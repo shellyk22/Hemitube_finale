@@ -111,12 +111,6 @@ public class SessionManager {
         }
     }
 
-    public void deleteComment(Comment comment, Video video) {
-        List<Comment> comments = video.getComments();
-        comments.remove(comment);
-        video.setComments(comments);
-
-    }
 
     public void replaceVideo(Video oldVideo, Video video){
             videos.remove(oldVideo);
