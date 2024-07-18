@@ -12,21 +12,20 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.youtubeproject.R;
 import com.example.youtubeproject.entities.Comment;
 import com.example.youtubeproject.entities.SessionManager;
+import com.example.youtubeproject.entities.UserVideo;
 import com.example.youtubeproject.entities.Video;
 
 import java.util.List;
 
 public class CommentsListAdapter extends RecyclerView.Adapter<CommentsListAdapter.CommentViewHolder> {
 
-    private Video video;
+    private UserVideo userVideo;
 
     private final SessionManager sessionManager = SessionManager.getInstance();
 
     class CommentViewHolder extends RecyclerView.ViewHolder {
 
         private final TextView uploader;
-
-        private final TextView timePassed;
         private final TextView content;
 
         private final Button btnDelete;
@@ -36,7 +35,6 @@ public class CommentsListAdapter extends RecyclerView.Adapter<CommentsListAdapte
         private CommentViewHolder(View itemView) {
             super(itemView);
             uploader = itemView.findViewById(R.id.commentUsername);
-            timePassed = itemView.findViewById(R.id.commentUploadDate);
             content = itemView.findViewById(R.id.commentText);
             btnDelete = itemView.findViewById(R.id.deleteBtn);
 
@@ -49,9 +47,9 @@ public class CommentsListAdapter extends RecyclerView.Adapter<CommentsListAdapte
 
     private List<Comment> commentlist;
 
-    public CommentsListAdapter(Context context, Video video) {
+    public CommentsListAdapter(Context context, UserVideo userVideo) {
         mInflater = LayoutInflater.from(context);
-        this.video = video;
+        this.userVideo = userVideo;
     }
 
     @Override
@@ -70,7 +68,6 @@ public class CommentsListAdapter extends RecyclerView.Adapter<CommentsListAdapte
 
             holder.btnDelete.setOnClickListener(v -> {
                 if (sessionManager.getLoggedUser().getId().equals(current.getUserId())) {
-                    sessionManager.deleteComment(current, video);
                     this.notifyDataSetChanged();
                 }
             });

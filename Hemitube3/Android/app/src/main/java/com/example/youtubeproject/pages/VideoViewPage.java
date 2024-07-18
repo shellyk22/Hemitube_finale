@@ -32,6 +32,7 @@ import com.example.youtubeproject.viewmodels.VideoViewModel;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.Locale;
 import java.util.List;
@@ -55,6 +56,8 @@ public class VideoViewPage extends AppCompatActivity {
         String[] data = intent.getStringArrayExtra("data");
         MediaController mediaController = new MediaController(this);
 
+
+
         videoViewModel = new ViewModelProvider(this).get(VideoViewModel.class);
         videoViewModel.getVideo(data[1], data[0]).observe(this, new Observer<UserVideo>() {
             @Override
@@ -74,6 +77,16 @@ public class VideoViewPage extends AppCompatActivity {
                     views.setText(userVideo.get__v() + " views . ");
                     String formattedDate = convertDate(userVideo.getUploadDate());
                     timePassed.setText(formattedDate);
+
+
+                    RecyclerView lstComments = findViewById(R.id.lstComments);
+                    adapter = new CommentsListAdapter(VideoViewPage.this, userVideo);
+                    lstComments.setAdapter(adapter);
+                    lstComments.setLayoutManager(new LinearLayoutManager(VideoViewPage.this));
+
+                    List<Comment> comments = userVideo.getComments();
+                    adapter.setComments(comments);
+
 
                     uploader.setOnClickListener(new View.OnClickListener() {
                         @Override
@@ -125,7 +138,10 @@ public class VideoViewPage extends AppCompatActivity {
             Intent i = new Intent(this, MainActivity.class);
             startActivity(i);
         });
+
+
     }
+
 
     private void setupButtons() {
         Button btnDelete = findViewById(R.id.videoDeleteBtn);
