@@ -1,5 +1,6 @@
 package com.example.youtubeproject.api;
 
+import com.example.youtubeproject.entities.Comment;
 import com.example.youtubeproject.entities.User;
 import com.example.youtubeproject.entities.UserVideo;
 import com.example.youtubeproject.entities.Video;
@@ -73,4 +74,12 @@ public interface ApiService {
 
     @GET("/api/users")
     Call<List<User>> getAllUsers();
+
+    @POST("/api/users/{username}/videos/{videoId}/comments")
+    Call<Comment> addComment(
+            @Path("username") String username,
+            @Path("videoId") String videoId,
+            @Body CommentRequest commentRequest
+    );
+
 }

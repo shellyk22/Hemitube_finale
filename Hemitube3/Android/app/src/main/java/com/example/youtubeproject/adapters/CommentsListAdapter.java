@@ -96,6 +96,12 @@ public class CommentsListAdapter extends RecyclerView.Adapter<CommentsListAdapte
         this.commentList = comments;
         notifyDataSetChanged();
     }
+    public void addComment(Comment comment) {
+        if (commentList != null) {
+            commentList.add(comment);
+            notifyItemInserted(commentList.size() - 1);
+        }
+    }
 
     private String getUsernameById(String userId) {
         if (users != null) {
