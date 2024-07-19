@@ -24,6 +24,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.youtubeproject.MainActivity;
 import com.example.youtubeproject.R;
 import com.example.youtubeproject.adapters.CommentsListAdapter;
+import com.example.youtubeproject.api.CommentRequest;
 import com.example.youtubeproject.entities.Comment;
 import com.example.youtubeproject.entities.SessionManager;
 import com.example.youtubeproject.entities.UserVideo;
@@ -43,6 +44,7 @@ public class VideoViewPage extends AppCompatActivity {
     private VideoViewModel videoViewModel;
     private UserViewModel userViewModel;
     private UserVideo userVideo;
+    private String uploaderUsername;
     private final SessionManager sessionManager = SessionManager.getInstance();
 
     @SuppressLint("SuspiciousIndentation")
@@ -57,6 +59,8 @@ public class VideoViewPage extends AppCompatActivity {
 
         videoViewModel = new ViewModelProvider(this).get(VideoViewModel.class);
         userViewModel = new ViewModelProvider(this).get(UserViewModel.class);
+        //assert data != null;
+        uploaderUsername = data[1];
 
         videoViewModel.getVideo(data[1], data[0]).observe(this, new Observer<UserVideo>() {
             @Override
@@ -130,6 +134,42 @@ public class VideoViewPage extends AppCompatActivity {
         btnHome.setOnClickListener(v -> {
             Intent i = new Intent(this, MainActivity.class);
             startActivity(i);
+        });
+        if (sessionManager.isLogedIn()) {
+            setupCommentButton();
+        }
+    }
+
+    private void setupCommentButton() {
+        EditText editTextComment = findViewById(R.id.editTextComment);
+        Button btnAddComment = findViewById(R.id.btnAddComment);
+
+        btnAddComment.setOnClickListener(v -> {
+            if (sessionManager.isLogedIn()) {
+                String commentText = editTextComment.getText().toString().trim();
+                if (!commentText.isEmpty()) {
+                    String userId = sessionManager.getLoggedUser().getId();
+                    String username = sessionManager.getLoggedUser().getUsername();
+                    CommentRequest commentRequest = new CommentRequest(commentText, userId, username);
+
+                    videoViewModel.addComment(userVideo.getPublisher(), userVideo.getId(), commentRequest).observe(this, new Observer<Comment>() {
+                        @Override
+                        public void onChanged(Comment comment) {
+                            if (comment != null) {
+                                Toast.makeText(VideoViewPage.this, "Comment added", Toast.LENGTH_SHORT).show();
+                                adapter.addComment(comment);
+                                editTextComment.setText("");
+                            } else {
+                                Toast.makeText(VideoViewPage.this, "Failed to add comment", Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    });
+                } else {
+                    Toast.makeText(this, "Comment cannot be empty", Toast.LENGTH_SHORT).show();
+                }
+            } else {
+                Toast.makeText(this, "You must be logged in to comment", Toast.LENGTH_SHORT).show();
+            }
         });
     }
 

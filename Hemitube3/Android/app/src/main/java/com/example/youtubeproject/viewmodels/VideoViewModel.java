@@ -11,6 +11,8 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Observer;
 
+import com.example.youtubeproject.api.CommentRequest;
+import com.example.youtubeproject.entities.Comment;
 import com.example.youtubeproject.entities.UserVideo;
 import com.example.youtubeproject.entities.Video;
 import com.example.youtubeproject.repositories.VideosRepository;
@@ -106,7 +108,14 @@ public class VideoViewModel extends AndroidViewModel {
     public LiveData<Boolean> updateVideo(String token, String username, UserVideo userVideo) {
         return videosRepository.updateVideo(token, username, userVideo);
     }
+    public LiveData<Comment> addComment(String username, String videoId, CommentRequest commentRequest) {
+        return videosRepository.addComment(username, videoId, commentRequest);
+    }
 }
+
+
+
+    /////////
 
 
 

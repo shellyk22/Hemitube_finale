@@ -13,7 +13,9 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 import com.example.youtubeproject.api.ApiService;
+import com.example.youtubeproject.api.CommentRequest;
 import com.example.youtubeproject.api.RetrofitClient;
+import com.example.youtubeproject.entities.Comment;
 import com.example.youtubeproject.entities.SessionManager;
 import com.example.youtubeproject.entities.UserVideo;
 import com.example.youtubeproject.entities.Video;
@@ -344,6 +346,41 @@ public class VideosRepository {
         });
 
         return success;
+    }
+
+    public MutableLiveData<Comment> addComment(String username, String videoId, CommentRequest commentRequest) {
+        Log.d("TAG", "in repo about to add" + commentRequest.getComment());
+        MutableLiveData<Comment> liveData = new MutableLiveData<>();
+        Call<Comment> call = apiService.addComment(username, videoId, commentRequest);
+        Log.d("TAG", "trying to add comment: " + commentRequest.getUsername() + commentRequest.getUserID());
+
+
+        call.enqueue(new Callback<Comment>() {
+            @Override
+            public void onResponse(Call<Comment> call, Response<Comment> response) {
+                if (response.isSuccessful()) {
+                    liveData.setValue(response.body());
+                    Log.d("TAG", "repo Comment added successfully: " + response.body().getText());
+                } else {
+                    Log.e("VideosRepository", "Error adding comment. Response code: " + response.code());
+                    try {
+                        String errorBody = response.errorBody().string();
+                        Log.e("VideosRepository", "Error details: " + errorBody);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    liveData.setValue(null);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Comment> call, Throwable t) {
+                Log.e("VideosRepository", "Failed to add comment: " + t.getMessage());
+                liveData.setValue(null);
+            }
+        });
+
+        return liveData;
     }
 }
 
