@@ -84,6 +84,15 @@ const deleteUser = async (username) => {
     }
 };
 
+const getAllUsers = async () => {
+    try {
+        return await User.find({});
+    } catch (error) {
+        console.log("Error fetching users: ", error);
+        throw new Error('Could not fetch users');
+    }
+};
 
 
-module.exports = {createUser, updateUser, deleteUser, getUser}
+
+module.exports = {createUser, updateUser, deleteUser, getUser, getAllUsers}

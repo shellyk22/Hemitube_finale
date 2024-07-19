@@ -1,10 +1,16 @@
 package com.example.youtubeproject.entities;
+import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.ViewModelProvider;
 
 import android.net.Uri;
 import android.util.Log;
 import android.widget.Toast;
 
+import androidx.lifecycle.ViewModelProvider;
+import androidx.lifecycle.ViewModelStoreOwner;
+
 import com.example.youtubeproject.R;
+import com.example.youtubeproject.viewmodels.UserViewModel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,7 +31,7 @@ public class SessionManager {
     private String token;
     private String userId;
     private String usernameInPage;
-
+    private UserViewModel userViewModel;
 
 
     public static SessionManager getInstance() {
@@ -112,10 +118,13 @@ public class SessionManager {
     }
 
 
-    public void replaceVideo(Video oldVideo, Video video){
+    public void replaceVideo(Video oldVideo, Video video) {
             videos.remove(oldVideo);
             videos.add(video);
         }
 
-
+    public MutableLiveData<List<User>> getUsers() {
+        userViewModel = new ViewModelProvider((ViewModelStoreOwner) this).get(UserViewModel.class);
+        return userViewModel.getAllUsers();
+    }
 }

@@ -27,12 +27,11 @@ import com.example.youtubeproject.adapters.CommentsListAdapter;
 import com.example.youtubeproject.entities.Comment;
 import com.example.youtubeproject.entities.SessionManager;
 import com.example.youtubeproject.entities.UserVideo;
-import com.example.youtubeproject.entities.Video;
+import com.example.youtubeproject.viewmodels.UserViewModel;
 import com.example.youtubeproject.viewmodels.VideoViewModel;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.Locale;
 import java.util.List;
@@ -42,7 +41,7 @@ public class VideoViewPage extends AppCompatActivity {
     private VideoView videoView;
     private CommentsListAdapter adapter;
     private VideoViewModel videoViewModel;
-
+    private UserViewModel userViewModel;
     private UserVideo userVideo;
     private final SessionManager sessionManager = SessionManager.getInstance();
 
@@ -56,9 +55,9 @@ public class VideoViewPage extends AppCompatActivity {
         String[] data = intent.getStringArrayExtra("data");
         MediaController mediaController = new MediaController(this);
 
-
-
         videoViewModel = new ViewModelProvider(this).get(VideoViewModel.class);
+        userViewModel = new ViewModelProvider(this).get(UserViewModel.class);
+
         videoViewModel.getVideo(data[1], data[0]).observe(this, new Observer<UserVideo>() {
             @Override
             public void onChanged(UserVideo receivedUserVideo) {
@@ -78,26 +77,20 @@ public class VideoViewPage extends AppCompatActivity {
                     String formattedDate = convertDate(userVideo.getUploadDate());
                     timePassed.setText(formattedDate);
 
-
                     RecyclerView lstComments = findViewById(R.id.lstComments);
-                    adapter = new CommentsListAdapter(VideoViewPage.this, userVideo);
+                    adapter = new CommentsListAdapter(VideoViewPage.this, userViewModel, VideoViewPage.this);
                     lstComments.setAdapter(adapter);
                     lstComments.setLayoutManager(new LinearLayoutManager(VideoViewPage.this));
 
                     List<Comment> comments = userVideo.getComments();
                     adapter.setComments(comments);
 
-
-                    uploader.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            Intent intent = new Intent(VideoViewPage.this, UserVideos.class);
-                            intent.putExtra("username", data[1]);
-                            SessionManager.getInstance().setUsernameInPage(data[1]);
-                            startActivity(intent);
-                        }
+                    uploader.setOnClickListener(v -> {
+                        Intent intent = new Intent(VideoViewPage.this, UserVideos.class);
+                        intent.putExtra("username", data[1]);
+                        SessionManager.getInstance().setUsernameInPage(data[1]);
+                        startActivity(intent);
                     });
-
 
                     videoView = findViewById(R.id.videoPlayer);
                     mediaController.setMediaPlayer(videoView);
@@ -138,10 +131,7 @@ public class VideoViewPage extends AppCompatActivity {
             Intent i = new Intent(this, MainActivity.class);
             startActivity(i);
         });
-
-
     }
-
 
     private void setupButtons() {
         Button btnDelete = findViewById(R.id.videoDeleteBtn);
@@ -238,8 +228,8 @@ public class VideoViewPage extends AppCompatActivity {
         return;
     }
 
-    protected Video findVideoById(String id) {
-        Video video = sessionManager.getVideos().get(Integer.parseInt(id) - 1);
+   /* protected UserVideo findVideoById(String id) {
+        UserVideo video = sessionManager.getVideos().get(Integer.parseInt(id) - 1);
         return video;
-    }
+    }*/
 }
