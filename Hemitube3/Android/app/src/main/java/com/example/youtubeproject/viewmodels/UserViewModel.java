@@ -8,12 +8,17 @@ import androidx.lifecycle.ViewModel;
 
 import com.example.youtubeproject.api.UserUpdateRequest;
 import com.example.youtubeproject.entities.User;
+import com.example.youtubeproject.entities.Video;
 import com.example.youtubeproject.repositories.UsersRepository;
+
+import java.util.List;
 
 public class UserViewModel extends ViewModel {
     private UsersRepository userRepository;
 
     private MutableLiveData<User> userLiveData;
+
+    private MutableLiveData<List<User>> users;
 
     public UserViewModel() {
         userRepository = new UsersRepository();
@@ -44,5 +49,13 @@ public class UserViewModel extends ViewModel {
         Log.d("TAG", "Request to update user: " + username + " with newPic: " + newPic + " and newNickName: " + newNickName);
         UserUpdateRequest updateRequest = new UserUpdateRequest(newPic, newNickName);
         return userRepository.updateUser(username, updateRequest);
+    }
+
+    public MutableLiveData<List<User>> getAllUsers() {
+        if (users == null) {
+
+            users = userRepository.getAllUsers();
+        }
+        return users;
     }
 }

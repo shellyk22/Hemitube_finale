@@ -7,10 +7,14 @@ import com.example.youtubeproject.api.RetrofitClient;
 import com.example.youtubeproject.api.UserUpdateRequest;
 import com.example.youtubeproject.entities.SessionManager;
 import com.example.youtubeproject.entities.User;
+import com.example.youtubeproject.entities.Video;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import android.util.Log;
+
+import java.util.List;
 
 public class UsersRepository {
     private ApiService apiService;
@@ -148,5 +152,29 @@ public class UsersRepository {
         });
 
         return deletionStatus;
+    }
+
+    public MutableLiveData<List<User>> getAllUsers() {
+        MutableLiveData<List<User>> usersLiveData = new MutableLiveData<>();
+
+        apiService.getAllUsers().enqueue(new Callback<List<User>>() {
+
+            public void onResponse(Call<List<User>> call, Response<List<User>> response) {
+                Log.d("TAG", "amazing2");
+                if (response.isSuccessful()) {
+                    usersLiveData.setValue(response.body());
+                    Log.d("TAG", "Videos fetched: " + response.body().size());
+                } else {
+                    Log.e("TAG", "Failed to fetch videos: " + response.message());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<User>> call, Throwable t) {
+                Log.e("TAG", "Error fetching videos", t);
+                usersLiveData.setValue(null);
+            }
+        });
+        return usersLiveData;
     }
 }

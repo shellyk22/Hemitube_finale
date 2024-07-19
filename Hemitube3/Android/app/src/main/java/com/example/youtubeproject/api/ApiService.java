@@ -70,4 +70,7 @@ public interface ApiService {
             @Path("videoId") String videoId,
             @Body UserVideo userVideo
     );
+
+    @GET("/api/users")
+    Call<List<User>> getAllUsers();
 }
