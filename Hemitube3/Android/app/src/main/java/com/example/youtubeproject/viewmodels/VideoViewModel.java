@@ -13,6 +13,8 @@ import androidx.lifecycle.Observer;
 
 import com.example.youtubeproject.api.CommentRequest;
 import com.example.youtubeproject.entities.Comment;
+import com.example.youtubeproject.entities.ServerComment;
+import com.example.youtubeproject.entities.SessionManager;
 import com.example.youtubeproject.entities.UserVideo;
 import com.example.youtubeproject.entities.Video;
 import com.example.youtubeproject.repositories.VideosRepository;
@@ -111,11 +113,49 @@ public class VideoViewModel extends AndroidViewModel {
     public LiveData<Comment> addComment(String username, String videoId, CommentRequest commentRequest) {
         return videosRepository.addComment(username, videoId, commentRequest);
     }
+
+    public LiveData<Boolean> deleteComment(String publisherId, String videoId, String commentId) {
+        MutableLiveData<Boolean> success = new MutableLiveData<>();
+        String authToken = "Bearer " + SessionManager.getInstance().getToken();
+        videosRepository.deleteComment(publisherId, videoId, commentId, authToken, new VideosRepository.OnCommentDeleteCallback() {
+            @Override
+            public void onSuccess() {
+                Log.d("VideoViewModel", "Comment deleted successfully");
+                success.setValue(true);
+            }
+
+            @Override
+            public void onFailure() {
+                Log.e("VideoViewModel", "Failed to delete comment");
+                success.setValue(false);
+            }
+        });
+        return success;
+    }
+
+    public LiveData<ServerComment> updateComment(String publisherId, String videoId, String commentId, String updatedText) {
+        MutableLiveData<ServerComment> updatedComment = new MutableLiveData<>();
+        String authToken = "Bearer " + SessionManager.getInstance().getToken();
+        ServerComment comment = new ServerComment();
+        comment.setContent(updatedText);
+        videosRepository.updateComment(publisherId, videoId, commentId, comment, authToken, new VideosRepository.OnCommentUpdateCallback() {
+            @Override
+            public void onSuccess(ServerComment updatedCommentResponse) {
+                Log.d("TAG", "Comment updated successfully");
+                updatedComment.setValue(updatedCommentResponse);
+            }
+
+            @Override
+            public void onFailure() {
+                Log.e("TAG", "Failed to update comment");
+                updatedComment.setValue(null);
+            }
+        });
+        return updatedComment;
+    }
+
 }
 
-
-
-    /////////
 
 
 

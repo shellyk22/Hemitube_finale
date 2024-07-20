@@ -59,7 +59,6 @@ public class VideoViewPage extends AppCompatActivity {
 
         videoViewModel = new ViewModelProvider(this).get(VideoViewModel.class);
         userViewModel = new ViewModelProvider(this).get(UserViewModel.class);
-        //assert data != null;
         uploaderUsername = data[1];
 
         videoViewModel.getVideo(data[1], data[0]).observe(this, new Observer<UserVideo>() {
@@ -67,7 +66,7 @@ public class VideoViewPage extends AppCompatActivity {
             public void onChanged(UserVideo receivedUserVideo) {
                 if (receivedUserVideo != null) {
                     userVideo = receivedUserVideo;
-                    Log.d("TAG", "Video data received: " + userVideo.getTitle());
+                    Log.d("VideoViewPage", "Video data received: " + userVideo.getTitle());
                     TextView title = findViewById(R.id.videoTitle);
                     TextView content = findViewById(R.id.videoContent);
                     TextView uploader = findViewById(R.id.videoUploader);
@@ -82,7 +81,7 @@ public class VideoViewPage extends AppCompatActivity {
                     timePassed.setText(formattedDate);
 
                     RecyclerView lstComments = findViewById(R.id.lstComments);
-                    adapter = new CommentsListAdapter(VideoViewPage.this, userViewModel, VideoViewPage.this);
+                    adapter = new CommentsListAdapter(VideoViewPage.this, userViewModel, VideoViewPage.this, userVideo.getId(), userVideo.getPublisher());
                     lstComments.setAdapter(adapter);
                     lstComments.setLayoutManager(new LinearLayoutManager(VideoViewPage.this));
 
@@ -104,7 +103,7 @@ public class VideoViewPage extends AppCompatActivity {
 
                     setupButtons();
                 } else {
-                    Log.e("TAG", "Failed to receive video data");
+                    Log.e("VideoViewPage", "Failed to receive video data");
                 }
             }
         });
@@ -135,42 +134,16 @@ public class VideoViewPage extends AppCompatActivity {
             Intent i = new Intent(this, MainActivity.class);
             startActivity(i);
         });
-        if (sessionManager.isLogedIn()) {
-            setupCommentButton();
-        }
-    }
 
-    private void setupCommentButton() {
-        EditText editTextComment = findViewById(R.id.editTextComment);
-        Button btnAddComment = findViewById(R.id.btnAddComment);
-
-        btnAddComment.setOnClickListener(v -> {
+        ImageButton btnComment = findViewById(R.id.btnComment);
+        btnComment.setOnClickListener(v -> {
             if (sessionManager.isLogedIn()) {
-                String commentText = editTextComment.getText().toString().trim();
-                if (!commentText.isEmpty()) {
-                    String userId = sessionManager.getLoggedUser().getId();
-                    String username = sessionManager.getLoggedUser().getUsername();
-                    CommentRequest commentRequest = new CommentRequest(commentText, userId, username);
-
-                    videoViewModel.addComment(userVideo.getPublisher(), userVideo.getId(), commentRequest).observe(this, new Observer<Comment>() {
-                        @Override
-                        public void onChanged(Comment comment) {
-                            if (comment != null) {
-                                Toast.makeText(VideoViewPage.this, "Comment added", Toast.LENGTH_SHORT).show();
-                                adapter.addComment(comment);
-                                editTextComment.setText("");
-                            } else {
-                                Toast.makeText(VideoViewPage.this, "Failed to add comment", Toast.LENGTH_SHORT).show();
-                            }
-                        }
-                    });
-                } else {
-                    Toast.makeText(this, "Comment cannot be empty", Toast.LENGTH_SHORT).show();
-                }
+                showCommentDialog();
             } else {
-                Toast.makeText(this, "You must be logged in to comment", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "In Order To Comment You Must Log-In", Toast.LENGTH_SHORT).show();
             }
         });
+
     }
 
     private void setupButtons() {
@@ -236,6 +209,43 @@ public class VideoViewPage extends AppCompatActivity {
         dialog.show();
     }
 
+    private void showCommentDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        LayoutInflater inflater = this.getLayoutInflater();
+        builder.setView(inflater.inflate(R.layout.dialog_comment, null))
+                .setPositiveButton("Comment", (dialog, id) -> {
+                    AlertDialog alertDialog = (AlertDialog) dialog;
+                    EditText commentInput = alertDialog.findViewById(R.id.editComment);
+                    String commentText = commentInput.getText().toString().trim();
+                    if (!commentText.isEmpty()) {
+                        String userId = sessionManager.getLoggedUser().getId();
+                        String username = sessionManager.getLoggedUser().getUsername();
+                        CommentRequest commentRequest = new CommentRequest(commentText, userId, username);
+
+                        // Add the comment and observe the response
+                        videoViewModel.addComment(userVideo.getPublisher(), userVideo.getId(), commentRequest).observe(this, new Observer<Comment>() {
+                            @Override
+                            public void onChanged(Comment comment) {
+                                if (comment != null) {
+                                    runOnUiThread(() -> {
+                                        Toast.makeText(VideoViewPage.this, "Comment added", Toast.LENGTH_SHORT).show();
+                                        adapter.addComment(comment);
+                                    });
+                                } else {
+                                    runOnUiThread(() -> {
+                                        Toast.makeText(VideoViewPage.this, "Failed to add comment", Toast.LENGTH_SHORT).show();
+                                    });
+                                }
+                            }
+                        });
+                    } else {
+                        Toast.makeText(this, "Comment cannot be empty", Toast.LENGTH_SHORT).show();
+                    }
+                })
+                .setNegativeButton("Cancel", (dialog, id) -> dialog.cancel());
+        builder.create().show();
+    }
+
     private void updateVideoDetails(String titleText, String contentText) {
         String token = sessionManager.getToken();
         userVideo.setTitle(titleText);
@@ -267,9 +277,4 @@ public class VideoViewPage extends AppCompatActivity {
     public void onBackPressed() {
         return;
     }
-
-   /* protected UserVideo findVideoById(String id) {
-        UserVideo video = sessionManager.getVideos().get(Integer.parseInt(id) - 1);
-        return video;
-    }*/
 }

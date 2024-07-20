@@ -13,6 +13,10 @@ public class Comment {
     @SerializedName("text")
     private String text;
 
+    public Comment(){
+
+    }
+
     public Comment(String userId, String text){
         this.userId = userId;
         this.text = text;
