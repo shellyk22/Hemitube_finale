@@ -1,6 +1,7 @@
 package com.example.youtubeproject.api;
 
 import com.example.youtubeproject.entities.Comment;
+import com.example.youtubeproject.entities.ServerComment;
 import com.example.youtubeproject.entities.User;
 import com.example.youtubeproject.entities.UserVideo;
 import com.example.youtubeproject.entities.Video;
@@ -82,4 +83,20 @@ public interface ApiService {
             @Body CommentRequest commentRequest
     );
 
+    @DELETE("/api/users/{publisherId}/videos/{vid}/comments/{cid}")
+    Call<Void> deleteComment(
+            @Path("publisherId") String publisherId,
+            @Path("vid") String videoId,
+            @Path("cid") String commentId,
+            @Header("authorization") String authToken
+    );
+
+    @PUT("/api/users/{publisherId}/videos/{vid}/comments/{cid}")
+    Call<ServerComment> updateComment(
+            @Path("publisherId") String publisherId,
+            @Path("vid") String videoId,
+            @Path("cid") String commentId,
+            @Body ServerComment updatedComment,
+            @Header("authorization") String authToken
+    );
 }

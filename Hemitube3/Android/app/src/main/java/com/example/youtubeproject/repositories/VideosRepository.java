@@ -16,6 +16,7 @@ import com.example.youtubeproject.api.ApiService;
 import com.example.youtubeproject.api.CommentRequest;
 import com.example.youtubeproject.api.RetrofitClient;
 import com.example.youtubeproject.entities.Comment;
+import com.example.youtubeproject.entities.ServerComment;
 import com.example.youtubeproject.entities.SessionManager;
 import com.example.youtubeproject.entities.UserVideo;
 import com.example.youtubeproject.entities.Video;
@@ -382,6 +383,69 @@ public class VideosRepository {
 
         return liveData;
     }
+
+    public interface OnCommentDeleteCallback {
+        void onSuccess();
+        void onFailure();
+    }
+
+    public void deleteComment(String publisherId, String videoId, String commentId, String authToken, OnCommentDeleteCallback callback) {
+        Call<Void> call = apiService.deleteComment(publisherId, videoId, commentId, authToken);
+        call.enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(Call<Void> call, Response<Void> response) {
+                if (response.isSuccessful()) {
+                    Log.d("VideosRepository", "Comment deleted successfully");
+                    callback.onSuccess();
+                } else {
+                    Log.e("VideosRepository", "Failed to delete comment. Response code: " + response.code());
+                    callback.onFailure();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Void> call, Throwable t) {
+                Log.e("VideosRepository", "Error deleting comment: " + t.getMessage());
+                callback.onFailure();
+            }
+        });
+    }
+
+
+    public void updateComment(String publisherId, String videoId, String commentId, ServerComment updatedComment, String authToken, OnCommentUpdateCallback callback) {
+        String requestUrl = String.format("/api/users/%s/videos/%s/comments/%s", publisherId, videoId, commentId);
+        Log.d("TAG", "Request URL: " + requestUrl);
+        Log.d("TAG", "Updated Comment: " + updatedComment.getContent());
+
+        Call<ServerComment> call = apiService.updateComment(publisherId, videoId, commentId, updatedComment, authToken);
+        call.enqueue(new Callback<ServerComment>() {
+            @Override
+            public void onResponse(Call<ServerComment> call, Response<ServerComment> response) {
+                if (response.isSuccessful()) {
+                    Log.d("TAG", "Comment updated successfully");
+                    callback.onSuccess(response.body());
+                } else {
+                    Log.e("TAG", "Failed to update comment. Response code: " + response.code());
+                    callback.onFailure();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ServerComment> call, Throwable t) {
+                Log.e("TAG", "Error updating comment: " + t.getMessage());
+                callback.onFailure();
+            }
+        });
+    }
+
+    public interface OnCommentUpdateCallback {
+        void onSuccess(ServerComment updatedComment);
+        void onFailure();
+    }
+
+
+
+
 }
 
 
