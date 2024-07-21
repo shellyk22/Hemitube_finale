@@ -66,7 +66,6 @@ public class VideoViewPage extends AppCompatActivity {
             public void onChanged(UserVideo receivedUserVideo) {
                 if (receivedUserVideo != null) {
                     userVideo = receivedUserVideo;
-                    Log.d("VideoViewPage", "Video data received: " + userVideo.getTitle());
                     TextView title = findViewById(R.id.videoTitle);
                     TextView content = findViewById(R.id.videoContent);
                     TextView uploader = findViewById(R.id.videoUploader);

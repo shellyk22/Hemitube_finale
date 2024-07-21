@@ -19,18 +19,18 @@ public interface UserDao {
     @Update
     void update(User user);
 
-    @Delete
-    void delete(User user);
+    @Query("DELETE FROM users WHERE username = :username")
+    void deleteUser(String username);
 
-    @Query("SELECT * FROM user WHERE id = :userId")
+    @Query("SELECT * FROM users WHERE id = :userId")
     User getUserById(String userId);
 
-    @Query("SELECT * FROM user WHERE username = :username AND password = :password")
+    @Query("SELECT * FROM users WHERE username = :username AND password = :password")
     User login(String username, String password);
 
-    @Query("SELECT * FROM user")
+    @Query("SELECT * FROM users")
     LiveData<List<User>> getAllUsers();
 
-    @Query("SELECT * FROM user WHERE username = :username")
+    @Query("SELECT * FROM users WHERE username = :username")
     User getUser(String username);
 }

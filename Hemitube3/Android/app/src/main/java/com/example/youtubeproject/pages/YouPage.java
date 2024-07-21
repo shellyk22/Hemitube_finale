@@ -105,7 +105,6 @@ public class YouPage extends AppCompatActivity {
                     @Override
                     public void onChanged(List<UserVideo> videos) {
                         if (videos != null) {
-                            Log.d("TAG", "User videos fetched successfully: " + videos.size());
                             adapter.setVideos(videos);
                         } else {
                             Log.e("TAG", "Failed to fetch user videos");

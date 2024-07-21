@@ -2,9 +2,12 @@ package com.example.youtubeproject.repositories;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
+
+import com.example.youtubeproject.AppDB;
 import com.example.youtubeproject.api.ApiService;
 import com.example.youtubeproject.api.RetrofitClient;
 import com.example.youtubeproject.api.UserUpdateRequest;
+import com.example.youtubeproject.dao.UserDao;
 import com.example.youtubeproject.entities.SessionManager;
 import com.example.youtubeproject.entities.User;
 import com.example.youtubeproject.entities.Video;
@@ -12,14 +15,25 @@ import com.example.youtubeproject.entities.Video;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+
+import android.app.Application;
 import android.util.Log;
 
 import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class UsersRepository {
     private ApiService apiService;
+    private UserDao userDao;
+    private LiveData<List<User>> allUsers;
+    private ExecutorService executorService;
 
-    public UsersRepository() {
+    public UsersRepository(Application application) {
+        AppDB db = AppDB.getInstance(application);
+        userDao = db.userDao();
+        allUsers = userDao.getAllUsers();
+        executorService = Executors.newSingleThreadExecutor();
         apiService = RetrofitClient.getClient().create(ApiService.class);
     }
 

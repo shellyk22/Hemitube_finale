@@ -1,10 +1,18 @@
 package com.example.youtubeproject.entities;
 
+import androidx.annotation.NonNull;
+import androidx.room.Entity;
+import androidx.room.Ignore;
+import androidx.room.PrimaryKey;
+
 import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
 
+@Entity(tableName = "users")
 public class User implements Serializable {
+    @PrimaryKey
+    @NonNull
     @SerializedName("_id")
     private String id;
     private String username;
@@ -21,6 +29,7 @@ public class User implements Serializable {
         this.profilePic = profilePic;
     }
 
+    @Ignore
     public User(String username, String password) {
         this.username = username;
         this.password = password;

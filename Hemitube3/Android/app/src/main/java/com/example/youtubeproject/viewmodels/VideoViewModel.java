@@ -29,21 +29,21 @@ public class VideoViewModel extends AndroidViewModel {
     private final VideosRepository videosRepository;
     private final MutableLiveData<Boolean> deleteResult = new MutableLiveData<>();
 
-
     private MutableLiveData<UserVideo> video;
-
 
     private MutableLiveData<List<Video>> videos;
 
-
     private MutableLiveData<List<UserVideo>> userVideos;
+
+
 
 
     public VideoViewModel(@NonNull Application application) {
         super(application);
         isLoading = new MutableLiveData<>();
         uploadResult = new MutableLiveData<>();
-        videosRepository = new VideosRepository();
+        videosRepository = new VideosRepository(application);
+        videos = videosRepository.getVideos();
     }
 
     public LiveData<Boolean> getIsLoading() {

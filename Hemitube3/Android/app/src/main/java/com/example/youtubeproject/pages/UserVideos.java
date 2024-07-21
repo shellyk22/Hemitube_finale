@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.ImageButton;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -25,11 +26,14 @@ public class UserVideos extends AppCompatActivity {
 
     private VideoViewModel videoViewModel;
     private UserVideoListAdapter adapter;
+    private TextView textViewUsername;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_videos_page);
+
+        textViewUsername = findViewById(R.id.textViewUserVideos);
 
         RecyclerView lstVideos = findViewById(R.id.lstUserVideos);
         adapter = new UserVideoListAdapter(this);
@@ -39,13 +43,13 @@ public class UserVideos extends AppCompatActivity {
         String username = getIntent().getStringExtra("username");
         SessionManager.getInstance().setUsernameInPage(username);
         if (username != null) {
+            textViewUsername.setText(username + " Videos:");
             videoViewModel = new ViewModelProvider(this).get(VideoViewModel.class);
 
             videoViewModel.getUserVideos(username).observe(this, new Observer<List<UserVideo>>() {
                 @Override
                 public void onChanged(List<UserVideo> videos) {
                     if (videos != null) {
-                        Log.d("TAG", "User videos fetched successfully: " + videos.size());
                         adapter.setVideos(videos);
                     } else {
                         Log.e("TAG", "Failed to fetch user videos");
