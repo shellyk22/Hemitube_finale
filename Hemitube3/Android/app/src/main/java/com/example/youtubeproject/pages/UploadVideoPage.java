@@ -71,7 +71,6 @@ public class UploadVideoPage extends AppCompatActivity {
 
         videoViewModel.getUploadResult().observe(this, result -> {
             Toast.makeText(this, result, Toast.LENGTH_SHORT).show();
-            Log.d("TAG", "Upload result: " + result);
         });
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
@@ -127,13 +126,11 @@ public class UploadVideoPage extends AppCompatActivity {
                 VideoView videoView = findViewById(R.id.videoViewVideo);
                 videoView.setVideoURI(videoUri);
                 videoView.start();
-                Log.d("TAG", "Video selected: " + videoUri.toString());
             } else if (requestCode == PICK_THUMBNAIL_REQUEST) {
                 thumbnailUri = data.getData();
                 try {
                     Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), thumbnailUri);
                     thumbnailPreview.setImageBitmap(bitmap);
-                    Log.d("TAG", "Thumbnail selected: " + thumbnailUri.toString());
                 } catch (IOException e) {
                     Log.e("TAG", "Error loading thumbnail", e);
                 }
@@ -147,15 +144,12 @@ public class UploadVideoPage extends AppCompatActivity {
         String publisher = SessionManager.getInstance().getLoggedUser().getId(); // Assuming this method retrieves the publisher ID
 
         if (videoUri != null && thumbnailUri != null) {
-            Log.d("TAG", "Starting upload: " + title + ", " + description + ", " + publisher);
 
             // Create the observer
             Observer<String> uploadObserver = new Observer<String>() {
                 @Override
                 public void onChanged(String uploadResult) {
-                    Log.d("TAG", "Upload result: " + uploadResult);
                     if ("Video uploaded successfully!".equals(uploadResult)) { // Match the exact string
-                        Log.d("TAG", "Navigating to YouPage");
                         Toast.makeText(UploadVideoPage.this, "Upload successful", Toast.LENGTH_SHORT).show();
                         Intent i = new Intent(UploadVideoPage.this, YouPage.class);
                         startActivity(i);

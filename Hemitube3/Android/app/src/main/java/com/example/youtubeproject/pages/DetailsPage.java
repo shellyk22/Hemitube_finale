@@ -37,7 +37,6 @@ public class DetailsPage extends AppCompatActivity {
     private ImageView profilePic;
     private TextView usernameTextView;
     private EditText nicknameEditText;
-    private TextView userIdTextView;
     private Button updateButton, deleteButton , backButton;
     private Uri profilePicUri;
 
@@ -52,7 +51,6 @@ public class DetailsPage extends AppCompatActivity {
         profilePic = findViewById(R.id.profilePic);
         usernameTextView = findViewById(R.id.username);
         nicknameEditText = findViewById(R.id.nickname);
-        userIdTextView = findViewById(R.id.userId);
         updateButton = findViewById(R.id.updateButton);
         deleteButton = findViewById(R.id.deleteButton);
         backButton = findViewById(R.id.backButton);
@@ -60,12 +58,10 @@ public class DetailsPage extends AppCompatActivity {
         userViewModel = new ViewModelProvider(this).get(UserViewModel.class);
 
         if (sessionManager.isLogedIn()) {
-            Log.d("TAG", "User is logged in");
             User loggedUser = sessionManager.getLoggedUser();
             if (loggedUser.getProfilePic() != null && !loggedUser.getProfilePic().isEmpty()) {
 
                 profilePicUri = Uri.parse(loggedUser.getProfilePic());
-                Log.d(TAG, "Profile picture URI: " + profilePicUri.toString());
 
                 Glide.with(this)
                         .load(profilePicUri)
@@ -80,7 +76,6 @@ public class DetailsPage extends AppCompatActivity {
 
             nicknameEditText.setText(loggedUser.getNickName());
 
-            userIdTextView.setText(loggedUser.getId());
         }
 
         profilePic.setOnClickListener(view -> openImagePicker());
@@ -94,16 +89,13 @@ public class DetailsPage extends AppCompatActivity {
         updateButton.setOnClickListener(view -> {
             String username = sessionManager.getLoggedUser().getUsername();
             String nickname = nicknameEditText.getText().toString();
-            Log.d("TAG", "(details)Captured nickname: " + nickname);
             String profilePicBase64 = convertImageViewToBase64WithPrefix(profilePic);
             sessionManager.setProfilepic(profilePicBase64);
             sessionManager.setNickname(nickname);
-            Log.d("TAG", "(details)Converted profile pic to Base64: " + profilePicBase64);
 
             userViewModel.updateUser(username, profilePicBase64, nickname).observe(DetailsPage.this, new Observer<Void>() {
                 @Override
                 public void onChanged(Void aVoid) {
-                    Log.d("TAG", "(details)User update response received");
                     Toast.makeText(DetailsPage.this, "User updated successfully", Toast.LENGTH_SHORT).show();
                 }
             });
@@ -114,7 +106,6 @@ public class DetailsPage extends AppCompatActivity {
 
             userViewModel.deleteUser(username, token).observe(this, success -> {
                 if (success) {
-                    Log.d(TAG, "USER DELETED");
                     Toast.makeText(this, "User deleted", Toast.LENGTH_SHORT).show();
                     sessionManager.setLogedIn(false);
                     sessionManager.setToken(null);

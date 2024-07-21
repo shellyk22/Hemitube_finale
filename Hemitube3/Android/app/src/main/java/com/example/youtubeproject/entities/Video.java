@@ -3,17 +3,25 @@ package com.example.youtubeproject.entities;
 
 import android.net.Uri;
 
+import androidx.annotation.NonNull;
 import androidx.room.Entity;
+import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
+import androidx.room.TypeConverters;
 
+import com.example.youtubeproject.converters.CommentListConverter;
+import com.example.youtubeproject.converters.UserConverter;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
-@Entity
-
+@Entity(tableName = "videos")
+@TypeConverters({UserConverter.class, CommentListConverter.class})
 public class Video {
 
+    @NonNull
+    @PrimaryKey(autoGenerate = true)
+    private int room_id;
     @SerializedName("_id")
     private String id;
 
@@ -63,6 +71,7 @@ public class Video {
 
 
     // Constructor
+    @Ignore
     public Video(User publisher, List<Comment> comments, String title, String description, String thumbnailName, String thumbnailData, String fileName, String fileData, String uploadDate) {
         this.publisher = publisher;
         this.comments = comments;
@@ -76,6 +85,13 @@ public class Video {
         this.__v = 0;
     }
 
+    public int getRoom_id() {
+        return room_id;
+    }
+
+    public void setRoom_id(int room_id) {
+        this.room_id = room_id;
+    }
 
     public String getId() {
         return id;

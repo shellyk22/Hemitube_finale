@@ -1,5 +1,6 @@
 package com.example.youtubeproject.repositories;
 
+import android.app.Application;
 import android.content.ContentUris;
 import android.content.Context;
 import android.database.Cursor;
@@ -12,9 +13,11 @@ import android.util.Log;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
+import com.example.youtubeproject.AppDB;
 import com.example.youtubeproject.api.ApiService;
 import com.example.youtubeproject.api.CommentRequest;
 import com.example.youtubeproject.api.RetrofitClient;
+import com.example.youtubeproject.dao.VideoDao;
 import com.example.youtubeproject.entities.Comment;
 import com.example.youtubeproject.entities.ServerComment;
 import com.example.youtubeproject.entities.SessionManager;
@@ -34,10 +37,15 @@ import retrofit2.Response;
 
 public class VideosRepository {
     private final ApiService apiService;
+    private VideoDao videoDao;
+    private LiveData<List<Video>> allVideos;
 
-    public VideosRepository() {
+    public VideosRepository(Application application) {
         String token = SessionManager.getInstance().getToken(); // Fetch the token from SessionManager
         apiService = RetrofitClient.getAuthenticatedApiService(token);
+        AppDB db = AppDB.getInstance(application);
+        videoDao = db.videoDao();
+        allVideos = videoDao.getAllVideos();
     }
 
     public LiveData<String> uploadVideo(Uri videoUri, Uri thumbnailUri, String title, String description, String publisher, Context context) {
