@@ -1,6 +1,8 @@
 # HemiTube3
 
 our self-made logo: as you can see, this is hemi, holding the YouTube sign:
+<br />
+![hemitubeLogoForC](https://github.com/user-attachments/assets/20852023-6978-4b86-b501-0693707056ff)
 
 # Getting started:
 To run the HemiTube website locally, follow these steps:
@@ -31,6 +33,7 @@ The HemiTube website incorporates the following API endpoints and functionalitie
 User:
 
 - GET /api/users/:id Retrieve user details by providing the username.
+- GET /api/users Retrieves all the users in the DB.
 - POST /api/users Create a new user.
 - PUT /api/users/:id Change nickName or profilePicture for a specific user.
 
@@ -57,10 +60,24 @@ Comments:
 - DELETE /api/users/:id/videos/:pid/comments/:cid Delets a specific comment from a video.
 Notice that we expanded the required API, but we ensured that the core functionalities remained intact.
 
+# Some information about the app and how it works
+-in the signUp page, you will get an alert if you try to sign-up with an existing useranme ("invalid useranme" and 409 from the server), you will get a different alert if the fields are not filled properly.
+-in the login page, you will get an alert if your password or username are incorrect.
+-if the login worked (you filled a valid username and password), we will generate you a JWT, that will be used to monitor your access to things (like adding videos, comments, editing things etc')
+-as a guest, you will have access to the videos and comments, without a possibility to edit or delete them. This way, we can protect the information etch user uploads. If you login, you can comment on a video by pressing the comment icon.
+-you can search videos (by their title) using the search bar in the top of the page.
+-also, you can go to user videos page if you press the link in the name of a publisher of an existing video, in this page, you can see all of this user videos, and enter them.
+-as a registered user, you will have access to your profile page (where you can edit your profile photo and nickName)
+-also, you will have the ability to add video (link from your pfoilr page to the upload video page, by pressing the upload button), delete your videos and to comment on existing videos.
+-pay attention, when you delete a user, all of its videos and comments are deleted as well.
+-when you add a user, video or a comment, it will be added to the data base. so if you refresh a page or even run the app all over again, you will see all of the things you uploaded.
+
 <br />
 <br />
 <br />
 <br />
+
+# App Demo Run:
 
 lets start from skretch, lets make sure we connected to mongodb://localhost:27017 and the database called "test" is clear from users and videos:
 <br />
@@ -137,5 +154,43 @@ now lets delete the comment:
 
 another thing we added is a link to a specific user uploads, when you are watching a user video for example, Israel's video and want to see all his uploads you can click on his name on VideoViewPage and move to this page:
 <br />
-![Screenshot 2024-07-20 171102](https://github.com/user-attachments/assets/5c54d62b-b06c-4b8a-8a4c-d967ce0238bf)
+![Screenshot 2024-07-21 204308](https://github.com/user-attachments/assets/b7894fb4-27cf-40e9-b80e-8e6dacfda170)
+
+we added a details page as well, the data that been displaying is the profilePic, username and nickname (the user can update his profilePic and nickname only!)
+<br />
+![Screenshot 2024-07-21 204337](https://github.com/user-attachments/assets/d49465c9-d9ec-4141-b53b-c6435d9d5144)
+
+lets update the nickname for example:
+<br />
+![Screenshot 2024-07-21 204427](https://github.com/user-attachments/assets/8ca89c2f-95bb-44d1-893f-eef11a3a5404)
+
+we can see that the nickname on the mongoDB changed as well:
+<br />
+![Screenshot 2024-07-21 204443](https://github.com/user-attachments/assets/05ccdfea-c89b-4599-99cc-771e723e6d05)
+
+now lets delete the user we created (the deletion of the user delete also all his videos and comments):
+<br />
+![Screenshot 2024-07-21 204503](https://github.com/user-attachments/assets/852ef38e-fdb5-48da-b3a5-f3161128a2d3)
+
+we can see that now we are on guest mode and the user videos has been deleted
+<br />
+![Screenshot 2024-07-21 204525](https://github.com/user-attachments/assets/6126d358-841c-4762-8ae2-a0178382a39d)
+
+we can see that the user has been deleted from the mongoDB:
+<br />
+![Screenshot 2024-07-21 204536](https://github.com/user-attachments/assets/c9415385-ec1f-415c-acfc-bfabeba0f6a9)
+
+and we can see that the user videos has been deleted from the web app as well:
+<br />
+![Screenshot 2024-07-21 204545](https://github.com/user-attachments/assets/daadd609-858f-48ef-94ab-c408bf06a411)
+
+now we will see that the app also supports the functionality from part 1 of the project:
+the dark mode is working:
+<br />
+![Screenshot 2024-07-21 204626](https://github.com/user-attachments/assets/09e52c7f-2991-47d2-bff9-8acd9b5da84a)
+
+and the search bar working as expected:
+<br />
+![Screenshot 2024-07-21 204659](https://github.com/user-attachments/assets/c10fa415-e406-416a-9592-5f3f42222ee9)
+
 
